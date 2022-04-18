@@ -78,14 +78,17 @@ public:
 
 	void PlayMotion(const int nNumParts,CModel **apModel, int& motionType, int& motionTypeLast,
 		bool& bStop,bool& bAttack,bool& bDelay, bool bMotionReset);							// モーションの再生
-	void MotionTest(const int nNumParts, CModel **apModel, int& motionType, int& motionTypeLast,
-		bool& bStop, bool& bAttack, bool& bDelay, bool bMotionReset);
+	void MotionTest(const int nNumParts, CModel **apModel, int *pMotionType, int *pMotionTypeLast);
 	void DelayTimeMotion();
 	void NoLoopPlayMotion(const int nNumParts, CModel **apModel, int& motionType, int& motionTypeLast,
 		bool& bStop);							// モーションの再生
 	void MotionLoad(const char *sMotionFileName);							// モーションテキストを読み込む関数
 	void Drawtext();
 	std::vector<MOTION_INFO> GetMotionInfo() { return m_aMotionInfo; }
+	float GetMotionCnt() { return m_motionCounter; }
+	int GetMotionKey() { return m_NumKey; }
+	void SetNumKey(const int& nNumKey) { m_NumKey = nNumKey; }
+	bool IsMotionEnd() { return m_bMotionEnd; }//モーション再生が終了しているかの取得
 private:
 protected:
 	std::vector<MOTION_INFO> m_aMotionInfo;// モーション情報[モーションタイプ数](現在何をしているかのモーションの情報が入っている)
@@ -94,6 +97,7 @@ protected:
 	int m_NumKey;								// 現在のキー番号
 	float m_motionCounter;						// モーションカウンター
 	int m_Timer;
+	bool m_bMotionEnd;//モーションの再生が終わったか
 
 };
 #endif _MOTION_H_

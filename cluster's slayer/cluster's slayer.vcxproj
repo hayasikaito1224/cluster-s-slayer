@@ -152,8 +152,11 @@
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
+    <ClInclude Include="..\cluster%27s slayer\collision.h" />
     <ClInclude Include="..\cluster%27s slayer\directinput.h" />
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
+    <ClInclude Include="..\cluster%27s slayer\enemy.h" />
+    <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
     <ClInclude Include="..\cluster%27s slayer\field.h" />
     <ClInclude Include="..\cluster%27s slayer\game.h" />
@@ -164,10 +167,14 @@
     <ClInclude Include="..\cluster%27s slayer\light.h" />
     <ClInclude Include="..\cluster%27s slayer\main.h" />
     <ClInclude Include="..\cluster%27s slayer\manager.h" />
+    <ClInclude Include="..\cluster%27s slayer\map_polygon.h" />
+    <ClInclude Include="..\cluster%27s slayer\meshsphere.h" />
     <ClInclude Include="..\cluster%27s slayer\model.h" />
+    <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
     <ClInclude Include="..\cluster%27s slayer\Particle.h" />
+    <ClInclude Include="..\cluster%27s slayer\pause.h" />
     <ClInclude Include="..\cluster%27s slayer\player.h" />
     <ClInclude Include="..\cluster%27s slayer\Polygon.h" />
     <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
@@ -179,9 +186,11 @@
     <ClInclude Include="..\cluster%27s slayer\shadow.h" />
     <ClInclude Include="..\cluster%27s slayer\sound.h" />
     <ClInclude Include="..\cluster%27s slayer\stage.h" />
+    <ClInclude Include="..\cluster%27s slayer\sword.h" />
     <ClInclude Include="..\cluster%27s slayer\texture.h" />
     <ClInclude Include="..\cluster%27s slayer\title.h" />
     <ClInclude Include="..\cluster%27s slayer\wall.h" />
+    <ClInclude Include="..\cluster%27s slayer\weapon.h" />
     <ClInclude Include="..\cluster%27s slayer\XInput.h" />
     <ClInclude Include="..\cluster%27s slayer\xload.h" />
   </ItemGroup>
@@ -190,8 +199,11 @@
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\directinput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\enemy.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\enemy001.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
     <ClCompile Include="..\cluster%27s slayer\field.cpp" />
     <ClCompile Include="..\cluster%27s slayer\game.cpp" />
@@ -202,10 +214,14 @@
     <ClCompile Include="..\cluster%27s slayer\light.cpp" />
     <ClCompile Include="..\cluster%27s slayer\main.cpp" />
     <ClCompile Include="..\cluster%27s slayer\manager.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\meshsphere.cpp" />
     <ClCompile Include="..\cluster%27s slayer\model.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\model_spawner.cpp" />
     <ClCompile Include="..\cluster%27s slayer\motion.cpp" />
     <ClCompile Include="..\cluster%27s slayer\mouse.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Particle.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\pause.cpp" />
     <ClCompile Include="..\cluster%27s slayer\player.cpp" />
     <ClCompile Include="..\cluster%27s slayer\polygon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
@@ -217,9 +233,11 @@
     <ClCompile Include="..\cluster%27s slayer\shadow.cpp" />
     <ClCompile Include="..\cluster%27s slayer\sound.cpp" />
     <ClCompile Include="..\cluster%27s slayer\stage.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\sword.cpp" />
     <ClCompile Include="..\cluster%27s slayer\texture.cpp" />
     <ClCompile Include="..\cluster%27s slayer\title.cpp" />
     <ClCompile Include="..\cluster%27s slayer\wall.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\weapon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\XInput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\xload.cpp" />
   </ItemGroup>

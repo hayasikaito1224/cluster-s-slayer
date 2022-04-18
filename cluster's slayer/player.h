@@ -1,47 +1,18 @@
 //=============================================-
-//プレイヤーの処理
+//プレイヤーのクラス
 //=============================================
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
-#include "scene.h"
-#include "model.h"
-#include "motion.h"
-class CSwordEffect;
-class CLayer_Structure;
-class CShadow;
-class CPlayer_Controller;
-class CMap_Polygon;
-class CBillboard;
-class CGauge;
-class CPolygon;
-//------------------------------------
-//マクロ定義
-//------------------------------------
-#define PLAYER_POS_X (0.0)
-#define PLAYER_POS_Y (0.0)
-#define PLAYER_POS_Z (0.0)
-#define PLAYER_FALL (-100.0)//落下判定に入るまでの位置
-#define PLAYER_ROCK_LENGTH (500.0)//落下判定に入るまでの位置
+#include "character.h"
+class CEnemy;
+class CSword;
 
-class CPlayer : public CScene
+class CPlayer : public CCharacter
 {
 public:
-	typedef struct
+	typedef enum
 	{
-		bool m_bMagic;//魔法判定
-		bool m_bRetryMagic;//魔法を連続して出す
-	}Magic;
-
-	typedef enum 
-	{
-		TYPE_SWORD=0,
-		TYPE_HAMMER,
-		TYPE_MAX
-	}WEAPON_TYPE;
-
-	typedef enum 
-	{
-		N_NEUTRAL=0,
+		N_NEUTRAL = 0,
 		N_MOVE,
 		N_ATTACK_1,
 		N_ATTACK_2,
@@ -51,113 +22,68 @@ public:
 		N_DETH,
 		N_DODGE,
 		N_MAX
-	}N_MOTION;
+	}N_MOTION;//通常状態のモーション
 
-	typedef enum 
+	typedef enum
 	{
-		STATE_NOWN = 0,
-		STATE_MAGIC,
-	}STATE;
+		COMBOWAIT = 0,
+		COMBO_1,
+		COMBO_2,
+		COMBO_3,
+		COMBO_MAX
+	}COMBO;
+	typedef enum
+	{
+		MOVEUP = 1,
+		MOVEDOWN,
+		MOVERIGHT,
+		MOVELEFT
+	}MOVEARROW;
 
-	CPlayer(OBJTYPE nPriority = CScene::OBJTYPE_PLAYER);
+	CPlayer(OBJTYPE nPriority = CScene::OBJTYPE_NONE);
 	~CPlayer();
-	//静的メンバー関数
-	static CPlayer *Create();
 	HRESULT Init();
 	void Uninit();
 	void Update();
 	void Draw();
-	void Drawtext();
-	void Dodge();//回避の処理
-	void PlayerMagic();//魔法に関する処理
-	void PlayerAttack();//攻撃に関する処理
-	void NearEnemySearch(D3DXVECTOR3 Enemy);
-	void SetState(int nState) { m_State = (STATE)nState; }//プレイヤーの状態の設定
-	void PlayerHit();//プレイヤーが敵の攻撃に当たった時
-	void SetHit(bool bHit) { m_bHit = bHit; }//プレイヤーが敵の攻撃に当たった時
-	void SetbAttack(bool bAttack) { m_bAttack = bAttack; }
-	void SetbSkill(bool bSkill) { m_bSkill = bSkill; }
-	void SetDeth(bool bDeth) { m_bDeth = bDeth; }
-	void SetGameStop(bool bStop) { m_bGameStop = bStop; }
-	void SetPlayerPos(D3DXVECTOR3 pos) { m_pos = pos; }
-	void SetMotionType(int nType) { m_nMotionType[0] = nType; }
-	void SetbMove(bool bMove) {}
-	int GetWeaponType(void) { return m_nWeaponType; }
-	bool bColision();
-	bool GetCommandMagic() { return m_bSelectMagic; }
-	bool GetHit() { return m_bHitStop; }
-	bool GetGameStop() { return m_bGameStop; }
-	bool GetDeth() { return m_bDeth; }
-	bool GetDodge() { return m_bDodge; }
-	D3DXVECTOR3 GetLastPos(void) { return m_lastpos; }
-	D3DXVECTOR3 GetRot() { return m_rot; }
-	CBillboard *GetNearEnemyPos() { return m_pRockOnPolygon; }
-	CModel *GetParts(int nNumParts) { return m_pModel[nNumParts]; }
-
+	static CPlayer *Create();
+	void KeyboardMove();//移動
+	void PadMove();//移動
+	void Attack();//通常攻撃
+	void AttackCtrl();//通常攻撃の操作
+	void MouseCameraCtrl();//マウスのカメラ操作
+	void MagicAttack();//魔法攻撃
+	void RockOn();//ロックオン
+	void Dodge();//回避
+	void NearEnemyFace();//近い敵の方向にプレイヤーを向かせる
+	bool IsNearEnemyState();//今何の敵が近くにいるかを算出
 private:
-	STATE m_State;//プレイヤーの状態
-
-	CPlayer_Controller	*m_pController;//操作系のクラス
-	CMap_Polygon		*m_pMapPolygon;
-	CSwordEffect		*m_pSwordLocus;//剣の軌跡
-	D3DXVECTOR3 m_pos,m_lastpos,m_Swordpos[2],m_LastSwordpos[2]; //位置
-	float m_Vec_x, m_Vec_y, m_Vec_z;
-	float m_fLength;
-	float m_move = 2.0f;
-	D3DXVECTOR3 m_rot;												//向き
-	D3DXVECTOR3 m_DodgePos;//回避した先
-	D3DXMATRIX m_mtxWorld;											//ワールドマトリックス
-	CModel *m_pModel[MAX_PARTS];
-	CModel *m_pCollision;									//当たり判定用の武器の原点を決めるやつ
-	CModel *m_pSwordEffect[2];									//当たり判定用の武器の原点を決めるやつ
-	Magic   m_Magic;
-	CShadow *pShadow;
-	CMotion*m_pMotion[TYPE_MAX];
-	CBillboard *m_pRockOnPolygon;
-	CLayer_Structure *m_pLayer;
-	bool m_bGameStop;
-	bool	m_bDeth;												//死んだかの判定
-	bool	m_bDodge;//回避の判定
-	bool	m_bBeginDodge;
-	bool	m_bEndDodge;
-	bool	m_bland;												//地面についてるか判定
-	bool	m_bColloison;											//当たり判定
-	bool	m_bNeutral;
-	bool	m_bAttack;												//今攻撃してるかどうか
-	bool	m_bAttackNext;											//次の攻撃に入るための判定
-	bool	m_bMotionStop;											//モーションが止まったかどうか
-	bool	m_bFall;												//落下判定
-	bool	m_bMove;												// 移動判定
-	bool	m_bDelay;												//次の処理に行くための間隔
-	bool	m_bMagicShot;											//魔法を今打てるかの判定
-	bool	m_bNearEnemy;											//敵と近いかの判定
-	bool	m_bSelectMagic;											//魔法が選択されているかの判定
-	bool	m_bDraw;
-	bool	m_bHit;//今敵の攻撃が当たっているのかのヒット判定
-	bool	m_bHitStop;//敵の攻撃を当たらないようにする判定
-	bool	m_bSkill;//スキル演出中の動作
-	bool m_bSearchStop;
-	bool m_bLockOn;
-	float	m_fMagicShotDelayCnt;									//魔法が出るまでのカウント
-	float	m_fMagicShotDelayMax;									//魔法が出る最大の時間
-	float	m_fSoundInterval;										//サウンドインターバル
-	int		m_nDelayTimer;											//遅延カウント
-	int		m_nMaxDelatTime;										//遅延させる時間
-	int		m_nLife;												//ライフ
-	int		m_nMP;													//マジックポイント
-	int		m_nWeaponType;											//武器のタイプ
-	int		m_nMotionType[TYPE_MAX],m_nMotionLastType[TYPE_MAX];
-	int		m_nAttackType[TYPE_MAX];								//今の攻撃タイプ
-	int     m_nTimer;
-	int		m_nEffectTimer;
-	int		m_nMagicPoint;											//魔法を打つためのポイント
-	int		m_nCommandType;											//コマンドを選択しているタイプ
-	int		m_nMagicCommandType;											//コマンドを選択しているタイプ
-	int		m_nHitTime;
-	float  m_fDodgeAddSpeed;//回避中の増加量
-	float m_fDodgeTimer;
-	float m_fDodgerot;//回避する方向
+	void WeaponSet(const char *pcFileName);//武器のセット
+	void FollowingPlayerCamera();//カメラがプレイヤーに追従する処理
+	bool PushDifferentMoveKey(int nKey);//違う方向キーを押しているかの判定
+	void Drawtext();
+	bool IsMoveKeyCheck();//移動用のキーを押しているかの判定を返す処理
+	bool FixedTimeInterval(float fMaxTime);//一定時間間隔をあける処理
+	CSword *m_pSword;//剣
+	POINT m_Cursol;
+	void AttackMove(float fMoveVolume);
+	CEnemy *m_pNearEnemy;//プレイヤーから近い敵の情報
+	bool m_bNearEnemy;//敵が近くにいるのかの判定
+	bool m_nMovePush;//移動キーを押しているかの判定
+	bool m_bCanAttack;//攻撃ができるか？
+	bool m_bCanAttackMove;//攻撃ができるか？
+	bool m_bRevertCamera;
+	bool m_bMoveStop;//移動を制限する
+	bool m_bAttackWait;//最大コンボから最初のコンボに戻るときの待機のフラグ
+	bool m_bAttackReception;//攻撃操作受付
+	float m_fAttackWaitTime;//攻撃操作待機時間
+	float m_fAttackMoveTime;//攻撃移動する時間
+	float m_fSoundInterval;
+	float m_fStopTime;//止まっている時間
+	int m_nComboType;//今どのコンボかを数える
+	int m_motionType;//モーションの種類
+	int m_motionLastType;//前のモーションの種類
 };
 
-
 #endif // !_PLAYER_H_
+

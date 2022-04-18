@@ -8,7 +8,7 @@
 #include "field.h"
 #include "texture.h"
 #include "model_spawner.h"
-#include "Enemy_poyo.h"
+
 //------------------------------------
 // コンストラクタ
 //------------------------------------

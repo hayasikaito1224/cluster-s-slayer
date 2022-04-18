@@ -1,100 +1,46 @@
-//=============================================-
-//プレイヤーの処理
 //=============================================
-#include "main.h"
-#include "manager.h"
-#include "Renderer.h"
+//プレイヤーのクラス
+//=============================================
 #include "player.h"
-#include "model.h"
-#include "motion.h"
-#include "layer_structure.h"
-#include "score.h"
 #include "keyboard.h"
-#include "game.h"
-#include "collision.h"
-#include "fade.h"
+#include "manager.h"
 #include "camera.h"
-#include "stage.h"
-#include "field.h"
-#include "model_spawner.h"
-#include "Enemy.h"
-#include "shadow.h"
-#include "XInput.h"
+#include "Renderer.h"
 #include "sound.h"
-#include "keyboard.h"
-#include "player_controller.h"
-#include "map_polygon.h"
-#include "goal.h"
-#include "effect.h"
-#include "swordeffect.h"
-#include "commandUI.h"
-#include "magic_fire.h"
-#include "billboard.h"
-#include "gauge.h"
-#include "Polygon.h"
-#include "magic_skill02.h"
-#include "magic_heel.h"
-#include "magic_skill01.h"
-#include "Particle.h"
-#include "wall.h"
-#include "enemyspawner.h"
-#include "circlegauge.h"
 #include "directinput.h"
-#include "gimmick_wall.h"
-//------------------------------------
-//マクロ定義
-//------------------------------------
-#define MAX_DELAY_TIME (30)
-#define MAX_MAGIC_SHOT_TIME (2.0)
-#define MAX_PLAYER_JUMP (1)//最大のジャンプ数
-#define MAX_PLAYER_PARTS (16)
-#define PLAYER_SIZE (20.0)
-#define SWORDEFFECT_LONG (16)
-#define PLAYER_RANGE (700.0)		//プレイヤーと敵の近さを図る範囲
-#define PLAYER_ROCKON_SIZE (5.0)	//ロックオン画像のサイズ
-#define PLAYER_POWER (5)			//攻撃力
-#define PLAYER_HIT_MAXTIME (50)		//無敵判定の時間
-#define PLAYER_DODGE_TIME (20.0f)		//回避の時間
-#define PLAYER_DODGE_SPEED (12.0f)		//回避の速度
+#include "XInput.h"
+#include "mouse.h"
+#include "Enemy.h"
+#include "layer_structure.h"
+#include "motion.h"
+#include "sword.h"
+#define PLAYER_MOVE_SPEED (6.0f)//移動量
+#define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
-#define PLAYER_ADDCP (7)		//増加するCP
-
-//--------------------------
-//コンストラクト
-//--------------------------
-CPlayer::CPlayer(OBJTYPE nPriority) : CScene(nPriority)
+static const float MouseCameraLimit_X = 600.0f;//マウスの位置をカメラの回転速度に使用するための制限値
+static const float MouseCameraLimit_Y = 200.0f;//マウスの位置をカメラの回転速度に使用するための制限値
+static const float PlayerMoveSpeed = 10.0f;//プレイヤーの移動スピード
+static const float CameraLimit = 10.0f;//慣性の制限値
+static const float PlayerFacingUp = -100.0f;//プレイヤーの前に注視点になるようにする値
+static const float RevertTime = 100.0f;
+static const float AttackMoveTime = 20.0f;
+static const float AttackWaitTime = 35.0f;
+static const float ComboWaitTime = 10.0f;
+static bool s_bCursor = false;
+CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 {
-	memset(m_pMotion, NULL, sizeof(m_pMotion));
-	memset(m_pModel, NULL, sizeof(m_pModel));
-	memset(m_pSwordEffect, NULL, sizeof(m_pSwordEffect));
-	m_fMagicShotDelayMax = MAX_MAGIC_SHOT_TIME;
-	m_bAttack = false;
-	m_bAttackNext = true;
-	m_nMaxDelatTime = MAX_DELAY_TIME;
-	m_bDelay = false;
-	m_Magic.m_bRetryMagic = false;
-	m_pRockOnPolygon = nullptr;
-	m_nCommandType = 0;
-	m_nMagicCommandType = 0;
-	m_bDraw = false;
-	m_bHit = false;
-	m_bHitStop = false;
-	m_State = STATE_NOWN;
-	m_bDeth = false;
-	m_bLockOn = false;
-	m_bDodge = false;
-	m_bBeginDodge = false;
-	m_bEndDodge = false;
-	m_fDodgeAddSpeed = 1.0f;
-	m_fDodgeTimer = 0.0f;
-	m_fDodgerot = 0.0f;
+	m_nMovePush = false;
+	m_bNearEnemy = false;
+	m_IsCharacterDraw = true;
+	m_bMoveStop = false;
+	m_motionType = N_NEUTRAL;
+	m_motionLastType = N_NEUTRAL;
+	m_bCanAttack = true;
+	m_pSword = nullptr;
 }
-//--------------------------
-//デストラクト
-//----------------------------
+
 CPlayer::~CPlayer()
 {
-
 }
 //----------------------------------------------
 //インスタンス生成
@@ -102,522 +48,612 @@ CPlayer::~CPlayer()
 CPlayer *CPlayer::Create()
 {
 	CPlayer *pPlayer = NULL;
-	pPlayer = new CPlayer;
+	pPlayer = new CPlayer(OBJTYPE_PLAYER);
 	pPlayer->Init();
 	return pPlayer;
 }
-//---------------------------------------------
+//-----------------------------------------------
 //初期化
 //---------------------------------------------
 HRESULT CPlayer::Init()
 {
-	//プレイヤーのコントローラーの呼び出し
-	m_pController = new CPlayer_Controller;
-	//ファイル読み込み
 	//階層構造の設定
 	m_pLayer = new CLayer_Structure;
-	m_pLayer->SetLayer_Structure("data/TEXT/PlayerParts000.txt", &m_pModel[0],CModel::TYPE_PLAYER);
-	//武器の当たり判定用の箱の読み込み
-	FILE *pFile = fopen("data/TEXT/WeaponSet000.txt", "r");
-	char string[6][255];
-	D3DXVECTOR3 PartsPos, PartsRot;	//各パーツの位置と向き
-	int nCntModel = 0;
-	int nNumModel = 0;
-	int nCntWeapon = 0;
-	int nCntCollision = 0;
-	int nParent = 0;
-	m_bNearEnemy = false;
-	//当たり判定用モデルの読み込み
-	if (pFile != NULL)
-	{
-		while (true)
-		{
-			//一単語を読み込む
-			fscanf(pFile, "%s", &string[0]);
-
-			while (strcmp(string[0], "COLLISIONSET") == 0)
-			{
-				fscanf(pFile, "%s", &string[1]);
-
-				//位置
-				if (strcmp(string[1], "POS") == 0)
-				{
-					fscanf(pFile, "%s", &string[2]);
-					fscanf(pFile, "%f %f %f", &PartsPos.x, &PartsPos.y, &PartsPos.z);
-				}
-				//位置
-				if (strcmp(string[1], "ROT") == 0)
-				{
-					fscanf(pFile, "%s", &string[2]);
-					fscanf(pFile, "%f %f %f", &PartsRot.x, &PartsRot.y, &PartsRot.z);
-				}
-				//位置
-				if (strcmp(string[1], "END_COLLISIONSET") == 0)
-				{
-					m_pCollision = CModel::Create(PartsPos, PartsRot, 0, CModel::TYPE_OBJECT);
-					m_pCollision->SetParent(m_pModel[15]);
-					m_pCollision->SetDraw(false);
-					break;
-				}
-			}
-			while (strcmp(string[0], "EFFECTSET") == 0)
-			{
-				fscanf(pFile, "%s", &string[1]);
-
-				//位置
-				if (strcmp(string[1], "POS") == 0)
-				{
-					fscanf(pFile, "%s", &string[2]);
-					fscanf(pFile, "%f %f %f", &PartsPos.x, &PartsPos.y, &PartsPos.z);
-				}
-				//位置
-				if (strcmp(string[1], "ROT") == 0)
-				{
-					fscanf(pFile, "%s", &string[2]);
-					fscanf(pFile, "%f %f %f", &PartsRot.x, &PartsRot.y, &PartsRot.z);
-				}
-				//位置
-				if (strcmp(string[1], "END_EFFECTSET") == 0)
-				{
-					m_pSwordEffect[nCntModel] = CModel::Create(PartsPos, PartsRot, 0, CModel::TYPE_OBJECT);
-					m_pSwordEffect[nCntModel]->SetParent(m_pModel[15]);
-					m_pSwordEffect[nCntModel]->SetDraw(false);
-					nCntModel++;
-					break;
-				}
-			}
-
-			if (strcmp(string[0], "END_SCRIPTS") == 0)
-			{
-				break;
-			}
-
-		}
-	}
-
-	//モーションデータの読み込み
-	for (int nCnt = 0; nCnt < TYPE_MAX; nCnt++)
-	{
-		if (m_pMotion[nCnt] == NULL)
-		{
-			m_pMotion[nCnt] = new CMotion;
-			m_nMotionType[nCnt] = 0;
-
-		}
-	}
-	m_pMotion[TYPE_SWORD]->MotionLoad("data/TEXT/PlayerMotion.txt");
-	m_pos = D3DXVECTOR3(PLAYER_POS_X, PLAYER_POS_Y, PLAYER_POS_Z);
-	m_pMapPolygon = CMap_Polygon::Create(m_pos, D3DXVECTOR3(6.0f, 0.0f, 12.0f), CTexture::Map_Player);
-	m_pMapPolygon->SetRot(m_rot.y);
-
-	m_move = -2.0f;
-	m_fSoundInterval = 1.0f;
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//m_fGravity = 0.0f;//重力度
-	m_bland = true;
-	m_nWeaponType = 0;
-	m_bMotionStop = false;
-	m_bAttack = false;
-	m_bMove = false;
-	pShadow = CShadow::Create(m_pos, PLAYER_SIZE, CTexture::SHADOW);
-	for (int nCnt = 0; nCnt < 2; nCnt++)
-	{
-		m_LastSwordpos[nCnt] = D3DXVECTOR3(m_pSwordEffect[nCnt]->GetMtxWorld().m[3][0], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][1], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][2]);
-	}
-	for (int nCnt = 0; nCnt < 2; nCnt++)
-	{
-		m_Swordpos[nCnt] = D3DXVECTOR3(m_pSwordEffect[nCnt]->GetMtxWorld().m[3][0], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][1], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][2]);
-	}
-	m_pSwordLocus =CSwordEffect::Create(m_Swordpos[0], m_Swordpos[1], m_pCollision->GetPos(), SWORDEFFECT_LONG,
-		CTexture::SwordEffect);
+	m_pLayer->SetLayer_Structure("data/TEXT/PlayerParts000.txt", m_pParts, CModel::TYPE_PLAYER);
+	//モーションの設定
+	CMotion *Securement = {};
+	m_pMotion = new CMotion;
+	m_pMotion->MotionLoad("data/TEXT/PlayerMotion.txt");
+	//武器の生成
+	WeaponSet("data/TEXT/PlayerParts000.txt");
 	return S_OK;
 }
-///-------------------------------------------
-//破棄
-//------------------------------------------
+//-----------------------------------------------
+//終了
+//---------------------------------------------
 void CPlayer::Uninit()
 {
-	CManager::GetSound()->StopSound(CManager::GetSound()->SOUND_LABEL_SE_WALK);
+	CCharacter::Uninit();
 
-	for (int nCntParts = 0; nCntParts < m_pLayer->GetMaxParts(); nCntParts++)
-	{
-		if (m_pModel[nCntParts] != NULL)
-		{
-			m_pModel[nCntParts]->Uninit();
-			m_pModel[nCntParts] = NULL;
-		}
-	}
-	if (pShadow)
-	{
-		pShadow->Uninit();
-		delete pShadow;
-		pShadow = NULL;
-	}
-	//剣の軌跡の削除
-	if (m_pSwordLocus)
-	{
-		m_pSwordLocus->Uninit();
-		delete m_pSwordLocus;
-		m_pSwordLocus = NULL;
-	}
-	Release();
 }
-//-------------------------------------------
+
+//-----------------------------------------------
 //更新
-//-------------------------------------------
+//---------------------------------------------
 void CPlayer::Update()
 {
-	CXInput *pGamePad = CManager::GetXInput();
-	CInputKeyBoard *pKeyBoard = CManager::GetInputKeyboard();
-	if (m_bDeth == false)
+	CInputKeyBoard *Key = CManager::GetInputKeyboard();
+
+	if (Key->GetTrigger(DIK_F1) == true)
 	{
-		//プレイヤーの移動処理
-		if (!m_bAttack && !m_bDelay && !m_Magic.m_bMagic&&!m_bDodge)
+		s_bCursor = s_bCursor ? false : true;
+	}
+	if (s_bCursor)
+	{
+		//クリックした位置のマウス座標を取得
+		GetCursorPos(&m_Cursol);
+		//画面の中心にマウスを設置
+		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+		//マウスのカメラ操作
+		MouseCameraCtrl();
+
+	}
+	//剣の処理の更新
+	m_pSword->Update();
+
+	//敵が近くにいるかを算出
+	m_bNearEnemy = IsNearEnemyState();
+
+	//キーボードの移動
+	if (!m_bMoveStop)
+	{
+		KeyboardMove();
+	}
+
+	//攻撃操作
+	AttackCtrl();
+
+	//プレイヤーの状態で処理を変える
+	switch (m_StateType)
+	{
+	case ATTACK:
+		Attack();
+		//攻撃モーションの再生が終わったら
+		if (m_pMotion->IsMotionEnd()&&!m_bAttackWait)
 		{
-			m_pController->TestMove(m_pos, m_rot);
-			m_pController->TestPadMove(m_pos, m_rot, m_bMove);
+			//移動可能にする
+			m_bMoveStop = false;
+			//コンボ数を０にする
+			m_nComboType = COMBOWAIT;
+			//モーションを待機状態に戻す
+			m_motionType = N_NEUTRAL;
 
-		}
-		//回避の処理
-		if (!m_bAttack && !m_bSkill&&!m_Magic.m_bMagic&&m_State== STATE_NOWN)
-		{
-			Dodge();
-
-		}
-		//ロックオンしていなかったら敵と近いかを調べる
-		if (m_pController->GetNearEnemy() == nullptr)
-		{
-			m_bSearchStop = true;
-			if (m_bLockOn == false)
+			if (m_pSword)
 			{
-				if (m_pRockOnPolygon != nullptr)
-				{
-					m_pRockOnPolygon->Uninit();
-					delete m_pRockOnPolygon;
-					m_pRockOnPolygon = nullptr;
-				}
-
-			}
-
-		}
-		else
-		{
-			m_bSearchStop = false;
-
-			NearEnemySearch(m_pController->GetNearEnemy()->GetEnemyPos());
-		}
-
-		m_bLockOn = m_pController->RockOn(m_pos, m_rot);
-
-		//ロックオンの処理
-		//ロックオンだったら色を変える
-		if (m_bLockOn == true)
-		{
-			if (m_pRockOnPolygon != nullptr)
-			{
-				m_pRockOnPolygon->SetColor({ 1.0f,0.3f,0.3f,1.0f});
-			}
-		}
-		else
-		{
-			if (m_pRockOnPolygon != nullptr)
-			{
-				m_pRockOnPolygon->SetColor({ 1.0,1.0,1.0,1.0 });
-			}
-
-		}
-
-
-		//マップ表示用の画像をプレイヤーの回転に合わせる
-		m_pMapPolygon->SetRot(m_rot.y);
-
-		bool bDraw = m_pController->bPorpose();
-
-
-		//目的地用の画像をプレイヤーの位置に合わせる
-		m_pMapPolygon->SetPos(m_pos.x, m_pos.z);
-
-
-		//移動したら移動モーションに変える 
-		if (m_bSkill == false&&m_bDodge==false)
-		{
-			if (m_bMove && !m_bDelay)
-			{
-				m_nMotionType[m_nWeaponType] = N_MOVE;
-				m_bAttackNext = true;
-
-			}
-			else if (!m_bMove && !m_bDelay && !m_Magic.m_bMagic&&!m_bDodge)
-			{
-				m_nMotionType[m_nWeaponType] = N_NEUTRAL;
-			}
-
-		}
-
-		//ディレイがオンになったら
-		if (m_bDelay)
-		{
-			m_nDelayTimer++;
-			//最終コンボじゃなければ次のコンボを出せるようにする
-			if (m_nAttackType[0] != CPlayer_Controller::COMBO_3)
-			{
-				m_bAttackNext = true;
-			}
-			else
-			{
-				m_bAttackNext = false;
-
-			}
-			//指定された攻撃タイプによってモーションを変える
-
-			if (m_nDelayTimer >= m_nMaxDelatTime)
-			{
-				m_bDelay = false;
-				m_nDelayTimer = 0;
-				if (m_nAttackType[0] == CPlayer_Controller::COMBO_3)
-				{
-					m_bAttackNext = true;
-				}
-				m_nAttackType[0] = 0;
+				//武器の当たり判定をオフにする
+				m_pSword->SetCanHit(false);
 			}
 		}
-		m_pController->Gravity(m_pos);
-		pShadow->SetPos(m_pos.x, m_pos.z, D3DXVECTOR3(PLAYER_SIZE, 0.0f, PLAYER_SIZE));
-		if (m_bDodge == false)
-		{
-			//コマンドセレクト
-			if (m_State == STATE_NOWN)
-			{
-				//攻撃に関する処理
-				PlayerAttack();
 
-			}
-			//必殺技
-			//CPがたまったら
-			int nCP = CManager::GetGame()->GetCPGauge()->GetGaugeValue();
-			if (nCP >= PLAYER_CP&&m_bDelay==false)
-			{
-				bool bSkill = m_pController->SpecalSkill();
-				if (bSkill == true && m_bSkill == false)
-				{
+		break;
+	}
 
-					C_Magic_Skill01::Create(m_pos, m_rot);
-				}
-			}
-
-		}
-		//設置物との当たり判定
-		CCollision *pCollision = new CCollision;
-		float ModelPosY = 0.0f;
-		float fShadowY = 0.0f;
-		CScene *pScene_E = CScene::GetScene(OBJTYPE_ENEMY);
-
-		//敵とのの当たり判定
-		while (pScene_E != NULL)
-		{
-			if (pScene_E != NULL)
-			{
-				CEnemy *pEnemy = (CEnemy*)pScene_E;
-				pCollision->CollisionObjectEnemy((CEnemy*)pScene_E, &m_pos, &m_lastpos, 30.0f);
-				//攻撃判定
-				bool bHitAttack = pEnemy->bHitAttack();
-				if (bHitAttack == false && m_bAttack == true)
-				{
-
-					bool bhit = pCollision->CollisionWeapon((CEnemy*)pScene_E, m_pSwordLocus->GetS_Pos(), 100.0f);
-
-					pEnemy->SetHit(bhit);
-					if (bhit == true)
-					{
-						CManager::GetGame()->GetMPGauge()->SetGauge(-2);
-						//CPを増やす
-						CManager::GetGame()->GetCPGauge()->SetGauge(-PLAYER_ADDCP);
-						pEnemy->SetbDamage(true);
-						pEnemy->AddLife(-PLAYER_POWER);
-
-						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_DAMAGE);
-
-						std::random_device random;	// 非決定的な乱数生成器
-						std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
-						std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
-						D3DXVECTOR3 EnemyVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-						EnemyVec = pEnemy->GetEnemyPos() - m_pos;			//敵と弾のベクトル
-						D3DXVECTOR3 EnemyPosBody = {};
-						D3DXVECTOR3 EnemyPosHead = {};
-						if (pEnemy->GetModel(0) != nullptr)
-						{
-							EnemyPosBody = pEnemy->GetModel(0)->GetMaxPos();
-							EnemyPosHead = pEnemy->GetModel(1)->GetMaxPos();
-						}
-						float fEnemyAng = atan2(EnemyVec.x, EnemyVec.z)+ D3DX_PI;
-						D3DXVECTOR3 Addmove = D3DXVECTOR3(
-							sinf(fEnemyAng)*EnemyPosBody.x,
-							EnemyPosHead.y / 2.0f,
-							cosf(fEnemyAng)*EnemyPosBody.x);
-
-						float fAng = randAng(mt);
-						CEffect::Create(Addmove + pEnemy->GetEnemyPos(), { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,0.0f },
-						{ 1.0,1.0,1.0,0.5f }, false, 0.0f, 0.01f, true, CTexture::HitEffect, fAng, true);
-						CEffect::Create(Addmove + pEnemy->GetEnemyPos(), { 0.0f,0.0f,0.0f }, { 0.4f,0.2f,0.0f },
-						{ 1.0,1.0,1.0,0.7f }, false, 0.0f, 0.015f, true, CTexture::HitEffect, fAng, true);
-
-						CEffect::Create(Addmove + pEnemy->GetEnemyPos(), { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
-						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
-						CEffect::Create(Addmove + pEnemy->GetEnemyPos(), { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
-						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
-
-					}
-				}
-			}
-			pScene_E = pScene_E->GetSceneNext(pScene_E);
-		}
-
-		CScene *pScene_Wall = CScene::GetScene(OBJTYPE_WALL);
-		//壁との当たり判定
-		while (pScene_Wall != nullptr)
-		{
-			CWall *pWall = (CWall*)pScene_Wall;
-			CScene *pNext_Wall = CScene::GetSceneNext(pScene_Wall);
-			//当たり判定
-			bool bHit = pWall->TestCollision(&m_pos, &m_lastpos, 50.0f);
-			pScene_Wall = pNext_Wall;
-
-		}
-
-		CScene *pScene_GW = CScene::GetScene(OBJTYPE_GIMMICKWALL);
-		while (pScene_GW != nullptr)
-		{
-			CGimmickWall *pGimmickWall = (CGimmickWall*)pScene_GW;
-			CScene *pNext_Wall = CScene::GetSceneNext(pScene_GW);
-			//当たり判定
-			bool bHit = pGimmickWall->TestCollision(&m_pos, &m_lastpos, 50.0f);
-			pScene_GW = pNext_Wall;
-
-		}
-
-		//攻撃したら剣の軌跡を表示
-		m_pSwordLocus->SetDraw(m_bAttack);
-
-		m_pCollision->Update();
-		PlayerHit();
-		//m_pCollision->SetPos(m_pos);
-		CCamera *pCamera = CRenderer::GetCamera();
-		pCamera->SetPlayerCamera(m_pos);
-		CScene::SetPos(m_pos);
-		//プレイヤーにカメラを追従させる
-		m_pController->CameraControl(m_pos);
-
+	{
+		int nSize = m_pParts.size();
 		//モーションの再生
-		switch (m_State)
-		{
-		case STATE_NOWN:
-			//if (m_bDelay == false)
-			//{
-			//	m_Magic.m_bMagic = false;
+		m_pMotion->MotionTest(nSize, &m_pParts[0], &m_motionType, &m_motionLastType);
 
-			//}
-			if (m_Magic.m_bMagic)
-			{
-				m_pMotion[m_nWeaponType]->PlayMotion(MAX_PLAYER_PARTS, &m_pModel[0], m_nMotionType[m_nWeaponType],
-					m_nMotionLastType[m_nWeaponType], m_bMotionStop, m_Magic.m_bMagic, m_bDelay, m_Magic.m_bRetryMagic);
-
-			}
-			else
-			{
-				m_pMotion[m_nWeaponType]->PlayMotion(MAX_PLAYER_PARTS, &m_pModel[0], m_nMotionType[m_nWeaponType],
-					m_nMotionLastType[m_nWeaponType], m_bMotionStop, m_bAttack, m_bDelay, false);
-
-			}
-			break;
-
-		case STATE_MAGIC:
-			//if (m_bDelay == false)
-			//{
-			//	m_bAttack = false;
-
-			//}
-			//魔法関係の処理
-			if (m_bSkill == false&& m_bDodge==false)
-			{
-				PlayerMagic();
-
-			}
-			if (m_bAttack)
-			{
-				m_pMotion[m_nWeaponType]->PlayMotion(MAX_PLAYER_PARTS, &m_pModel[0], m_nMotionType[m_nWeaponType],
-					m_nMotionLastType[m_nWeaponType], m_bMotionStop, m_bAttack, m_bDelay, false);
-			}
-			else
-			{
-				m_pMotion[m_nWeaponType]->PlayMotion(MAX_PLAYER_PARTS, &m_pModel[0], m_nMotionType[m_nWeaponType],
-					m_nMotionLastType[m_nWeaponType], m_bMotionStop, m_Magic.m_bMagic, m_bDelay, m_Magic.m_bRetryMagic);
-
-			}
-			break;
-		}
-		
 	}
-	else
-	{
-		m_nMotionType[m_nWeaponType] = N_DETH;
-		m_pMotion[m_nWeaponType]->NoLoopPlayMotion(MAX_PLAYER_PARTS, &m_pModel[0], m_nMotionType[m_nWeaponType],
-			m_nMotionLastType[m_nWeaponType], m_bGameStop);
-	}
-
-
 }
-//-------------------------------------------
-//描画処理
-//-------------------------------------------
+//-----------------------------------------------
+//描画
+//---------------------------------------------
 void CPlayer::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
 
 	D3DXMATRIX mtxRotModel, mtxTransModel;//計算用マトリックス
 
-	//各パーツのワールドマトリックスの初期化gtryg
-	D3DXMatrixIdentity(&m_mtxWorld);      
-	D3DXMatrixRotationYawPitchRoll(&mtxRotModel, m_rot.y, m_rot.x, m_rot.z);
+	//各パーツのワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
 
+	//向きを設定
+	D3DXMatrixRotationYawPitchRoll(&mtxRotModel, m_rot.y, m_rot.x, m_rot.z);
 	//向きを反映
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRotModel);
 
-	//位置を反映
+	//位置を設定
 	D3DXMatrixTranslation(&mtxTransModel, m_pos.x, m_pos.y, m_pos.z);
+	//位置を反映
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTransModel);
 
 	//各パーツのワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 	//モデル生成
-	if (m_bDraw == true)
+	if (m_IsCharacterDraw)
 	{
-		for (int nCntParts = 0; nCntParts < m_pLayer->GetMaxParts(); nCntParts++)
+		int nSize = m_pLayer->GetMaxParts();
+		for (int nCntParts = 0; nCntParts < nSize; nCntParts++)
 		{
-			m_pModel[nCntParts]->Draw();
+			m_pParts[nCntParts]->Draw();
 		}
 	}
 
-	m_pCollision->Draw();
-	m_pSwordEffect[0]->Draw();
-	m_pSwordEffect[1]->Draw();
-
-
-	for (int nCnt = 0; nCnt < 2; nCnt++)
+	//武器の描画
+	if (m_pSword)
 	{
-		m_Swordpos[nCnt] = D3DXVECTOR3(m_pSwordEffect[nCnt]->GetMtxWorld().m[3][0], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][1], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][2]);
-	}
-	m_pSwordLocus->SetSwordPos(m_Swordpos[0], m_Swordpos[1]);
-	m_pSwordLocus->SetPos(D3DXVECTOR3(m_pModel[15]->GetMtxWorld().m[3][0], m_pModel[15]->GetMtxWorld().m[3][1], m_pModel[15]->GetMtxWorld().m[3][2]));
-	m_pSwordLocus->SetLastSwordPos(m_LastSwordpos[0], m_LastSwordpos[1]);
-
-	for (int nCnt = 0; nCnt < 2; nCnt++)
-	{
-		m_LastSwordpos[nCnt] = D3DXVECTOR3(m_pSwordEffect[nCnt]->GetMtxWorld().m[3][0], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][1], m_pSwordEffect[nCnt]->GetMtxWorld().m[3][2]);
+		m_pSword->Draw();
 	}
 
 	//前回の位置情報の保存
 	m_lastpos = m_pos;
+
+	//プレイヤーの位置にカメラを追従させる
+	FollowingPlayerCamera();
+	Drawtext();
+}
+//-----------------------------------------------
+//移動の処理(キーボード)
+//---------------------------------------------
+void CPlayer::KeyboardMove()
+{
+	//キーボードの取得
+	CInputKeyBoard *Key = CManager::GetInputKeyboard();
+	//カメラの取得
+	CCamera *pCamera = CRenderer::GetCamera();
+	//移動ボタンを離したら待機モーションに戻す
+	if (!IsMoveKeyCheck())
+	{
+		//待機モーションにする
+		StateChange(IDLE);
+		m_nMovePush = false;
+		m_motionType = N_NEUTRAL;
+
+	}
+	else
+	{
+		//移動状態にする
+		StateChange(MOVE);
+		m_nMovePush = true;
+		m_motionType = N_MOVE;
+		m_bCanAttack = true;
+
+
+	}
+	//前に進む
+	if (Key->GetPress(DIK_A) == true)
+	{
+		//向きを変える
+		m_rot.y = pCamera->GetRot().x + (D3DX_PI / 2);
+		//右に進む
+		if (Key->GetPress(DIK_S) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + (D3DX_PI / 4);
+		}
+		//左に進む
+		else if (Key->GetPress(DIK_W) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 3) / 4);
+		}
+	}
+
+	//後ろに進む
+	if (Key->GetPress(DIK_D) == true)
+	{
+		//向きを変える
+		m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 3) / 2);
+		//右に進む
+		if (Key->GetPress(DIK_S) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 7) / 4);
+		}
+		//左に進む
+		else if (Key->GetPress(DIK_W) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 5) / 4);
+		}
+	}
+
+	//右に進む
+	if (Key->GetPress(DIK_S) == true)
+	{
+		//向きを変える
+		m_rot.y = pCamera->GetRot().x + 0.0f;
+		//前に進む
+		if (Key->GetPress(DIK_A) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + (D3DX_PI / 4);
+		}
+		//後ろに進む
+		else if (Key->GetPress(DIK_D) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 7) / 4);
+		}
+	}
+	//左に進む
+	if (Key->GetPress(DIK_W) == true)
+	{
+		//向きを変える
+		m_rot.y = pCamera->GetRot().x + D3DX_PI;
+		//前に進む
+		if (Key->GetPress(DIK_A) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 3) / 4);
+		}
+		//左に進む
+		else if (Key->GetPress(DIK_D) == true)
+		{
+			m_rot.y = pCamera->GetRot().x + ((D3DX_PI * 5) / 4);
+		}
+	}
+
+
+
+	//移動できる状態になったら
+	if (m_nMovePush)
+	{
+		m_pos.x -= (sinf(m_rot.y))*PlayerMoveSpeed;
+		m_pos.z -= (cosf(m_rot.y))*PlayerMoveSpeed;
+		m_fSoundInterval += 0.1f;
+		if (m_fSoundInterval >= 1.3f)
+		{
+			m_fSoundInterval = 0.0f;
+			/*CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);*/
+		}
+	}
+}
+//-----------------------------------------------
+//移動の処理(ゲームパッド)
+//-----------------------------------------------
+void CPlayer::PadMove()
+{
+	float fLength = 0.0f;
+
+	//DirectInputのゲームパッドの取得
+	CDirectInput *pGamePad = CManager::GetDirectInput();
+	//ゲームパッドのボタン情報の取得
+	DIJOYSTATE2 GamePad = pGamePad->GetJoyState();
+	//カメラの取得
+	CCamera *pCamera = CRenderer::GetCamera();
+
+	//前に進む
+
+	if ((float)GamePad.lX >= MAX_DEAD_ZOON || (float)GamePad.lY >= MAX_DEAD_ZOON ||
+		(float)GamePad.lX <= -MAX_DEAD_ZOON || (float)GamePad.lY <= -MAX_DEAD_ZOON)
+	{
+		//移動モーションにする
+		StateChange(MOVE);
+		//スティックの傾きの長さを求める
+		fLength = (float)sqrt(GamePad.lX * GamePad.lX + GamePad.lY * GamePad.lY);
+		fLength = fLength / 1000.f;
+		float fRot = atan2f((float)GamePad.lX, (float)GamePad.lY);
+		m_rot.y = -(fRot - pCamera->GetRot().x);
+		m_rot.x -= (sinf(m_rot.y)*PLAYER_MOVE_SPEED)*fLength;
+		m_pos.z -= (cosf(m_rot.y)*PLAYER_MOVE_SPEED)*fLength;
+		m_fSoundInterval += 0.1f;
+		if (m_fSoundInterval >= 1.3f)
+		{
+			m_fSoundInterval = 0.0f;
+			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);
+		}
+
+	}
+	else
+	{
+		//待機モーションに戻る
+		StateChange(IDLE);
+
+		m_fSoundInterval = 1.3f;
+
+		CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
+
+	}
+}
+//-----------------------------------------------
+//攻撃の処理(stateがAttackなら呼ばれる)
+//-----------------------------------------------
+void CPlayer::Attack()
+{
+	//攻撃モーションにする
+	switch (m_nComboType)
+	{
+	case COMBO_1:
+		m_fAttackWaitTime = 5.0f;
+		m_motionType = N_ATTACK_1;
+		break;
+	case COMBO_2:
+		m_motionType = N_ATTACK_2;
+		m_fAttackWaitTime = 8.0f;
+
+		break;
+	case COMBO_3:
+		m_motionType = N_ATTACK_3;
+		break;
+	}
+	//キー数が３になったら攻撃可能にする
+	if (m_pMotion->GetMotionKey() >= 3 && !m_bAttackWait)
+	{
+		if (m_pSword)
+		{
+			//武器の当たり判定をオフにする
+			m_pSword->SetCanHit(false);
+		}
+		if (FixedTimeInterval(m_fAttackWaitTime))
+		{
+			m_bCanAttack = true;
+		}
+	}
+	//攻撃するときに移動する
+	if (m_bCanAttackMove)
+	{
+		m_fAttackMoveTime++;
+		if (m_fAttackMoveTime > AttackMoveTime)
+		{
+			m_fAttackMoveTime = 0.0f;
+			//攻撃時に移動を制限
+			m_bCanAttackMove = false;
+		}
+		//攻撃時に移動
+		AttackMove(9.0f);
+	}
+
+	//最大コンボから最初のコンボに戻るときの待機
+	if (m_bAttackWait)
+	{
+
+		if (m_pMotion->GetMotionKey() >= 3)
+		{
+			if (m_pSword)
+			{
+				//武器の当たり判定をオフにする
+				m_pSword->SetCanHit(false);
+			}
+
+			if (FixedTimeInterval(AttackWaitTime))
+			{
+				m_bAttackWait = false;
+				m_bCanAttack = true;
+				m_nComboType = COMBOWAIT;
+				m_bMoveStop = false;
+			}
+		}
+	}
+	//剣の当たり判定を攻撃できるようにする
+
+}
+//-----------------------------------------------
+//通常攻撃の操作の処理
+//-----------------------------------------------
+void CPlayer::AttackCtrl()
+{
+	//DirectInputのゲームパッドの取得
+	CDirectInput *pGamePad = CManager::GetDirectInput();
+	//ゲームパッドのボタン情報の取得
+	DIJOYSTATE2 GamePad = pGamePad->GetJoyState();
+	//マウス情報の取得
+	CMouse *pMouse = CManager::GetMouse();
+
+	//攻撃できる状態なら攻撃操作を可能にする
+	if (m_bCanAttack)
+	{
+		if (pGamePad->GetButtonTrigger(CDirectInput::B) == true || pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
+		{
+			//現在のキー数を０にする
+			if (m_pMotion)
+			{
+				m_pMotion->SetNumKey(0);
+			}
+			//攻撃状態にする
+			StateChange(ATTACK);
+
+			//移動を制限する
+			m_bMoveStop = true;
+
+			//これ以上攻撃できないようにする
+			m_bCanAttack = false;
+
+			//攻撃するとき少し移動できるようにする
+			m_bCanAttackMove = true;
+
+			//プレイヤーを敵の方向に向かせる
+			if (m_pNearEnemy != nullptr&&m_bNearEnemy == true)
+			{
+				NearEnemyFace();
+			}
+
+			m_nComboType++;
+
+			if (m_pSword)
+			{
+				//武器の当たり判定をオンにする
+				m_pSword->SetCanHit(true);
+			}
+			//最大コンボに行ったら
+			if (m_nComboType >= COMBO_3)
+			{
+				//最大コンボから最初のコンボに戻るときの待機する
+				m_bAttackWait = true;
+				
+			}
+			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
+			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
+			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
+
+		}
+
+	}
+}
+//-----------------------------------------------
+//マウスのカメラ操作
+//-----------------------------------------------
+void CPlayer::MouseCameraCtrl()
+{
+
+	CMouse *pMouse = CManager::GetMouse();
+	//カメラの取得
+	CCamera *pCamera = CRenderer::GetCamera();
+	D3DXVECTOR3 PosV = pCamera->GetPosV();
+	D3DXVECTOR3 PosR = pCamera->GetPosR();
+	D3DXVECTOR3 Rot = pCamera->GetRot();
+	float fLong = 0.0f;
+	float fGetLong = pCamera->GetLong();
+	fLong = (float)pMouse->GetMousePos().lZ / 5.0f*-1;
+
+
+	//カメラの回転
+	Rot.y += (float)pMouse->GetMousePos().lY / MouseCameraLimit_X;
+	Rot.x += (float)pMouse->GetMousePos().lX / MouseCameraLimit_Y;
+
+
+	if (Rot.y > -0.1f)
+	{
+		Rot.y = -0.1f;
+	}
+	else if (Rot.y < -1.5f)
+	{
+		Rot.y = -1.5f;
+	}
+	if (Rot.x > D3DX_PI)
+	{
+		Rot.x = -D3DX_PI;
+	}
+	else if (Rot.x < -D3DX_PI)
+	{
+		Rot.x = D3DX_PI;
+	}
+
+	pCamera->SetLong(fLong);
+	if (fGetLong <= 10.0f)
+	{
+		pCamera->SetLong(-fGetLong);
+	}
+
+	PosV.x = PosR.x + sinf(Rot.y)* sinf(Rot.x) * pCamera->GetLong();
+	PosV.y = PosR.y + cosf(Rot.y)			   * pCamera->GetLong();
+	PosV.z = PosR.z + sinf(Rot.y)* cosf(Rot.x) * pCamera->GetLong();
+
+	pCamera->SetPosR(PosR);
+	pCamera->SetPosV(PosV);
+	pCamera->SetRot(Rot);
+
+}
+//-----------------------------------------------
+//近い敵の方向にプレイヤーを向かせる
+//-----------------------------------------------
+void CPlayer::NearEnemyFace()
+{
+	D3DXVECTOR3 EnemyPos = m_pNearEnemy->GetPos();
+	D3DXVECTOR3 EnemyVec = EnemyPos - m_pos;			//敵とプレイヤーのベクトル
+														//プレイヤーと敵の向きを求める
+	float fAng = atan2(EnemyVec.x, EnemyVec.z);//敵の向き
+	m_rot.y = fAng + D3DX_PI;
+
+}
+//-----------------------------------------------
+//今敵の近くかを算出
+//-----------------------------------------------
+bool CPlayer::IsNearEnemyState()
+{
+	bool bNearEnemy = false;
+	CScene *pScene_E = CScene::GetScene(CScene::OBJTYPE_ENEMY);//一番最初の敵
+	float fLength = 0.0f;//プレイヤーと敵の間の距離
+	float fLength2 = 0.0f;//プレイヤーと敵の間の距離
+
+						  //一番近い敵の情報の保存用
+	m_pNearEnemy = (CEnemy*)pScene_E;
+	//一番近い敵を求める
+	while (pScene_E != NULL)
+	{
+		//今の敵の距離の長さを求める
+
+		if (m_pNearEnemy != NULL)
+		{
+			D3DXVECTOR3 EnemyPos = m_pNearEnemy->GetPos();
+			D3DXVECTOR3 EnemyVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			EnemyVec = EnemyPos - m_pos;			//敵とプレイヤーのベクトル
+			fLength = sqrtf((EnemyVec.z*EnemyVec.z) + (EnemyVec.x*EnemyVec.x));
+		}
+		if (pScene_E != NULL)
+		{
+			//次の敵の距離の長さを求める
+			CScene *pSceneNext = pScene_E->GetSceneNext(pScene_E);
+			if (pSceneNext != NULL)
+			{
+				CEnemy *pEnemyNext = (CEnemy*)pSceneNext;
+				D3DXVECTOR3 EnemyPosNext = pEnemyNext->GetPos();
+				D3DXVECTOR3 EnemyVecNext = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+				EnemyVecNext = EnemyPosNext - m_pos;			//敵とプレイヤーのベクトル
+				fLength2 = sqrtf((EnemyVecNext.z*EnemyVecNext.z) + (EnemyVecNext.x*EnemyVecNext.x));
+				//敵との距離が近かったらロックオンできるようにする
+				if (fLength2 < PLAYER_ROCK_LENGTH)
+				{
+					bNearEnemy = true;
+				}
+
+				//今の敵が次の敵より遠かったら
+				if (fLength > fLength2)
+				{
+					m_pNearEnemy = pEnemyNext;
+				}
+			}
+		}
+		pScene_E = pScene_E->GetSceneNext(pScene_E);
+	}
+
+	return bNearEnemy;
+}
+//-----------------------------------------------
+//プレイヤーにカメラを追従させる処理
+//-----------------------------------------------
+void CPlayer::FollowingPlayerCamera()
+{
+	//カメラの取得
+	CCamera *pCamera = CRenderer::GetCamera();
+	D3DXVECTOR3 PosR = pCamera->GetPosR();
+	//キーボードの取得
+	CInputKeyBoard *Key = CManager::GetInputKeyboard();
+
+	{
+		//カメラの注視点とプレイヤーの位置の差分
+		float PosDifference_X = PosR.x - m_pos.x;
+
+		//プレイヤーの位置に戻す速度
+		float RevertSpeed = abs(PosDifference_X / CameraLimit);
+		//RevertSpeedが0.0f出はなかったら
+		if (RevertSpeed != 0.0f)
+		{
+			//差分が正の数なら負の数に戻すようにする
+			if (PosDifference_X > 0)
+			{
+				PosR.x -= RevertSpeed;
+			}
+			else
+			{
+				PosR.x += RevertSpeed;
+			}
+		}
+	}
+	{
+		float PosDifference_Z = PosR.z - m_pos.z;//カメラの注視点とプレイヤーの位置の差分
+		float RevertSpeed = abs(PosDifference_Z / CameraLimit);//プレイヤーの位置に戻す速度
+		//RevertSpeedが0.0f出はなかったら
+		if (RevertSpeed != 0.0f)
+		{
+			//差分が正の数なら負の数に戻すようにする
+			if (PosDifference_Z > 0)
+			{
+				PosR.z -= RevertSpeed;
+			}
+			else
+			{
+				PosR.z += RevertSpeed;
+			}
+
+		}
+
+	}
+	pCamera->SetPosR(PosR);
 
 }
 void CPlayer::Drawtext()
@@ -626,322 +662,116 @@ void CPlayer::Drawtext()
 	char str[3000];
 	int nNum = 0;
 
-	nNum = sprintf(&str[0], "\n\n 壁情報 \n");
+	nNum = sprintf(&str[0], "\n\n 情報 \n");
 
-	nNum += sprintf(&str[nNum], " [modelPos] X%.2f,Y%.2f,Z%.2f \n", m_pos.x, m_pos.y, m_pos.z);
-	nNum += sprintf(&str[nNum], " [modelPos] X%.2f,Y%.2f,Z%.2f \n", m_lastpos.x, m_lastpos.y, m_lastpos.z);
+
+	nNum += sprintf(&str[nNum], " [MotionCnt] %.5f\n", m_pMotion->GetMotionCnt());
+	nNum += sprintf(&str[nNum], " [MotionKey] %d\n", m_pMotion->GetMotionKey());
+	nNum += sprintf(&str[nNum], " [Canhit] %d\n", m_pSword->GetCanHit());
+	nNum += sprintf(&str[nNum], " [m_bCanAttack] %d\n", m_bCanAttack);
 
 	LPD3DXFONT pFont = CManager::GetRenderer()->GetFont();
 	// テキスト描画
 	pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 
 }
-//--------------------------------------
-//回避の処理
-//--------------------------------------
-void CPlayer::Dodge()
+
+//----------------------------------------------
+//移動用のキーを押しているかの判定を返す処理
+//----------------------------------------------
+bool CPlayer::IsMoveKeyCheck()
 {
-	//DirectInputのゲームパッドの取得
-	CDirectInput *pGamePad = CManager::GetDirectInput();
-	//ゲームパッドのボタン情報の取得
-	DIJOYSTATE2 GamePad = pGamePad->GetJoyState();
-	//カメラの取得
-	CCamera *pCamera = CRenderer::GetCamera();
-	if (m_bDodge == false&& m_Magic.m_bMagic==false&&m_bAttack==false&& m_bDelay==false)
-	{
-		if ((float)GamePad.lX >= MAX_DEAD_ZOON || (float)GamePad.lY >= MAX_DEAD_ZOON ||
-			(float)GamePad.lX <= -MAX_DEAD_ZOON || (float)GamePad.lY <= -MAX_DEAD_ZOON)
-		{
-			float fRot = atan2f((float)GamePad.lX, (float)GamePad.lY);
+	CInputKeyBoard *Key = CManager::GetInputKeyboard();
 
-			m_fDodgerot = -(fRot - pCamera->GetRot().x);
-			m_rot.y = m_fDodgerot;
-		}
-		else
-		{
-			m_fDodgerot = m_rot.y;
-		}
-
-	}
-	if (pGamePad->GetButtonTrigger(CDirectInput::X)&& m_bDodge==false && m_bDelay == false)
-	{
-		m_bDodge = true;
-	}
-
-	//回避の判定がオンだったら
-	if (m_bDodge)
-	{
-		m_nMotionType[m_nWeaponType] = N_DODGE;
-		//無敵にする
-		m_bHitStop = true;
-		m_fDodgeTimer++;
-
-		if (m_fDodgeTimer >= PLAYER_DODGE_TIME)
-		{
-			m_fDodgeTimer = 0.0f;
-			m_bDodge = false;
-			m_bHitStop = false;
-		}
-		else
-		{
-			m_pos.x -= sinf(m_fDodgerot)*PLAYER_DODGE_SPEED;
-			m_pos.z -= cosf(m_fDodgerot)*PLAYER_DODGE_SPEED;
-
-		}
-
-	}
+	return (Key->GetPress(DIK_W) == true ||
+		Key->GetPress(DIK_A) == true ||
+		Key->GetPress(DIK_S) == true ||
+		Key->GetPress(DIK_D) == true);
 }
-bool  CPlayer::bColision()
+//----------------------------------------------
+//一定時間間隔を置く処理
+//----------------------------------------------
+bool CPlayer::FixedTimeInterval(float fMaxTime)
 {
-	return 0;
+	bool bStop = false;
+	m_fStopTime++;
+	if (m_fStopTime > fMaxTime)
+	{
+		m_fStopTime = 0.0f;
+		bStop = true;
+	}
+	//一定時間たったかを返す
+	return bStop;
 }
-//----------------------------------------
-//魔法に関する処理
-//----------------------------------------
-void CPlayer::PlayerMagic()
+//-----------------------------------------------
+//攻撃したときの移動処理
+//-----------------------------------------------
+void CPlayer::AttackMove(float fMoveVolume)
 {
-	//まほうコマンドを選択していたら
-	if (!m_Magic.m_bMagic && m_State == STATE_MAGIC)
-	{
-		//ボタンを押して魔法を放つ
-		bool bStop = false;
-		CGauge *pGauge = CManager::GetGame()->GetMPGauge();
-
-		switch (m_nMagicCommandType)
-		{
-		case CCommandUI::Fire:
-			if (pGauge->GetGaugeValue() < FIRE_MP)
-			{
-				bStop = true;
-			}
-
-			break;
-		case CCommandUI::Ice:
-			if (pGauge->GetGaugeValue() < MAGIC_SKILL02_MP)
-			{
-				bStop = true;
-			}
-			break;
-		case CCommandUI::Heal:
-			if (pGauge->GetGaugeValue() < HEEL_MP)
-			{
-				bStop = true;
-			}
-			break;
-		}
-		if (bStop == false)
-		{
-			m_nMagicCommandType = m_pController->MagicAttack(m_pos, m_rot.y, m_nMotionType[m_nWeaponType], m_Magic.m_bMagic, m_bNearEnemy, m_nMagicCommandType);
-
-		}
-
-		if (m_Magic.m_bMagic&&m_bDelay == false)
-		{
-			m_bMagicShot = true;
-
-			m_bMove = false;
-		}
-	}
-
-	//魔法ボタンを押したらちょっと後にポリゴンを出す
-	if (m_bMagicShot == true )
-	{
-		m_fMagicShotDelayCnt++;
-		if (m_fMagicShotDelayCnt >= m_fMagicShotDelayMax)
-		{
-			m_fMagicShotDelayCnt = 0.0f;
-			//魔法のタイプごとに出す魔法を変える（ヒール以外）
-			switch (m_nMagicCommandType)
-			{
-			case CCommandUI::Fire:
-				if (m_pController->GetNearEnemy()!=nullptr&&m_bNearEnemy)
-				{
-					C_Magic_Fire::Create(m_Swordpos[0], m_rot,true, m_pController->GetNearEnemy(),80.0f);
-					C_Magic_Fire::Create(m_Swordpos[0], m_rot, true, m_pController->GetNearEnemy(),-80.0f);
-
-				}
-				else
-				{
-					C_Magic_Fire::Create(m_Swordpos[0], m_rot,false,nullptr,50.0f);
-					C_Magic_Fire::Create(m_Swordpos[0], m_rot, false, nullptr, -50.0f);
-
-				}
-				CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_FIRE);
-
-				break;
-			case CCommandUI::Ice:
-				C_Magic_Skill02::Create(m_pos, m_rot, 2.0f);
-				CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ICE);
-
-				break;
-			case CCommandUI::Heal:
-				C_Magic_Heel::Create(m_pos);
-				CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_HEEL);
-
-				break;
-			}
-			m_bMagicShot = false;
-		}
-	}
-
-
-
-
+	m_pos.x -= sinf(m_rot.y)*fMoveVolume;
+	m_pos.z -= cosf(m_rot.y)*fMoveVolume;
 }
-//-------------------------------------------
-//攻撃に関する処理
-//-------------------------------------------
-void CPlayer::PlayerAttack()
+//-----------------------------------------------
+//武器のセット
+//---------------------------------------------
+void CPlayer::WeaponSet(const char * pcFileName)
 {
-	//ディレイが入ってないときに攻撃がオンだったら１コンボ目を出す
-	if (!m_bDelay&&m_bAttack)
+	int nParent = 0;				//親子関係
+	char string[6][255];
+	D3DXVECTOR3 PartsPos, PartsRot;	//各パーツの位置と向き
+									//textファイル読み込み
+	FILE *pfile = fopen(pcFileName, "r");
+	//ヌルチェック
+	if (pfile != NULL)
 	{
-		switch (m_nAttackType[0])
+		while (1)
 		{
-		case CPlayer_Controller::COMBO_1:
-			m_nMotionType[m_nWeaponType] = N_ATTACK_1;
-			m_pos.x -= sinf(m_rot.y)*PLAYER_ATTACK_SPEED*0.5f;
-			m_pos.z -= cosf(m_rot.y)*PLAYER_ATTACK_SPEED*0.5f;
+			//一単語を読み込む
+			fscanf(pfile, "%s", &string[0]);
 
-			break;
-		}
-	}
-	//攻撃判定がオンになってたら連撃のモーションにする
-	if (m_bAttack)
-	{
-		switch (m_nAttackType[0])
-		{
-		case CPlayer_Controller::COMBO_2:
-			m_nMotionType[m_nWeaponType] = N_ATTACK_2;
-			m_pos.x -= sinf(m_rot.y)*PLAYER_ATTACK_SPEED*0.3f;
-			m_pos.z -= cosf(m_rot.y)*PLAYER_ATTACK_SPEED*0.3f;
-
-			break;
-		case CPlayer_Controller::COMBO_3:
-			m_nMotionType[m_nWeaponType] = N_ATTACK_3;
-			m_pos.x -= sinf(m_rot.y)*PLAYER_ATTACK_SPEED*0.3f;
-			m_pos.z -= cosf(m_rot.y)*PLAYER_ATTACK_SPEED*0.3f;
-
-			break;
-		}
-	}
-	//攻撃をしていない状態だったら
-	if (!m_bAttack)
-	{
-		//攻撃処理
-		//次の攻撃ができるようになっていたら
-		if (m_bAttackNext)
-		{
-			m_pController->Attack(m_pos, m_rot.y, m_nAttackType[0], m_bAttack, m_bAttackNext, m_bNearEnemy);
-
-			//攻撃したら連撃の遅延を０にする
-			if (m_bAttack)
+			while (strcmp(string[0], "CHARACTERSET") == 0)
 			{
-
-				m_nDelayTimer = 0;
-			}
-		}
-	}
-
-}
-//----------------------------------------
-//近い敵を探す処理
-//----------------------------------------
-void CPlayer::NearEnemySearch(D3DXVECTOR3 Enemy)
-{
-	D3DXVECTOR3 EnemyVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	EnemyVec = Enemy - m_pos;			//敵とプレイヤーのベクトル
-	float fLength = sqrtf((EnemyVec.z*EnemyVec.z) + (EnemyVec.x*EnemyVec.x));
-	//敵が特定の範囲に入ったら
-	if (m_bSearchStop == false)
-	{
-		if (fLength <= PLAYER_RANGE && m_pController->GetNearEnemy() != nullptr)
-		{
-			//敵と近いです
-			m_bNearEnemy = true;
-			if (m_pRockOnPolygon == nullptr)
-			{
-				m_pRockOnPolygon = nullptr;
-				D3DXVECTOR3 pos = { 0.0f,0.0f,0.0f };
-				if (m_pController->GetNearEnemy()->GetModel(0) != nullptr)
+				fscanf(pfile, "%s", &string[1]);
+				//パーツの設定
+				while (strcmp(string[1], "WEAPONSET") == 0)
 				{
-					pos = { m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._41 ,
-						m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._42 ,
-						m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._43 };
-				}
+					//一単語を読み込む
+					fscanf(pfile, "%s", &string[2]);
 
-				m_pRockOnPolygon = CBillboard::Create(pos, { PLAYER_ROCKON_SIZE ,PLAYER_ROCKON_SIZE ,0.0f },
-					CTexture::RockOn);
-			}
-			else
-			{
-				if (m_pController->GetNearEnemy() != nullptr)
-				{
-					if (m_pController->GetNearEnemy()->GetModel(0) != nullptr)
+					//位置
+					if (strcmp(string[2], "POS") == 0)
 					{
-						m_pRockOnPolygon->Setpos({ m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._41,
-							m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._42,
-							m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._43 }, { PLAYER_ROCKON_SIZE ,PLAYER_ROCKON_SIZE ,0.0f });
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%f %f %f", &PartsPos.x, &PartsPos.y, &PartsPos.z);
+					}
+					//向き
+					if (strcmp(string[2], "ROT") == 0)
+					{
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%f %f %f", &PartsRot.x, &PartsRot.y, &PartsRot.z);
+					}
+					//モデルの生成
+					if (strcmp(string[2], "END_WEAPONSET") == 0)
+					{
+						//武器の生成
+						if (!m_pSword)
+						{
+							m_pSword = CSword::Create(PartsPos, PartsRot, m_pParts[5]);
+						}
+						break;
 					}
 				}
-			}
-
-		}
-		else
-		{
-			//敵と遠いです
-			m_bNearEnemy = false;
-			if (m_bLockOn == false)
-			{
-				if (m_pRockOnPolygon != nullptr)
+				//終了
+				if (strcmp(string[1], "END_CHARACTERSET") == 0)
 				{
-					m_pRockOnPolygon->Uninit();
-					delete m_pRockOnPolygon;
-					m_pRockOnPolygon = nullptr;
+					break;
 				}
 
 			}
-			else
+			if (strcmp(string[0], "END_SCRIPT") == 0)
 			{
-				if (m_pController->GetNearEnemy() != nullptr&&m_pRockOnPolygon!=nullptr)
-				{
-					if (m_pController->GetNearEnemy()->GetModel(0) != nullptr)
-					{
-						m_pRockOnPolygon->Setpos({ m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._41,
-							m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._42,
-							m_pController->GetNearEnemy()->GetModel(0)->GetMtxWorld()._43 }, { PLAYER_ROCKON_SIZE ,PLAYER_ROCKON_SIZE ,0.0f });
-					}
-				}
-
+				break;
 			}
 		}
-
 	}
-}
-//-----------------------------------
-//プレイヤーが敵の攻撃に当たった時(m_bHitをtrueにしないと動かない)
-//-----------------------------------
-void CPlayer::PlayerHit()
-{
-	//攻撃が当たった時の処理が終わるまで攻撃が無敵判定にする
-	if (m_bHit==true && m_bHitStop == false)
-	{
-		//これがtueになったら攻撃を受けない
-		m_bHitStop = true;
-		m_bHit = false;
-	}
-	//無敵判定だったら
-	else if (m_bHitStop == true)
-	{
-		//無敵時間のカウント
-		m_nHitTime++;
-		//無敵時間が一定の値を超えたら無敵時間を解除
-		if (m_nHitTime>= PLAYER_HIT_MAXTIME)
-		{
-			m_nHitTime = 0;
-			//無敵時間解除
-			m_bHitStop = false;
-		}
-	}
-
 }

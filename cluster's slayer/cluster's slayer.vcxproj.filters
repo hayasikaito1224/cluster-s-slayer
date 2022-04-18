@@ -16,6 +16,12 @@
     <Filter Include="ソース ファイル\キャラクター">
       <UniqueIdentifier>{65ba1219-7963-4922-bf84-323a190289b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\武器">
+      <UniqueIdentifier>{810fcfa2-60d9-4a99-bd71-b61bd1a7660b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\キャラクター\敵">
+      <UniqueIdentifier>{da7f4a59-c939-4a1e-ab41-058039eadbd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\stage.h">
@@ -126,6 +132,33 @@
     <ClInclude Include="..\cluster%27s slayer\character.h">
       <Filter>ソース ファイル\キャラクター</Filter>
     </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\model_spawner.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\map_polygon.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\meshsphere.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\collision.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\pause.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\weapon.h">
+      <Filter>ソース ファイル\武器</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\sword.h">
+      <Filter>ソース ファイル\武器</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy.h">
+      <Filter>ソース ファイル\キャラクター\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy001.h">
+      <Filter>ソース ファイル\キャラクター\敵</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\texture.cpp">
@@ -235,6 +268,33 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\character.cpp">
       <Filter>ソース ファイル\キャラクター</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\model_spawner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\meshsphere.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\collision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\pause.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\weapon.cpp">
+      <Filter>ソース ファイル\武器</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\sword.cpp">
+      <Filter>ソース ファイル\武器</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\enemy.cpp">
+      <Filter>ソース ファイル\キャラクター\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\enemy001.cpp">
+      <Filter>ソース ファイル\キャラクター\敵</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

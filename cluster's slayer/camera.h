@@ -33,7 +33,7 @@ public:
 	void SetPosV(D3DXVECTOR3 pos_v) { m_posV = pos_v; }//現在の視点
 	void SetPosR(D3DXVECTOR3 pos_r) { m_posR = pos_r; }//現在の注視点
 	void SetLong(float flong) { m_fLong += flong; }
-	void SetPlayerCamera(D3DXVECTOR3 pos);
+	void FollowingPlayerCamera(const D3DXVECTOR3& Playerpos,const float& PlayerFacing);//カメラがプレイヤーに追従する処理
 	void SetMapCamera(D3DXVECTOR3 pos);
 	void SetAngleView(float fAngleView) {m_fAngleView = fAngleView;}
 	HRESULT SetViewport(DWORD Xpos, DWORD Ypos, DWORD Width, DWORD Height,int nCnt);

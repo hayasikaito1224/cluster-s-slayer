@@ -5,6 +5,7 @@
 #include "model.h"
 #include "manager.h"
 #include "Renderer.h"
+#include "shadow.h"
 
 //---------------------------------------------
 //コンストラクタ
@@ -15,6 +16,7 @@ CCharacter::CCharacter(OBJTYPE nPriority) : CScene(nPriority)
 	m_IsCharacterDraw = true;
 	m_pLayer = nullptr;
 	m_nPartsMax = 0;
+	m_pMotion = nullptr;
 }
 //-----------------------------------------------
 //デストラクタ
@@ -35,17 +37,24 @@ HRESULT CCharacter::Init()
 //---------------------------------------------
 void CCharacter::Uninit()
 {
-	int nPartsSize = m_pParts.size();
-	for (int nCntParts = 0; nCntParts < nPartsSize; nCntParts++)
 	{
-		if (m_pParts[nCntParts] != NULL)
+		int nPartsSize = m_pParts.size();
+		for (int nCntParts = 0; nCntParts < nPartsSize; nCntParts++)
 		{
-			m_pParts[nCntParts]->Uninit();
-			m_pParts[nCntParts] = NULL;
+			if (m_pParts[nCntParts] != nullptr)
+			{
+				m_pParts[nCntParts]->Uninit();
+				m_pParts[nCntParts] = nullptr;
+			}
 		}
 	}
-	m_pMotion.clear();
 
+	if (m_pShadow != nullptr)
+	{
+		m_pShadow->Uninit();
+		m_pShadow = nullptr;
+	}
+	Release();
 }
 
 //-----------------------------------------------

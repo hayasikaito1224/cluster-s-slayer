@@ -85,10 +85,20 @@ void CInputKeyBoard::Update(void)
 //----------------------------------------
 bool CInputKeyBoard::GetPress(int nKey)
 {
+	if (m_aKeyState[nKey] & 0x80)
+	{
+		m_nKey = nKey;
+
+	}
 	return(m_aKeyState[nKey] & 0x80) ? true : false;
 
 }
 bool CInputKeyBoard::GetTrigger(int nKey)
 {
+	if (m_aKeyStateTrigger[nKey] & 0x80)
+	{
+		m_nKey = nKey;
+
+	}
 	return (m_aKeyStateTrigger[nKey] & 0x80) ? true : false;
 }

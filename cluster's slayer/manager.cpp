@@ -22,8 +22,6 @@
 #include "pause.h"
 #include "xload.h"
 #include "directinput.h"
-#include "HierarchyData.h"
-#include "MyAllocateHierarchy.h"
 #include <random>
 //静的メンバ変数宣言
 CInputKeyBoard	*CManager::m_pInputKeyboard = NULL;
@@ -150,7 +148,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	m_pLight[1]->Init(D3DXCOLOR(0.65f, 0.65f, 0.65f, 1.0f), D3DXVECTOR3(-0.18f, 0.88f, -0.44f));
 	m_pLight[2]->Init(D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.0f), D3DXVECTOR3(0.89f, -0.11f, 0.44f));
 
-	HierarchyData AH;
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
 	return S_OK;
 }
@@ -441,7 +438,7 @@ void CManager::SetMode(MODE mode)
 			m_pTitle = new CTitle;
 			m_pTitle->Init();
 			m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_TITLE);	// タイトルサウンド
-			m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_TITLE,0.7f);	// タイトルサウンド
+			m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_TITLE,0.1f);	// タイトルサウンド
 
 		}
 		break;
@@ -450,8 +447,8 @@ void CManager::SetMode(MODE mode)
 		{
 			m_pGame = new CGame;
 			m_pGame->Init();
-			m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);	// タイトルサウンド
-			m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_GAME, 0.5f);
+			//m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);	// タイトルサウンド
+			//m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_GAME, 0.1f);
 
 		}
 		break;
@@ -461,7 +458,7 @@ void CManager::SetMode(MODE mode)
 			m_pResult = new CResult;
 			m_pResult->Init();
 			m_pSound->PlaySound(m_pSound->SOUND_LABEL_SE_WIN);	// リザルトサウンド
-			m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_WIN,0.5f);	// タイトルサウンド
+			m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_WIN,0.1f);	// タイトルサウンド
 
 		}
 		break;

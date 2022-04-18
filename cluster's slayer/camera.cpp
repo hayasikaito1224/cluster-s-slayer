@@ -6,9 +6,10 @@
 #include "Renderer.h"
 #include "manager.h"
 #include "keyboard.h"
-#include "player.h"
 #include "mouse.h"
-#include "XInput.h"
+static const float CameraLimit = 10.0f;//慣性の制限値
+static const float PlayerFacingUp = -100.0f;//プレイヤーの前に注視点になるようにする値
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -48,71 +49,6 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
-	CMouse *pMouse = CManager::GetMouse();
-	CXInput *pGamePad = CManager::GetXInput();
-
-	CInputKeyBoard *pKey = CManager::GetInputKeyboard();
-
-	//左クリック
-	if (pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
-	{
-		//クリックした位置のマウス座標を取得
-		GetCursorPos(&m_Cursol);
-
-	}
-	if (pMouse->GetPress(CMouse::MOUSE_LEFT) == true)
-	{
-
-		SetCursorPos(m_Cursol.x, m_Cursol.y);
-
-		m_rot.y += pMouse->GetMousePos().lX*0.01f;
-		if (m_rot.y > D3DX_PI)
-		{
-			m_rot.y = -D3DX_PI;
-		}
-		m_posV.y += pMouse->GetMousePos().lY*-0.1f;
-		m_posV.x = m_posR.x - sinf(m_rot.y)* m_fLong;
-		m_posV.z = m_posR.z - cosf(m_rot.y)* m_fLong;
-	}
-	if (pMouse->GetTrigger(CMouse::MOUSE_RIGHT) == true)
-	{
-		//クリックした位置のマウス座標を取得
-		GetCursorPos(&m_Cursol);
-
-	}
-
-	else if (pMouse->GetPress(CMouse::MOUSE_RIGHT) == true)
-	{
-
-		SetCursorPos(m_Cursol.x, m_Cursol.y);
-
-		m_rot.y += pMouse->GetMousePos().lX*0.001f;
-		if (m_rot.y > D3DX_PI)
-		{
-			m_rot.y = -D3DX_PI;
-		}
-		m_posR.y += pMouse->GetMousePos().lY*-0.1f;
-		m_posR.x = m_posV.x + sinf(m_rot.y)* m_fLong;
-		m_posR.z = m_posV.z + cosf(m_rot.y)* m_fLong;
-	}
-	if (pMouse->GetTrigger(CMouse::MOUSE_WHEEL) == true)
-	{
-		//クリックした位置のマウス座標を取得
-		GetCursorPos(&m_Cursol);
-	}
-	else if (pMouse->GetPress(CMouse::MOUSE_WHEEL) == true)
-	{
-		SetCursorPos(m_Cursol.x, m_Cursol.y);
-		m_rot.x += pMouse->GetMousePos().lX*0.1f;
-
-		m_posR.y += pMouse->GetMousePos().lY*-0.1f;
-		m_posV.y += pMouse->GetMousePos().lY*-0.1f;
-		m_posR.x += cosf(m_rot.y)*(m_fLong*pMouse->GetMousePos().lX*0.001f);
-		m_posR.z -= sinf(m_rot.y)*(m_fLong*pMouse->GetMousePos().lX*0.001f);
-		m_posV.x += cosf(m_rot.y)*(m_fLong*pMouse->GetMousePos().lX*0.001f);
-		m_posV.z -= sinf(m_rot.y)*(m_fLong*pMouse->GetMousePos().lX*0.001f);
-
-	}
 
 
 }
@@ -127,9 +63,39 @@ void CCamera::Draw(void)
 //=============================================================================
 // ポリゴンの描画処理
 //=============================================================================
-void CCamera::SetPlayerCamera(D3DXVECTOR3 pos)
+void CCamera::FollowingPlayerCamera(const D3DXVECTOR3& Playerpos,const float& PlayerFacing)
 {
-	m_posR = D3DXVECTOR3(pos.x, m_posR.y, pos.z);
+	{
+		//カメラの注視点とプレイヤーの位置の差分
+		float PosDifference_X = m_posR.x - (Playerpos.x + sinf(PlayerFacing)*PlayerFacingUp);
+
+		//プレイヤーの位置に戻す速度
+		float RevertSpeed = abs(PosDifference_X / CameraLimit);
+
+		//差分が正の数なら負の数に戻すようにする
+		if (PosDifference_X >= 0)
+		{
+			m_posR.x -= RevertSpeed;
+		}
+		else
+		{
+			m_posR.x += RevertSpeed;
+		}
+	}
+	{
+		float PosDifference_Z = m_posR.z - (Playerpos.z + cosf(PlayerFacing)*PlayerFacingUp);//カメラの注視点とプレイヤーの位置の差分
+		float RevertSpeed = abs(PosDifference_Z / CameraLimit);//プレイヤーの位置に戻す速度
+		//差分が正の数なら負の数に戻すようにする
+		if (PosDifference_Z >= 0)
+		{
+			m_posR.z -= RevertSpeed;
+		}
+		else
+		{
+			m_posR.z += RevertSpeed;
+		}
+
+	}
 }
 //=============================================================================
 // ポリゴンの描画処理

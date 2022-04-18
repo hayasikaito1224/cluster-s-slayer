@@ -17,11 +17,11 @@ public:
 	void Update(void);
 	bool GetPress(int nKey);
 	bool GetTrigger(int Key);
-
+	int GetKey() { return m_nKey; }
 private:
 	BYTE m_aKeyState[NUM_KEY_MAX];//キーボードの入力情報（プレス情報）
 	BYTE m_aKeyStateTrigger[NUM_KEY_MAX];
-
+	int m_nKey;//現在のキー
 };
 
 #endif _KEYBOARD_H_
