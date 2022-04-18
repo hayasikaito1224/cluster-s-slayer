@@ -1,0 +1,123 @@
+#==============================================================================
+#
+# 『モデルビューワ』スクリプトファイル [model.txt]
+# Author : AKIRA TANAKA
+#
+#==============================================================================
+SCRIPT			# この行は絶対消さないこと！
+
+#------------------------------------------------------------------------------
+# 読み込むモデル数
+#------------------------------------------------------------------------------
+NUM_MODEL = 20
+
+#------------------------------------------------------------------------------
+# 読み込むモデルファイル名
+#------------------------------------------------------------------------------
+MODEL_FILENAME = data/MODEL/building000.x	# [0]ビル0(小) [40×40]
+MODEL_FILENAME = data/MODEL/building100.x	# [1]ビル1(小) [40×40]
+MODEL_FILENAME = data/MODEL/building200.x	# [2]ビル2(小) [40×40]
+MODEL_FILENAME = data/MODEL/building300.x	# [3]ビル3(小) [40×40]
+MODEL_FILENAME = data/MODEL/building400.x	# [4]ビル4(小) [40×40]
+MODEL_FILENAME = data/MODEL/building500.x	# [5]ビル5(小) [40×40]
+MODEL_FILENAME = data/MODEL/building001.x	# [6]ビル0(中) [60×60]
+MODEL_FILENAME = data/MODEL/building101.x	# [7]ビル1(中) [60×60]
+MODEL_FILENAME = data/MODEL/building201.x	# [8]ビル2(中) [60×60]
+MODEL_FILENAME = data/MODEL/building301.x	# [9]ビル3(中) [60×60]
+MODEL_FILENAME = data/MODEL/building401.x	# [10]ビル4(中) [60×60]
+MODEL_FILENAME = data/MODEL/building501.x	# [11]ビル5(中) [60×60]
+MODEL_FILENAME = data/MODEL/building002.x	# [12]ビル0(大) [80×80]
+MODEL_FILENAME = data/MODEL/building102.x	# [13]ビル1(大) [80×80]
+MODEL_FILENAME = data/MODEL/building202.x	# [14]ビル2(大) [80×80]
+MODEL_FILENAME = data/MODEL/building302.x	# [15]ビル3(大) [80×80]
+MODEL_FILENAME = data/MODEL/building402.x	# [16]ビル4(大) [80×80]
+MODEL_FILENAME = data/MODEL/building502.x	# [17]ビル5(大) [80×80]
+MODEL_FILENAME = data/MODEL/謎物体1.x       # [18]謎物体1 [100×100]
+MODEL_FILENAME = data/MODEL/電柱.x          # [19]電柱 [10×10]
+#------------------------------------------------------------------------------
+# 表示するモデルの配置情報
+#------------------------------------------------------------------------------
+MODELSET
+    TYPE = 6
+    POS = -80 0 200
+    ROT= 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 19
+    POS = 0 0 0
+    ROT= 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 18
+    POS = 0 100 0
+    ROT= 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = -60 120 -80
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 60 120 80
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 60 120 -80
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = -60 120 80
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = -80 0 -100
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = -80 0 100
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 80 0 100
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 80 0 -100
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 11
+    POS = 125 0 200
+    ROT=0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 45 0 200
+    ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+    TYPE = 17
+    POS = 200 0 200
+    ROT = 0 0 0
+END_MODELSET
+END_SCRIPT		# この行は絶対消さないこと！
