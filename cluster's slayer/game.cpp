@@ -25,6 +25,8 @@
 #include "Particle.h"
 #include "gauge.h"
 #include "directinput.h"
+#include "enemy_spawn_manager.h"
+
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define PLAYER_MP (100)		//マナの多さ
@@ -41,6 +43,7 @@ CPolygon *CGame::m_Cursol = nullptr;
 CMeshSphere *CGame::m_pMeshSphere = nullptr;
 CStage  *CGame::m_pStage = nullptr;
 CParticle   *CGame::m_Particle = nullptr;
+CEnemySpawnManager   *CGame::m_pEnemySpawnManager = nullptr;
 
 std::vector<CPolygon*>   CGame::m_pCStock = {};
 static float s_texrotx = 0.0f;
@@ -68,6 +71,7 @@ CGame::CGame()
 	m_nCntDelay = 0;
 	m_bPush = false;
 	m_bEnd = false;
+	m_pEnemySpawnManager = nullptr;
 }
 //--------------------------------------------
 //デストラクタ
@@ -107,7 +111,11 @@ HRESULT CGame::Init(void)
 		m_pStage = new CStage;
 		m_pStage->Load("data/TEXT/StageData002.txt");
 	}
-
+	//敵の出現設定の生成
+	if (!m_pEnemySpawnManager)
+	{
+		m_pEnemySpawnManager = CEnemySpawnManager::Create();
+	}
 	////目的表示
 	//CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 40.0f, 0.0f),
 	//	D3DXVECTOR3(210.0f, 20.0f, 0.0f), CTexture::TargetText);
@@ -170,6 +178,10 @@ void CGame::Update(void)
 	//ゲームが続いていたら
 	if (m_bEnd == false)
 	{
+		if (m_pEnemySpawnManager)
+		{
+			m_pEnemySpawnManager->Update();
+		}
 	}
 
 }

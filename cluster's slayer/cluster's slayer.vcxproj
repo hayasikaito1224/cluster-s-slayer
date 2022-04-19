@@ -157,6 +157,7 @@
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
+    <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
     <ClInclude Include="..\cluster%27s slayer\field.h" />
     <ClInclude Include="..\cluster%27s slayer\game.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy001.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
     <ClCompile Include="..\cluster%27s slayer\field.cpp" />
     <ClCompile Include="..\cluster%27s slayer\game.cpp" />

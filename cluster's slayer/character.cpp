@@ -115,10 +115,10 @@ void CCharacter::Draw()
 //-----------------------------------------------
 //当たり判定(相手の現在の位置、相手の一つ前の位置、相手の当たり判定の大きさ)
 //---------------------------------------------
-bool CCharacter::IsCollision(const D3DXVECTOR3 pos, float fRadius)
+bool CCharacter::IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, const float& fRadius, const float& MoveSpeed)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//自分と相手のベクトル
-	vec = pos - m_pos;
+	vec = *pMyPos - Hitpos;
 	float fLength = 0.0f;
 	//相手と自分の距離を求める
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
@@ -126,10 +126,11 @@ bool CCharacter::IsCollision(const D3DXVECTOR3 pos, float fRadius)
 	//相手と自分の距離が自分の当たり判定の大きさより小さくなったら
 	if (fLength <= fCollisionRadius)
 	{
+		float fAng = atan2(vec.x, vec.z);
 		//押し戻す
-		D3DXVECTOR3 returnpos = m_pos - m_lastpos;
-		m_pos.x += returnpos.x;
-		m_pos.z += returnpos.z;
+		D3DXVECTOR3 returnpos = {sinf(fAng)*MoveSpeed,0.0f,cosf(fAng)*MoveSpeed};
+		pMyPos->x += returnpos.x;
+		pMyPos->z += returnpos.z;
 		return true;
 	}
 	return false;

@@ -26,8 +26,8 @@ public:
 	void Draw(void);
 	void SetCamera(void);
 	D3DXVECTOR3 GetRot(void) { return m_rot; }
-	D3DXVECTOR3 GetPosV(void) { return m_posV; }
-	D3DXVECTOR3 GetPosR(void) { return m_posR; }
+	D3DXVECTOR3 GetPosV(void) { return m_posV; }//åªç›ÇÃéãì_
+	D3DXVECTOR3 GetPosR(void) { return m_posR; }//åªç›ÇÃíçéãì_
 	float GetLong(void) { return m_fLong; }
 	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
 	void SetPosV(D3DXVECTOR3 pos_v) { m_posV = pos_v; }//åªç›ÇÃéãì_

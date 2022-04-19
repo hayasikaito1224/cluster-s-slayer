@@ -17,7 +17,7 @@
 #include "wall.h"
 #include "map_polygon.h"
 #include "shadow.h"
-#include "character.h"
+#include "motion.h"
 
 #define MIN_MOVE (80.0)		//敵が動く最小の範囲
 #define MAX_MOVE (100.0)	//敵が動く最大の範囲
@@ -86,6 +86,7 @@ HRESULT CEnemy::Init()
 	{
 		m_pShadow = CShadow::Create({ 0.0f,0.0f,0.0f }, 50.0f, CTexture::Effect);
 	}
+
 	return S_OK;
 }
 //----------------------------------
@@ -102,8 +103,6 @@ void CEnemy::Uninit()
 //-----------------------------------------
 void CEnemy::Update()
 {
-	//前回の位置情報の保存
-	m_lastPos = m_pos;
 
 	//敵のAI移動
 	//死んでいなかったら行動する
@@ -144,15 +143,16 @@ void CEnemy::Update()
 			CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
 
 			////プレイヤーに対しての当たり判定
-			//if (pPlayer != NULL)
-			//{
-			//	pCollision->CollisionObjectPlayer(pPlayer, &m_pos, &m_lastPos, m_pParts[0]->GetMaxPos().x);
-			//	//攻撃判定が当たったかどうか調べる
-			//	if (m_bAttack == true && pPlayer->GetHit() == false && m_bHitCollision == true)
-			//	{
-			//		Colision();
-			//	}
-			//}
+			if (pPlayer)
+			{
+				float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
+				IsCollision(&m_pos, pPlayer->GetPos(), fRadius, 5.0f);
+				//攻撃判定が当たったかどうか調べる
+				//if (m_bAttack == true && pPlayer->GetHit() == false && m_bHitCollision == true)
+				//{
+				//	Colision();
+				//}
+			}
 
 
 
@@ -162,7 +162,7 @@ void CEnemy::Update()
 				Knockback(pPlayer->GetPos());
 			}
 
-			CScene *pEnemy = CScene::GetScene(OBJTYPE_ENEMY);
+			CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
 
 			CScene *pScene_Wall = CScene::GetScene(OBJTYPE_WALL);
 			//壁との当たり判定
@@ -177,16 +177,21 @@ void CEnemy::Update()
 			}
 
 			////敵同士の当たり判定
-			//while (pEnemy != NULL)
-			//{
-			//	if (pEnemy != NULL /*&& pEnemy == this*/)
-			//	{
-			//		pCollision->CollisionObjectEnemy((CEnemy*)pEnemy, &m_pos, &m_lastPos, m_pParts[0]->GetMaxPos().x);
-			//	}
-			//	pEnemy = pEnemy->GetSceneNext(pEnemy);
-			//}
-
-
+			while (pScene_Enemy != NULL)
+			{
+				if (pScene_Enemy != NULL && pScene_Enemy != this)
+				{
+					CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+					bool bIsDeath = pEnemy->GetDeath();
+					if (!bIsDeath)
+					{
+						D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+						float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+						IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f);
+					}
+				}
+				pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
+			}
 
 			//モーション再生
 			if (m_pMotion != NULL)
@@ -214,10 +219,10 @@ void CEnemy::Update()
 			CManager::GetGame()->GetParticle()->PlayRandomCircle({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, CParticle::HEELEFFECT, CTexture::GlitterEffect);
 		}
 		//敵の行動パターン実装予定
-		//if (m_IsDeath == true)
-		//{
-		//	Uninit();
-		//}
+		if (m_IsDeath == true)
+		{
+			Uninit();
+		}
 	}
 
 }
@@ -251,6 +256,9 @@ void CEnemy::Draw()
 			}
 		}
 	}
+	//前回の位置情報の保存
+	m_lastPos = m_pos;
+
 }
 void CEnemy::Colision()
 {
@@ -317,22 +325,17 @@ void CEnemy::AddLife(int nLife)
 
 	}
 }
+//----------------------------------------------------------
+//体力の増減
+//----------------------------------------------------------
 void CEnemy::AddLife(int nPower, int nType)
 {
-	if (m_bDamage == true)
+	if (m_bDamage)
 	{
 		float fDamege = 0;
-		switch (nType)
-		{
-		case FIRE:
-			fDamege = (nPower + m_nDefense)*1.5f;
+		//ダメージ式を求める
+		fDamege = nPower + m_nDefense;
 
-			break;
-		case BULLIZAD:
-			fDamege = nPower + m_nDefense;
-
-			break;
-		}
 		m_fHitPoint += fDamege;
 
 	}
@@ -342,7 +345,6 @@ void CEnemy::AddLife(int nPower, int nType)
 //-----------------------------------------
 //無敵時間の処理
 //-----------------------------------------
-
 bool CEnemy::bHitAttack()
 {
 	//ヒットされたら無敵時間用の判定をオンにする
@@ -413,17 +415,17 @@ void CEnemy::AIBehavior()
 	}
 
 	//敵の追従
-	if (m_bAttack == false)
+	if (!m_bAttack)
 	{
 		AIMove();
 	}
 	//プレイヤーが攻撃範囲に入ったら
 	AIAttack();
 
-	if (m_bAIMoveStop == false && m_bDraw == true)
+	if (!m_bAIMoveStop&& m_bDraw)
 	{
 		//敵が自動で動ける状態だったら
-		if (m_bAIMove == true)
+		if (m_bAIMove)
 		{
 			m_MotionType = MOVE;
 
@@ -441,7 +443,7 @@ void CEnemy::AIBehavior()
 		{
 			s_CntTimer += 1.0f;
 			//カウンターが指定の範囲までカウントされたら敵が動く
-			if (s_CntTimer >= s_MaxTimer&&s_bCntStop == true)
+			if (s_CntTimer >= s_MaxTimer&&s_bCntStop)
 			{
 				s_CntTimer = 0.0f;
 				//敵が自動で動くための判定をオンにする

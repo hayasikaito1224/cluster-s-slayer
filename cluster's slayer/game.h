@@ -18,7 +18,7 @@ class CParticle;
 class CPolygon;
 class CStage;
 class CCamera;
-
+class CEnemySpawnManager;
 
 class CGame
 {
@@ -47,6 +47,7 @@ public:
 
 private:
 	static std::vector<CPolygon*> m_pCStock;
+	static CEnemySpawnManager		*m_pEnemySpawnManager;
 	static CScore		*m_pScore;
 	static CBg			*m_pBg;
 	static CPlayer		*m_Player;
