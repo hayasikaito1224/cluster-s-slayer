@@ -26,10 +26,9 @@
 #include "gauge.h"
 #include "directinput.h"
 #include "enemy_spawn_manager.h"
-
+#include "gauge.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
-#define PLAYER_MP (100)		//マナの多さ
 #define MAX_DELAY (30)//ディレイの最大
 //静的メンバ変数宣言
 CBg		*CGame::m_pBg = nullptr;
@@ -44,19 +43,18 @@ CMeshSphere *CGame::m_pMeshSphere = nullptr;
 CStage  *CGame::m_pStage = nullptr;
 CParticle   *CGame::m_Particle = nullptr;
 CEnemySpawnManager   *CGame::m_pEnemySpawnManager = nullptr;
+CGauge   *CGame::m_pExpGauge = nullptr;
 
-std::vector<CPolygon*>   CGame::m_pCStock = {};
 static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-
+static const int PlayerExpMax = 100;
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
 CGame::CGame()
 {
-	m_pCStock.clear();
 	m_Player = nullptr;
 	m_pFlore = nullptr;
 	m_pBg = nullptr;
@@ -72,6 +70,7 @@ CGame::CGame()
 	m_bPush = false;
 	m_bEnd = false;
 	m_pEnemySpawnManager = nullptr;
+	m_pExpGauge = nullptr;
 }
 //--------------------------------------------
 //デストラクタ
@@ -92,7 +91,13 @@ HRESULT CGame::Init(void)
 	{
 		m_Player = CPlayer::Create();
 	}
+	//経験値のゲージを生成
 
+	if (!m_pExpGauge)
+	{
+		m_pExpGauge = CGauge::Create({ 0.0f,680.0f,0.0f }, { SCREEN_WIDTH,10.0f,0.0f }, { 0.5,0.5,1.0,1.0 }, SCREEN_WIDTH, PlayerExpMax, CGauge::R_ADD);
+		m_pExpGauge->ResetGauge();
+	}
 	//パーティクルシステムの生成
 	if (m_Particle == nullptr)
 	{
@@ -134,38 +139,43 @@ HRESULT CGame::Init(void)
 void CGame::Uninit(void)
 {
 
-	if (m_Player != nullptr)
+	if (m_Player)
 	{
 		m_Player->Uninit();
 		m_Player = nullptr;
 	}
-	if (m_pModel != nullptr)
+	if (m_pModel)
 	{
 		m_pModel->Uninit();
 		delete m_pModel;
 		m_pModel = nullptr;
 	}
-	if (m_pScore != nullptr)
+	if (m_pScore)
 	{
 		m_pScore->Uninit();
 		delete m_pScore;
 		m_pScore = nullptr;
 	}
-	if (m_pMeshSphere != nullptr)
+	if (m_pMeshSphere)
 	{
 		m_pMeshSphere->Uninit();
 		delete m_pMeshSphere;
 		m_pMeshSphere = nullptr;
 	}
-	if (m_Cursol != nullptr)
+	if (m_Cursol)
 	{
 		m_Cursol->Uninit();
 		m_Cursol = nullptr;
 	}
-	if (m_Polygon != nullptr)
+	if (m_Polygon)
 	{
 		m_Polygon->Uninit();
 		m_Polygon = nullptr;
+	}
+	if (m_pExpGauge)
+	{
+		m_pExpGauge->Uninit();
+		m_pExpGauge = nullptr;
 	}
 }
 //--------------------------------------------
@@ -181,6 +191,15 @@ void CGame::Update(void)
 		if (m_pEnemySpawnManager)
 		{
 			m_pEnemySpawnManager->Update();
+		}
+		if (m_pExpGauge)
+		{
+			int nExp = m_pExpGauge->GetGaugeValue();
+			//経験値ゲージが最大になったら０に戻す
+			if (nExp >= PlayerExpMax)
+			{
+				m_pExpGauge->ResetGauge();
+			}
 		}
 	}
 

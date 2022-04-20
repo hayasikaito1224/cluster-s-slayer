@@ -18,12 +18,14 @@
 #include "map_polygon.h"
 #include "shadow.h"
 #include "motion.h"
-
+#include "exp_ball.h"
 static const float AttackStartNear = 150.0f;//攻撃を始めるまでのプレイヤーとの近さ
 static const float AttackStartTime = 20.0f;//攻撃開始までの時間
 static const int Power = 20;//攻撃力
 static const int Life = 20;//体力
 static const float MoveSpeed = 1.0f;//移動速度
+static const int MinEXPNum = 3;//経験値を落とす数
+static const int MaxEXPNum = 9;//経験値を落とす数
 
 CEnemy001::CEnemy001(OBJTYPE nPriority) : CEnemy(nPriority)
 {
@@ -60,7 +62,8 @@ HRESULT CEnemy001::Init()
 	pLayer = new CLayer_Structure;
 	pLayer->SetLayer_Structure("data/TEXT/EnemyParts000.txt", m_pParts, CModel::TYPE_ENEMY);
 	CModel *pmodel = new CModel;
-	if (m_pParts[0])
+	int nSize = m_pParts.size();
+	if (!nSize)
 	{
 		m_fRadius = m_pParts[0]->GetMaxPos().x;
 	}
@@ -79,6 +82,17 @@ HRESULT CEnemy001::Init()
 //----------------------------------
 void CEnemy001::Uninit()
 {
+
+	static std::random_device random;	// 非決定的な乱数生成器
+	std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
+	std::uniform_real_distribution<> randEXPNum(MinEXPNum, MaxEXPNum);//経験値の数を乱数で決める
+	int nExpNum = randEXPNum(mt);
+	//経験値を落とす
+	for (int nCnt = 0; nCnt < nExpNum; nCnt++)
+	{
+		CExp_Ball::Create(m_pos);
+	}
+
 	CEnemy::Uninit();
 	Release();
 }

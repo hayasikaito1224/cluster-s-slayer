@@ -25,6 +25,12 @@
     <Filter Include="ソース ファイル\敵の出現設定">
       <UniqueIdentifier>{ce416282-f320-477b-b0a6-ea75a5606996}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\アイテム">
+      <UniqueIdentifier>{409b5cf5-6d1c-4d3f-814c-cf192471d8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲージ">
+      <UniqueIdentifier>{d6dedc36-cbe9-42a0-9842-8252a3c2a946}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\stage.h">
@@ -120,9 +126,6 @@
     <ClInclude Include="..\cluster%27s slayer\game.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\gauge.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\fade.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -164,6 +167,15 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h">
       <Filter>ソース ファイル\敵の出現設定</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\exp_ball.h">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\item.h">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\gauge.h">
+      <Filter>ソース ファイル\ゲージ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +269,6 @@
     <ClCompile Include="..\cluster%27s slayer\light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\gauge.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -304,6 +313,15 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp">
       <Filter>ソース ファイル\敵の出現設定</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\item.cpp">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\gauge.cpp">
+      <Filter>ソース ファイル\ゲージ</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

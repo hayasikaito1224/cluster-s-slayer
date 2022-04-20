@@ -120,7 +120,6 @@ void CPlayer::Update()
 			float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
 			if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
 			{
-				m_fMoveSpeed = 5.5f;
 				break;
 			}
 			else

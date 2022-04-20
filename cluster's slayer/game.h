@@ -19,6 +19,7 @@ class CPolygon;
 class CStage;
 class CCamera;
 class CEnemySpawnManager;
+class CGauge;
 
 class CGame
 {
@@ -44,9 +45,9 @@ public:
 	static CMeshSphere		*GetMeshSphere(void) { return m_pMeshSphere; }
 	static CPolygon			*GetCursol(void) { return m_Cursol; }
 	static CParticle		*GetParticle(void) { return m_Particle; }
+	static CGauge		*GetExpGauge(void) { return m_pExpGauge; }
 
 private:
-	static std::vector<CPolygon*> m_pCStock;
 	static CEnemySpawnManager		*m_pEnemySpawnManager;
 	static CScore		*m_pScore;
 	static CBg			*m_pBg;
@@ -58,6 +59,8 @@ private:
 	static CPolygon		*m_Cursol;
 	static CMeshSphere	*m_pMeshSphere;
 	static CStage		*m_pStage;
+	static CGauge	*m_pExpGauge;
+
 	static CParticle	*m_Particle;
 	bool m_bPush;
 	bool m_bEnd;

@@ -187,7 +187,11 @@ void CEnemy::Update()
 					{
 						D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
 						float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-						IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f);
+						if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f))
+						{
+							break;
+						}
+
 					}
 				}
 				pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
@@ -226,7 +230,9 @@ void CEnemy::Update()
 	}
 
 }
-
+//-----------------------------------------
+//•`‰æ
+//-----------------------------------------
 void CEnemy::Draw()
 {
 
@@ -266,6 +272,9 @@ void CEnemy::Colision()
 void CEnemy::AIAttack()
 {
 }
+//-----------------------------------------
+//ˆÚ“®ˆ—
+//-----------------------------------------
 void CEnemy::AIMove()
 {
 	if (m_fPlayerVecLength < MAX_COLRADIUS)

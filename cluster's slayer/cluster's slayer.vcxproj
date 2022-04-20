@@ -158,11 +158,13 @@
     <ClInclude Include="..\cluster%27s slayer\enemy.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h" />
+    <ClInclude Include="..\cluster%27s slayer\exp_ball.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
     <ClInclude Include="..\cluster%27s slayer\field.h" />
     <ClInclude Include="..\cluster%27s slayer\game.h" />
     <ClInclude Include="..\cluster%27s slayer\gauge.h" />
     <ClInclude Include="..\cluster%27s slayer\input.h" />
+    <ClInclude Include="..\cluster%27s slayer\item.h" />
     <ClInclude Include="..\cluster%27s slayer\keyboard.h" />
     <ClInclude Include="..\cluster%27s slayer\layer_structure.h" />
     <ClInclude Include="..\cluster%27s slayer\light.h" />
@@ -206,11 +208,13 @@
     <ClCompile Include="..\cluster%27s slayer\enemy.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy001.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
     <ClCompile Include="..\cluster%27s slayer\field.cpp" />
     <ClCompile Include="..\cluster%27s slayer\game.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gauge.cpp" />
     <ClCompile Include="..\cluster%27s slayer\input.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\item.cpp" />
     <ClCompile Include="..\cluster%27s slayer\keyboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\layer_structure.cpp" />
     <ClCompile Include="..\cluster%27s slayer\light.cpp" />
