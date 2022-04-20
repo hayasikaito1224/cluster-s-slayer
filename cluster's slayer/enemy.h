@@ -1,6 +1,6 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
-#include "enemy.h"
+#include "character.h"
 
 
 class CSound;
@@ -11,7 +11,7 @@ class CSound;
 #define MAX_ATTACKSTART_RADIUS (150.0f)//攻撃開始範囲
 #define ENEMY_ADD_SPEED (0.2)//ゲージを増やす量
 #define INVINCIBLE_TIME (30)//無敵時間
-class CEnemy001 : public CEnemy
+class CEnemy : public CCharacter
 {
 public:
 
@@ -27,24 +27,23 @@ public:
 
 	typedef enum
 	{
-		NONE =0,
-		FIRE,
-		BULLIZAD,
-	}MAGIC;
+		NORMAL = 0,
+		TYPE_MAX
+	}ENEMY_TYPE;
 
-	CEnemy001(OBJTYPE nPriority = CScene::OBJTYPE_ENEMY);
-	~CEnemy001();
-	HRESULT Init();
-	void Uninit();
-	void Update();
-	void Draw();
-	void Colision();
-	void AIAttack();
-	void AIMove();
-	void AddLife(int nPower, int nType);
-	void AddLife(int nLife);//体力の増減
+	CEnemy(OBJTYPE nPriority = CScene::OBJTYPE_ENEMY);
+	virtual ~CEnemy();
+	virtual HRESULT Init();
+	virtual void Uninit();
+	virtual void Update();
+	virtual void Draw();
+	virtual void Colision();
+	virtual void AIAttack();
+	virtual void AIMove();
+	virtual void AddLife(int nPower, int nType);
+	virtual void AddLife(int nLife);//体力の増減
 	//静的メンバー関数
-	static CEnemy001 *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void AIBehavior();//敵AIの挙動の処理
 	void SetbDamage(bool bDamage) { m_bDamage = bDamage; }//ダメージを受けた状態にする
 	bool GetbDamage(void) { return m_bDamage; }//ダメージを受けている状態か取得
@@ -56,7 +55,8 @@ public:
 	bool GetbInvincible() { return m_bInvincible; }
 	void Knockback(D3DXVECTOR3& Playerpos);
 	void SetbHitCollision(bool bHitCollision) { m_bHitCollision = bHitCollision; }
-
+	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 private:
 protected:
 	std::random_device s_random;	// 非決定的な乱数生成器
@@ -90,6 +90,7 @@ protected:
 	bool m_bMove;//移動判定
 	D3DXVECTOR3 m_pos, m_rot, m_lastPos, m_Lotrot;
 	float m_fPlayerVecLength;
+	float m_fMoveSpeed;//移動量
 	int	 m_MotionType,	m_MotionLastType;
 	int					m_nPower;//攻撃力
 	int	m_nType;//敵の種類

@@ -22,6 +22,9 @@
     <Filter Include="ソース ファイル\キャラクター\敵">
       <UniqueIdentifier>{da7f4a59-c939-4a1e-ab41-058039eadbd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\敵の出現設定">
+      <UniqueIdentifier>{ce416282-f320-477b-b0a6-ea75a5606996}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\stage.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="..\cluster%27s slayer\enemy001.h">
       <Filter>ソース ファイル\キャラクター\敵</Filter>
     </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h">
+      <Filter>ソース ファイル\敵の出現設定</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\texture.cpp">
@@ -295,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\enemy001.cpp">
       <Filter>ソース ファイル\キャラクター\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp">
+      <Filter>ソース ファイル\敵の出現設定</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

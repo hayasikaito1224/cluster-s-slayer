@@ -54,8 +54,8 @@ void CWeapon::Update()
 	if (m_bCanHitCollision)
 	{
 		//“–‚½‚è”»’è‚ÌˆÊ’u‚ÌŠm”F
-		CParticle *pParticle = new CParticle;
-		pParticle->PlayRandomCircle({ m_HitCollision.m_mtxWorld._41, m_HitCollision.m_mtxWorld._42, m_HitCollision.m_mtxWorld._43 }, CParticle::CIRCLEPARTICLE);
+		//CParticle *pParticle = new CParticle;
+		//pParticle->PlayRandomCircle({ m_HitCollision.m_mtxWorld._41, m_HitCollision.m_mtxWorld._42, m_HitCollision.m_mtxWorld._43 }, CParticle::CIRCLEPARTICLE);
 
 	}
 }

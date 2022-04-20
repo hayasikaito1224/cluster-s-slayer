@@ -14,6 +14,7 @@
 #include "layer_structure.h"
 #include "motion.h"
 #include "sword.h"
+#include "model.h"
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -26,7 +27,8 @@ static const float RevertTime = 100.0f;
 static const float AttackMoveTime = 20.0f;
 static const float AttackWaitTime = 35.0f;
 static const float ComboWaitTime = 10.0f;
-static bool s_bCursor = false;
+static bool s_bCursor = true;
+
 CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 {
 	m_nMovePush = false;
@@ -37,6 +39,7 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_motionLastType = N_NEUTRAL;
 	m_bCanAttack = true;
 	m_pSword = nullptr;
+	m_fMoveSpeed = PlayerMoveSpeed;
 }
 
 CPlayer::~CPlayer()
@@ -60,6 +63,7 @@ HRESULT CPlayer::Init()
 	//階層構造の設定
 	m_pLayer = new CLayer_Structure;
 	m_pLayer->SetLayer_Structure("data/TEXT/PlayerParts000.txt", m_pParts, CModel::TYPE_PLAYER);
+	m_fRadius = m_pParts[0]->GetMaxPos().x *3.0f;
 	//モーションの設定
 	CMotion *Securement = {};
 	m_pMotion = new CMotion;
@@ -103,6 +107,29 @@ void CPlayer::Update()
 
 	//敵が近くにいるかを算出
 	m_bNearEnemy = IsNearEnemyState();
+
+	//敵との当たり判定
+	CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
+	while (pScene_Enemy != NULL)
+	{
+		if (pScene_Enemy != NULL)
+		{
+			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+			D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+
+			float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+			if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
+			{
+				m_fMoveSpeed = 5.5f;
+				break;
+			}
+			else
+			{
+				m_fMoveSpeed = PlayerMoveSpeed;
+			}
+		}
+		pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
+	}
 
 	//キーボードの移動
 	if (!m_bMoveStop)
@@ -293,8 +320,8 @@ void CPlayer::KeyboardMove()
 	//移動できる状態になったら
 	if (m_nMovePush)
 	{
-		m_pos.x -= (sinf(m_rot.y))*PlayerMoveSpeed;
-		m_pos.z -= (cosf(m_rot.y))*PlayerMoveSpeed;
+		m_pos.x -= (sinf(m_rot.y))*m_fMoveSpeed;
+		m_pos.z -= (cosf(m_rot.y))*m_fMoveSpeed;
 		m_fSoundInterval += 0.1f;
 		if (m_fSoundInterval >= 1.3f)
 		{
@@ -664,8 +691,17 @@ void CPlayer::Drawtext()
 
 	nNum = sprintf(&str[0], "\n\n 情報 \n");
 
+	//カメラの取得
+	CCamera *pCamera = CRenderer::GetCamera();
+	D3DXVECTOR3 PosV = pCamera->GetPosV();
+	D3DXVECTOR3 PosR = pCamera->GetPosR();
+	D3DXVECTOR3 Rot = pCamera->GetRot();
 
 	nNum += sprintf(&str[nNum], " [MotionCnt] %.5f\n", m_pMotion->GetMotionCnt());
+	nNum += sprintf(&str[nNum], " [視点] %.5f,%.5f,%.5f\n", PosV.x, PosV.y, PosV.z);
+	nNum += sprintf(&str[nNum], " [注視点] %.5f,%.5f,%.5f\n", PosR.x, PosR.y, PosR.z);
+	nNum += sprintf(&str[nNum], " [回転] %.5f,%.5f,%.5f\n", Rot.x, Rot.y, Rot.z);
+
 	nNum += sprintf(&str[nNum], " [MotionKey] %d\n", m_pMotion->GetMotionKey());
 	nNum += sprintf(&str[nNum], " [Canhit] %d\n", m_pSword->GetCanHit());
 	nNum += sprintf(&str[nNum], " [m_bCanAttack] %d\n", m_bCanAttack);

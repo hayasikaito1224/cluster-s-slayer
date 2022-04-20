@@ -57,6 +57,8 @@ public:
 	void Dodge();//回避
 	void NearEnemyFace();//近い敵の方向にプレイヤーを向かせる
 	bool IsNearEnemyState();//今何の敵が近くにいるかを算出
+	D3DXVECTOR3 GetPos(void) { return m_pos; }
+
 private:
 	void WeaponSet(const char *pcFileName);//武器のセット
 	void FollowingPlayerCamera();//カメラがプレイヤーに追従する処理
@@ -80,6 +82,7 @@ private:
 	float m_fAttackMoveTime;//攻撃移動する時間
 	float m_fSoundInterval;
 	float m_fStopTime;//止まっている時間
+	float m_fMoveSpeed;//移動量
 	int m_nComboType;//今どのコンボかを数える
 	int m_motionType;//モーションの種類
 	int m_motionLastType;//前のモーションの種類
