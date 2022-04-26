@@ -55,7 +55,6 @@ protected:
 	LPDIRECT3DTEXTURE9		m_pTexture = NULL;				//テクスチャへのポインタ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = NULL;				//頂点バッファへのポインタ
 	LPDIRECT3DDEVICE9 m_pDevice = NULL;//デバイスのポインタ
-
 	D3DXMATRIX m_mtxWorld;
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_rot;

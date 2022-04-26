@@ -4,7 +4,10 @@
 #ifndef _LAYER_STRUCTURE_H
 #define _LAYER_STRUCTURE_H
 #include "main.h"
+#include "character_partsdata.h"
+
 class CModel;
+class CCharacterPartsData;
 
 class CLayer_Structure
 {
@@ -15,6 +18,7 @@ public:
 	~CLayer_Structure();
 	//void SetLayer_Structure(const char *sFileName, CModel **apModel, int nType = 0);
 	void SetLayer_Structure(const char *sFileName, vector<CModel*>& pModel,int nType = 0);
+	void SetLayer_Structure(const char *sFileName, CCharacterPartsData::PartsData *PartsData, int nType = 0);
 
 	int	 GetMaxParts(void) { return m_MaxParts; }
 

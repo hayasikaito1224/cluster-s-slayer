@@ -41,6 +41,8 @@ CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;
 CXload			*CManager::m_pXload = NULL;
 CDirectInput	*CManager::m_pDirectInput = NULL;
+HWND	CManager::m_hWnd = 0;
+
 bool			CManager::m_bPause = false;
 bool			CManager::m_bStop = false;
 bool			CManager::m_bEnd = false;
@@ -64,6 +66,8 @@ CManager::~CManager()
 //--------------------------------------------
 HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 {
+	//ウィンドウハンドルの保存
+	m_hWnd = hWnd;
 	// レンダラーの生成
 	if (m_pRenderer == NULL)
 	{
@@ -195,7 +199,6 @@ void CManager::Uninit(void)
 	if (m_pTexture != NULL)
 	{
 		m_pTexture->Uniinit();
-		delete m_pTexture;
 		m_pTexture = NULL;
 	}
 	if (m_pXload != NULL)

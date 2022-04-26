@@ -7,10 +7,10 @@
 #include "model.h"
 #include "enemy.h"
 #include "effect.h"
+#include "game.h"
+#include "player.h"
 static const D3DXVECTOR3 HitCollisionPos = { 0.0f,50.0f,0.0f };//UŒ‚“–‚½‚è”»’è‚ÌˆÊ’uÝ’è
 static const float HitSize = 50.0f;//UŒ‚‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³
-
-static const int Pow = 5;//UŒ‚—Ê
 //---------------------------------------------
 //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //---------------------------------------------
@@ -63,28 +63,35 @@ void CSword::Update()
 	//UŒ‚“–‚½‚è”»’è‚ªƒIƒ“‚È‚ç
 	if (m_bCanHitCollision)
 	{
+		CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
 		//“G‚Ìî•ñ‚ðŽ‚Á‚Ä‚«‚Ä“–‚½‚è”»’è‚Ìˆ—‚ð‚·‚é
 		//“G‚Æ‚Ì“–‚½‚è”»’è
 		CScene *pScene_Enemy = CScene::GetScene(CScene::OBJTYPE_ENEMY);
 		while (pScene_Enemy != NULL)
 		{
-			if (pScene_Enemy != NULL)
+			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+			//Ž€–S”»’è‚ðŽæ“¾
+			bool bIsDeath = pEnemy->GetDeath();
+			//“G‚ª¶‚«‚Ä‚¢‚½‚ç
+			if (!bIsDeath)
 			{
-				CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
-				//Ž€–S”»’è‚ðŽæ“¾
-				bool bIsDeath = pEnemy->GetDeath();
-				//“G‚ª¶‚«‚Ä‚¢‚½‚ç
-				if (!bIsDeath)
+				D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+				int nSize = pEnemy->GetParts().size();
+				if (nSize != 0)
 				{
-					D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
 					float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
 					bool bHitAttack = pEnemy->bHitAttack();
 					//“G‚ÉUŒ‚‚ð“–‚Ä‚½‚ç
 					if (IsCollision(EnemyPos, fRadius) && !bHitAttack)
 					{
+						bool bRushAttack = pPlayer->GetCanRushAttack();
+						if (bRushAttack)
+						{
+							pEnemy->SetRushAttack(true);
+						}
 						//“G‚É“–‚½‚Á‚½”»’è‚ð“n‚·
 						pEnemy->SetbDamage(true);
-						pEnemy->AddLife(-Pow);
+						pEnemy->AddLife(-m_fPower);
 						//ƒqƒbƒgƒGƒtƒFƒNƒg
 						std::random_device random;	// ”ñŒˆ’è“I‚È—”¶¬Ší
 						std::mt19937_64 mt(random());            // ƒƒ‹ƒZƒ“ƒkEƒcƒCƒXƒ^‚Ì64ƒrƒbƒg”ÅAˆø”‚Í‰ŠúƒV[ƒh
@@ -119,7 +126,9 @@ void CSword::Update()
 					}
 
 				}
+
 			}
+
 			pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 		}
 	}

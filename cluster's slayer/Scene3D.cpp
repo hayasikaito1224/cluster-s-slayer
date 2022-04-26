@@ -124,10 +124,8 @@ void CScene3D::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
 	D3DXMATRIX mtxRot, mtxTrans;//計算用マトリックス
 
-								//ワールドマトリックスの初期化
+	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
-	//m_mtxWorld._11 = m_size.x;
-	//m_mtxWorld._33 = m_size.z;
 	//αテスト
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);

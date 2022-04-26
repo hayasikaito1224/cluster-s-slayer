@@ -46,7 +46,7 @@ public:
 	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void AIBehavior();//敵AIの挙動の処理
 	void SetbDamage(bool bDamage) { m_bDamage = bDamage; }//ダメージを受けた状態にする
-	bool GetbDamage(void) { return m_bDamage; }//ダメージを受けている状態か取得
+	bool GetbDamage() { return m_bDamage; }//ダメージを受けている状態か取得
 	bool GetAIMove() { return m_bAIMove; }
 	bool GetAIMoveStop() { return m_bAIMoveStop; }
 	void SetHit(const bool& bHit) { m_bHit = bHit; }
@@ -55,8 +55,11 @@ public:
 	bool GetbInvincible() { return m_bInvincible; }
 	void Knockback(D3DXVECTOR3& Playerpos);
 	void SetbHitCollision(bool bHitCollision) { m_bHitCollision = bHitCollision; }
-	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	D3DXVECTOR3 GetPos() { return m_pos; }
+	D3DXVECTOR3 GetRot() { return m_rot; }
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	bool GetRushAttack() { return m_bHitRushAttack; }
+	void SetRushAttack(bool bRushAttack) { m_bHitRushAttack = bRushAttack; }
 private:
 protected:
 	std::random_device s_random;	// 非決定的な乱数生成器
@@ -73,6 +76,7 @@ protected:
 	bool	m_bInvincible;//無敵時間の判定
 	bool    m_bEffect;
 	bool m_bHitCollision;//プレイヤーからの攻撃が当たるようにする判定
+	bool m_bHitRushAttack;//プレイヤーの攻撃を受けているか
 	D3DXVECTOR3 m_MoveSpeed; //位置
 	float m_fAng;
 	float s_CntTimer;//カウンター

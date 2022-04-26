@@ -34,8 +34,8 @@ public:
 	bool GetDeath(void) { return m_IsDeath; }
 
 
-	CModel *GetParts(int nPartsNum) { return m_pParts[nPartsNum]; }//キャラクターのパーツ取得処理
-
+	CModel *GetParts(int nPartsNum);//キャラクターのパーツ取得処理
+	std::vector <CModel*> GetParts() { return m_pParts; }
 protected:
 
 	D3DXVECTOR3 m_pos;//位置

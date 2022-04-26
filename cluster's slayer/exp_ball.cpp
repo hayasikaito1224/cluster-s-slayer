@@ -6,6 +6,7 @@
 #include "gauge.h"
 #include "manager.h"
 #include "game.h"
+#include "gaugeber.h"
 static const float BallSize = 7.0f;//経験値玉の大きさ
 //--------------------------------------------
 //コンストラクタ
@@ -54,7 +55,7 @@ void CExp_Ball::Update(void)
 		CGauge *pGauge = CManager::GetGame()->GetExpGauge();
 		if (pGauge)
 		{
-			pGauge->SetGauge(-1);
+			//pGauge->SetGauge(-1, 0);
 		}
 	}
 }

@@ -16,6 +16,7 @@ CWeapon::CWeapon()
 	m_bIsHit = false;
 	m_bCanHitCollision = false;
 	m_pWeapon = nullptr;
+	m_fPower = 0.0f;
 }
 
 //-----------------------------------------------

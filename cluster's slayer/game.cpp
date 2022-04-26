@@ -27,6 +27,10 @@
 #include "directinput.h"
 #include "enemy_spawn_manager.h"
 #include "gauge.h"
+#include "skillselect.h"
+#include "character.h"
+#include "gaugeber.h"
+#include "character_partsdata.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -44,12 +48,13 @@ CStage  *CGame::m_pStage = nullptr;
 CParticle   *CGame::m_Particle = nullptr;
 CEnemySpawnManager   *CGame::m_pEnemySpawnManager = nullptr;
 CGauge   *CGame::m_pExpGauge = nullptr;
+CGauge   *CGame::m_pHPGauge = nullptr;
 
 static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-static const int PlayerExpMax = 100;
+
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
@@ -71,6 +76,7 @@ CGame::CGame()
 	m_bEnd = false;
 	m_pEnemySpawnManager = nullptr;
 	m_pExpGauge = nullptr;
+	m_pHPGauge = nullptr;
 }
 //--------------------------------------------
 //デストラクタ
@@ -85,18 +91,25 @@ HRESULT CGame::Init(void)
 {
 	//マウスの表示をなくす
 	//ShowCursor(false);
-
+	//キャラクターのパーツを読み込み
+	CCharacterPartsData::Create();
 	//プレイヤーの生成
 	if (!m_Player)
 	{
 		m_Player = CPlayer::Create();
 	}
 	//経験値のゲージを生成
-
 	if (!m_pExpGauge)
 	{
-		m_pExpGauge = CGauge::Create({ 0.0f,680.0f,0.0f }, { SCREEN_WIDTH,10.0f,0.0f }, { 0.5,0.5,1.0,1.0 }, SCREEN_WIDTH, PlayerExpMax, CGauge::R_ADD);
-		m_pExpGauge->ResetGauge();
+		m_pExpGauge = CGauge::Create({ 0.0f,680.0f,0.0f }, { SCREEN_WIDTH,10.0f,0.0f }, { 0.5,0.5,1.0,1.0 }, SCREEN_WIDTH, 1000, CGauge::R_ADD);
+		m_pExpGauge->ResetGauge(0);
+	}
+	//体力ゲージの生成
+	if (!m_pHPGauge)
+	{
+		float fHP = m_Player->GetLife();
+		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 200.0f,10.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 200, fHP, CGauge::R_ADD);
+		m_pHPGauge->ResetGauge(0);
 	}
 	//パーティクルシステムの生成
 	if (m_Particle == nullptr)
@@ -188,17 +201,21 @@ void CGame::Update(void)
 	//ゲームが続いていたら
 	if (m_bEnd == false)
 	{
-		if (m_pEnemySpawnManager)
+		if (m_pEnemySpawnManager&&!CManager::GetPause())
 		{
 			m_pEnemySpawnManager->Update();
 		}
 		if (m_pExpGauge)
 		{
-			int nExp = m_pExpGauge->GetGaugeValue();
+			float fExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValue();
+			float fMaxExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValueMax();
 			//経験値ゲージが最大になったら０に戻す
-			if (nExp >= PlayerExpMax)
+			if (fExp >= fMaxExp)
 			{
-				m_pExpGauge->ResetGauge();
+				//ゲームを止める
+				CManager::SetPause(true, false);
+				m_pExpGauge->ResetGauge(0);
+				CSkillSelect::Create();
 			}
 		}
 	}
@@ -208,7 +225,7 @@ void CGame::Update(void)
 //--------------------------------------------
 //描画
 //--------------------------------------------
-void CGame::Draw(LPD3DXMATRIX mtrix)
+void CGame::Draw()
 {
 }
 

@@ -4,7 +4,7 @@
 //--------------------------------------------
 #include "enemy_spawn_manager.h"
 #include "enemy001.h"
-static const int SpawnTime = 600;
+static const int SpawnTime = 400;
 static const float SpawnLength = 200.0f;
 static const int SpawnMax = 30;
 
@@ -45,10 +45,10 @@ void CEnemySpawnManager::Update(void)
 	m_nSpawnCnt++;
 	if (m_nSpawnCnt >= m_nSpawnTime)
 	{
+
 		//最大値行くまで敵を生成
 		for (int nCnt = 0; nCnt < SpawnMax; nCnt++)
 		{
-			m_nSpawnCnt = 0;
 			static std::random_device random;	// 非決定的な乱数生成器
 			std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
 			std::uniform_real_distribution<> randAng(0.0f, D3DX_PI);
@@ -59,6 +59,7 @@ void CEnemySpawnManager::Update(void)
 			{ sinf(fAng)*SpawnLength ,0.0f,cosf(fAng)*SpawnLength };
 			CEnemy001::Create(SpawnPos, { 0.0f,0.0f,0.0f });
 		}
+		m_nSpawnCnt = 0;
 	}
 }
 

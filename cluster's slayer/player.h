@@ -10,7 +10,7 @@ class CSword;
 class CPlayer : public CCharacter
 {
 public:
-	typedef enum
+	enum N_MOTION
 	{
 		N_NEUTRAL = 0,
 		N_MOVE,
@@ -22,23 +22,35 @@ public:
 		N_DETH,
 		N_DODGE,
 		N_MAX
-	}N_MOTION;//通常状態のモーション
+	};//通常状態のモーション
 
-	typedef enum
+	enum COMBO
 	{
 		COMBOWAIT = 0,
 		COMBO_1,
 		COMBO_2,
 		COMBO_3,
 		COMBO_MAX
-	}COMBO;
-	typedef enum
+	};
+	enum MOVEARROW
 	{
 		MOVEUP = 1,
 		MOVEDOWN,
 		MOVERIGHT,
 		MOVELEFT
-	}MOVEARROW;
+	};
+	enum SkillType
+	{
+		ATKup,
+		Eye,
+		Heal,
+		OverHeal,
+		Sheild,
+		Beam,
+		BlackHole,
+		Rocket,
+		RushAttack
+	};
 
 	CPlayer(OBJTYPE nPriority = CScene::OBJTYPE_NONE);
 	~CPlayer();
@@ -56,9 +68,13 @@ public:
 	void RockOn();//ロックオン
 	void Dodge();//回避
 	void NearEnemyFace();//近い敵の方向にプレイヤーを向かせる
+	void LevelUp(int nType);//レベルアップの処理
+	int GetLevel() { return m_nLevel; }
+	float GetMaxExp() { return m_fMaxExp; }
+
 	bool IsNearEnemyState();//今何の敵が近くにいるかを算出
 	D3DXVECTOR3 GetPos(void) { return m_pos; }
-
+	bool GetCanRushAttack() { return m_bCanRushAttack; }
 private:
 	void WeaponSet(const char *pcFileName);//武器のセット
 	void FollowingPlayerCamera();//カメラがプレイヤーに追従する処理
@@ -66,6 +82,8 @@ private:
 	void Drawtext();
 	bool IsMoveKeyCheck();//移動用のキーを押しているかの判定を返す処理
 	bool FixedTimeInterval(float fMaxTime);//一定時間間隔をあける処理
+	void PlayerRushAttack();//追撃
+	void EachSkillManager();//各スキルの処理のまとめ
 	CSword *m_pSword;//剣
 	POINT m_Cursol;
 	void AttackMove(float fMoveVolume);
@@ -78,14 +96,25 @@ private:
 	bool m_bMoveStop;//移動を制限する
 	bool m_bAttackWait;//最大コンボから最初のコンボに戻るときの待機のフラグ
 	bool m_bAttackReception;//攻撃操作受付
+	bool m_bCanAutoHeel;//オートヒール可能か
+	bool m_bCanRushAttack;//追撃可能か
 	float m_fAttackWaitTime;//攻撃操作待機時間
 	float m_fAttackMoveTime;//攻撃移動する時間
 	float m_fSoundInterval;
 	float m_fStopTime;//止まっている時間
 	float m_fMoveSpeed;//移動量
+	float m_fPower;//攻撃力
+	float m_fPowerDiameter;//攻撃力増加倍率
+	float m_fAutoHeel;//オートヒール量
+	float m_fMaxExpDiameter;//最大経験値の倍率
+	float m_fMaxExp;//最大経験値
+	int m_nRushStartCnt;//追撃開始までのカウント
 	int m_nComboType;//今どのコンボかを数える
 	int m_motionType;//モーションの種類
 	int m_motionLastType;//前のモーションの種類
+	int m_nLevel;//レベル
+	int m_nTimer;
+
 };
 
 #endif // !_PLAYER_H_

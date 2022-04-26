@@ -35,9 +35,7 @@ void CTexture::Init(void)
 	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ
 	pDevice = CManager::GetRenderer()->GetDevice();	//デバイスを取得する
 
-	D3DXCreateTextureFromFile(pDevice,
-		"",	// 無し
-		&m_pTexture[None]);
+	m_pTexture[None] = nullptr;
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/text_texture.png",//仮テクスチャ
@@ -128,36 +126,44 @@ void CTexture::Init(void)
 		"data/TEXTURE/Purpose000.png",//床	
 		&m_pTexture[Map_Purpose]);
 	//============================================================
-	//COMMAND関係
+	//スキル関係
 	//============================================================
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Attack000.png",//床	
-		&m_pTexture[COMMAND_ATTACK]);
+		"data/TEXTURE/SKILL/ATKup.png",//Aボタン
+		&m_pTexture[ATKup]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Magic000.png",//床	
-		&m_pTexture[COMMAND_MAGIC]);
+		"data/TEXTURE/SKILL/Beam.png",//Aボタン
+		&m_pTexture[Beam]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Enhance000.png",//床	
-		&m_pTexture[COMMAND_ENHANCE]);
+		"data/TEXTURE/SKILL/BlackHole.png",//Aボタン
+		&m_pTexture[BlackHole]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/CommandBG.png",//コマンドの背景
-		&m_pTexture[COMMAND_BG]);
+		"data/TEXTURE/SKILL/Eye.png",//Aボタン
+		&m_pTexture[Eye]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Blaze000.png",//ブレイズ
-		&m_pTexture[BLAZE]);
+		"data/TEXTURE/SKILL/Heal.png",//Aボタン
+		&m_pTexture[Heal]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Icecle000.png",//アイシクル
-		&m_pTexture[ICECLE]);
+		"data/TEXTURE/SKILL/OverHeal.png",//Aボタン
+		&m_pTexture[OverHeal]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/COMMAND/Heel000.png",//ヒール
-		&m_pTexture[HEEL]);
+		"data/TEXTURE/SKILL/Rocket.png",//Aボタン
+		&m_pTexture[Rocket]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/SKILL/RushAttack.png",//Aボタン
+		&m_pTexture[RushAttack]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/SKILL/Sheild.png",//Aボタン
+		&m_pTexture[Sheild]);
 	//============================================================
 	//ボタン
 	//============================================================

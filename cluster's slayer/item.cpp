@@ -8,7 +8,7 @@
 #include "model.h"
 #include "Renderer.h"
 #include "billboard.h"
-static const float InhaleHitSize = 100.0f;//吸い込まれる範囲
+static const float InhaleHitSize = 1000.0f;//吸い込まれる範囲
 static const float InhaleSpeed = 11.0f;//吸い込まれる速度
 static const int LeaveTimeMin = 5;//出現位置から離れる時間
 static const int LeaveTimeMax = 10;//出現位置から離れる時間

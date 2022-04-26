@@ -24,7 +24,7 @@ public:
 	void HItCollisionSet();
 	void SetCanHit(const bool& bCanHit) { m_bCanHitCollision = bCanHit; }//武器の当たり判定を発生させるかの設定
 	bool GetCanHit() { return m_bCanHitCollision; }//武器の当たり判定を発生させるかの設定
-
+	void SetPower(float fPower) { m_fPower = fPower; }
 	//当たった側の位置情報と当たった側の当たり判定の大きさ
 	bool HitSet(D3DXVECTOR3 *Hitpos,const float& HitSize);//武器の当たり判定の設定
 
@@ -38,6 +38,7 @@ protected:
 	CModel*m_pWeapon;//武器のモデル
 	CModel *m_pParent;//親モデルのポインタ
 	float m_fHitSize;//当たり判定の大きさ
+	float m_fPower;
 	bool m_bWeaponDraw;//武器の描画設定
 	bool m_bCanHitCollision;//攻撃判定ができるか
 	bool m_bIsHit;//今武器が敵に当たっているか

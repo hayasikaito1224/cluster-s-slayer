@@ -286,184 +286,189 @@ void CMotion::PlayMotion(const int nNumParts, CModel **apModel, int& motionType,
 	motionTypeLast = motionType;
 
 	// 現在のキーが最大のキーより小さかったら(例:最大キーが4なら"%d < 4 -1")
-	if (m_NumKey < (m_aMotionInfo[motionType].nMaxKey - 1))
+	int nsize = m_aMotionInfo.size();
+	if (nsize != 0)
 	{
-		while (1)
+		if (m_NumKey < (m_aMotionInfo[motionType].nMaxKey - 1))
 		{
-			for (int nCnt = 0; nCnt < nNumParts; nCnt++)
+			while (1)
 			{
-				// 次の番号のキーと現在のキーの差分を求める処理
-				fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
-				fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
-				fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
-
-				frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
-				frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
-				frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
-
-				// 現在のキーと求めた差分を足して位置と回転の値を求める処理
-				fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-
-				frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-
-				// 求めた値を代入
-				apModel[nCnt]->SetPos(D3DXVECTOR3
-				(
-					fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
-					fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
-					fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
-				);
-
-				apModel[nCnt]->SetRot(D3DXVECTOR3
-				(
-					frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
-					frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
-					frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
-				);
-
-			}
-
-			m_motionCounter++;
-			if (bAttack)
-			{
-				bDelay = false;
-			}
-
-			// モーションカウンターが最大フレーム数を超えたら
-			if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
-			{
-				m_motionCounter = 0;
-				m_NumKey++;
-				//攻撃している状態でキーが最大値に行ったら
-				if (m_NumKey >= m_aMotionInfo[motionType].nMaxKey - 1)
+				for (int nCnt = 0; nCnt < nNumParts; nCnt++)
 				{
-					if (bAttack == true)
+					// 次の番号のキーと現在のキーの差分を求める処理
+					fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
+					fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
+					fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
+
+					frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
+					frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
+					frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
+
+					// 現在のキーと求めた差分を足して位置と回転の値を求める処理
+					fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+					frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+					// 求めた値を代入
+					apModel[nCnt]->SetPos(D3DXVECTOR3
+					(
+						fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
+						fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
+						fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
+					);
+
+					apModel[nCnt]->SetRot(D3DXVECTOR3
+					(
+						frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
+						frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
+						frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
+					);
+
+				}
+
+				m_motionCounter++;
+				if (bAttack)
+				{
+					bDelay = false;
+				}
+
+				// モーションカウンターが最大フレーム数を超えたら
+				if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
+				{
+					m_motionCounter = 0;
+					m_NumKey++;
+					//攻撃している状態でキーが最大値に行ったら
+					if (m_NumKey >= m_aMotionInfo[motionType].nMaxKey - 1)
 					{
-						bDelay = true;
+						if (bAttack == true)
+						{
+							bDelay = true;
+						}
+						bAttack = false;
+						break;
 					}
-					bAttack = false;
+				}
+				else
+				{
 					break;
 				}
 			}
+
+		}
+
+		// モーションループの処理(キー番号が最大になったら通る処理)
+		if (m_NumKey == m_aMotionInfo[motionType].nMaxKey - 1)
+		{
+			// ループ状態だったら
+			if (m_aMotionInfo[motionType].bLoop == true)
+			{
+				for (int nCnt = 0; nCnt < nNumParts; nCnt++)
+				{
+					// 0番目のキーと現在のキーの差分を求める処理
+					fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
+					fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
+					fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
+
+					frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
+					frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
+					frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
+
+					// 現在のキーと求めた差分を足して位置と回転の値を求める処理
+					fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+					frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+					// 求めた値を代入
+					apModel[nCnt]->SetPos(D3DXVECTOR3
+					(
+						fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
+						fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
+						fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
+					);
+
+					apModel[nCnt]->SetRot(D3DXVECTOR3
+					(
+						frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
+						frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
+						frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
+					);
+
+				}
+
+				m_motionCounter++;
+
+				// モーションカウンターが最大フレーム数を超えたら
+				if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
+				{
+					m_motionCounter = 0;
+					m_NumKey = 0;
+				}
+
+
+			}
+
+			// ループしていなかったら
 			else
 			{
-				break;
+
+				for (int nCnt = 0; nCnt < nNumParts; nCnt++)
+				{
+					// 次のキーと現在のキーの差分を求める処理
+					fposDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
+					fposDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
+					fposDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
+
+					frotDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
+					frotDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
+					frotDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
+
+					// 現在のキーと求めた差分を足して位置と回転の値を求める処理
+					fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+
+					frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+
+					// 求めた値を代入
+					apModel[nCnt]->SetPos(D3DXVECTOR3
+					(
+						fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
+						fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
+						fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
+					);
+
+					apModel[nCnt]->SetRot(D3DXVECTOR3
+					(
+						frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
+						frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
+						frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
+					);
+
+				}
+				// フレーム数を加算する
+				m_motionCounter++;
+				// モーションカウンターが最大フレーム数を超えたら
+				if (m_motionCounter >= m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame)
+				{
+					bStop = true;
+					m_motionCounter = 0;
+					motionType = 0;
+					bAttack = false;
+
+				}
 			}
 		}
 
-	}
-
-	// モーションループの処理(キー番号が最大になったら通る処理)
-	if (m_NumKey == m_aMotionInfo[motionType].nMaxKey - 1)
-	{
-		// ループ状態だったら
-		if (m_aMotionInfo[motionType].bLoop == true)
-		{
-			for (int nCnt = 0; nCnt < nNumParts; nCnt++)
-			{
-				// 0番目のキーと現在のキーの差分を求める処理
-				fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
-				fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
-				fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
-
-				frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
-				frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
-				frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
-
-				// 現在のキーと求めた差分を足して位置と回転の値を求める処理
-				fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-
-				frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-				frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-
-				// 求めた値を代入
-				apModel[nCnt]->SetPos(D3DXVECTOR3
-				(
-					fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
-					fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
-					fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
-				);
-
-				apModel[nCnt]->SetRot(D3DXVECTOR3
-				(
-					frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
-					frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
-					frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
-				);
-
-			}
-
-			m_motionCounter++;
-
-			// モーションカウンターが最大フレーム数を超えたら
-			if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
-			{
-				m_motionCounter = 0;
-				m_NumKey = 0;
-			}
-
-
-		}
-
-		// ループしていなかったら
-		else
-		{
-
-			for (int nCnt = 0; nCnt < nNumParts; nCnt++)
-			{
-				// 次のキーと現在のキーの差分を求める処理
-				fposDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
-				fposDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
-				fposDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
-
-				frotDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
-				frotDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
-				frotDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
-
-				// 現在のキーと求めた差分を足して位置と回転の値を求める処理
-				fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-
-				frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-
-				// 求めた値を代入
-				apModel[nCnt]->SetPos(D3DXVECTOR3
-				(
-					fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
-					fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
-					fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
-				);
-
-				apModel[nCnt]->SetRot(D3DXVECTOR3
-				(
-					frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
-					frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
-					frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
-				);
-
-			}
-			// フレーム数を加算する
-			m_motionCounter++;
-			// モーションカウンターが最大フレーム数を超えたら
-			if (m_motionCounter >= m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame)
-			{
-				bStop = true;
-				m_motionCounter = 0;
-				motionType = 0;
-				bAttack = false;
-
-			}
-		}
 	}
 }
 //------------------------------------
@@ -700,31 +705,96 @@ void CMotion::NoLoopPlayMotion(const int nNumParts, CModel ** apModel, int & mot
 	motionTypeLast = motionType;
 	//モーションが止まってなかったら
 	if (bStop == false)
-	{
-		// 現在のキーが最大のキーより小さかったら(例:最大キーが4なら"%d < 4 -1")
-		if (m_NumKey < (m_aMotionInfo[motionType].nMaxKey - 1))
+	{ 
+		int nSize = m_aMotionInfo.size();
+		if (nSize != 0)
 		{
-			while (1)
+			// 現在のキーが最大のキーより小さかったら(例:最大キーが4なら"%d < 4 -1")
+			if (m_NumKey < (m_aMotionInfo[motionType].nMaxKey - 1))
+			{
+				while (1)
+				{
+					for (int nCnt = 0; nCnt < nNumParts; nCnt++)
+					{
+						// 次の番号のキーと現在のキーの差分を求める処理
+						fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
+						fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
+						fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
+
+						frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
+						frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
+						frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
+
+						// 現在のキーと求めた差分を足して位置と回転の値を求める処理
+						fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+						fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+						fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+						frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+						frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+						frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+
+						// 求めた値を代入
+						apModel[nCnt]->SetPos(D3DXVECTOR3
+						(
+							fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
+							fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
+							fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
+						);
+
+						apModel[nCnt]->SetRot(D3DXVECTOR3
+						(
+							frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
+							frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
+							frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
+						);
+
+					}
+
+					m_motionCounter++;
+
+					// モーションカウンターが最大フレーム数を超えたら
+					if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
+					{
+						m_motionCounter = 0;
+						m_NumKey++;
+						//攻撃している状態でキーが最大値に行ったら
+						if (m_NumKey >= m_aMotionInfo[motionType].nMaxKey - 1)
+						{
+
+							break;
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+
+			}
+
+			// モーションループの処理(キー番号が最大になったら通る処理)
+			if (m_NumKey == m_aMotionInfo[motionType].nMaxKey - 1)
 			{
 				for (int nCnt = 0; nCnt < nNumParts; nCnt++)
 				{
-					// 次の番号のキーと現在のキーの差分を求める処理
-					fposDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
-					fposDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
-					fposDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
+					// 次のキーと現在のキーの差分を求める処理
+					fposDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
+					fposDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
+					fposDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
 
-					frotDiffX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
-					frotDiffY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
-					frotDiffZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey + 1].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
+					frotDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
+					frotDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
+					frotDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
 
 					// 現在のキーと求めた差分を足して位置と回転の値を求める処理
-					fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-					fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-					fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
 
-					frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-					frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
-					frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame);
+					frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
+					frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
 
 					// 求めた値を代入
 					apModel[nCnt]->SetPos(D3DXVECTOR3
@@ -742,78 +812,18 @@ void CMotion::NoLoopPlayMotion(const int nNumParts, CModel ** apModel, int & mot
 					);
 
 				}
-
+				// フレーム数を加算する
 				m_motionCounter++;
+				bStop = true;
 
 				// モーションカウンターが最大フレーム数を超えたら
-				if (m_motionCounter > m_aMotionInfo[motionType].aKeyInfo[m_NumKey].nFrame)
+				if (m_motionCounter >= m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame)
 				{
+					//モーションを止める
 					m_motionCounter = 0;
-					m_NumKey++;
-					//攻撃している状態でキーが最大値に行ったら
-					if (m_NumKey >= m_aMotionInfo[motionType].nMaxKey - 1)
-					{
-
-						break;
-					}
+					motionType = 0;
 				}
-				else
-				{
-					break;
-				}
-			}
 
-		}
-
-		// モーションループの処理(キー番号が最大になったら通る処理)
-		if (m_NumKey == m_aMotionInfo[motionType].nMaxKey - 1)
-		{
-			for (int nCnt = 0; nCnt < nNumParts; nCnt++)
-			{
-				// 次のキーと現在のキーの差分を求める処理
-				fposDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX;
-				fposDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY;
-				fposDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fPosZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ;
-
-				frotDiffX[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotX - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX;
-				frotDiffY[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotY - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY;
-				frotDiffZ[nCnt] = m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].aKey[nCnt].fRotZ - m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ;
-
-				// 現在のキーと求めた差分を足して位置と回転の値を求める処理
-				fposAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosX + fposDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				fposAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosY + fposDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				fposAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fPosZ + fposDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-
-				frotAskX[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotX + frotDiffX[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				frotAskY[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotY + frotDiffY[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-				frotAskZ[nCnt] = m_aMotionInfo[motionType].aKeyInfo[m_NumKey].aKey[nCnt].fRotZ + frotDiffZ[nCnt] * (m_motionCounter / m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame);
-
-				// 求めた値を代入
-				apModel[nCnt]->SetPos(D3DXVECTOR3
-				(
-					fposAskX[nCnt] + apModel[nCnt]->GetLayerPos().x,
-					fposAskY[nCnt] + apModel[nCnt]->GetLayerPos().y,
-					fposAskZ[nCnt] + apModel[nCnt]->GetLayerPos().z)
-				);
-
-				apModel[nCnt]->SetRot(D3DXVECTOR3
-				(
-					frotAskX[nCnt] + apModel[nCnt]->GetLayerRot().x,
-					frotAskY[nCnt] + apModel[nCnt]->GetLayerRot().y,
-					frotAskZ[nCnt] + apModel[nCnt]->GetLayerRot().z)
-				);
-
-			}
-			// フレーム数を加算する
-			m_motionCounter++;
-			bStop = true;
-
-			// モーションカウンターが最大フレーム数を超えたら
-			if (m_motionCounter >= m_aMotionInfo[MOTIONTYPE_NEUTRAL].aKeyInfo[0].nFrame)
-			{
-				//モーションを止める
-				m_motionCounter = 0;
-				motionType = 0;
 			}
 
 		}

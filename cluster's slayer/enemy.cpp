@@ -43,6 +43,7 @@ CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 	m_bMotionStop = false;
 	m_bMove = false;
 	m_bHitCollision = true;
+	m_bHitRushAttack = false;
 	m_pShadow = nullptr;
 }
 
@@ -82,7 +83,7 @@ HRESULT CEnemy::Init()
 	m_fMovingRange = (float)s_randMove(s_mt);
 	m_rot.y = (float)s_randAng(s_mt)+(D3DX_PI);
 	s_MoveRandAng = (float)s_randAng(s_mt);
-	if (m_pShadow == nullptr)
+	if (!m_pShadow)
 	{
 		m_pShadow = CShadow::Create({ 0.0f,0.0f,0.0f }, 50.0f, CTexture::Effect);
 	}
@@ -116,8 +117,13 @@ void CEnemy::Update()
 		AIBehavior();
 		if(m_pShadow != nullptr)
 		{
-			m_pShadow->SetPos(0.0f, 0.0f, { m_pParts[0]->GetMaxPos().x ,0.0,m_pParts[0]->GetMaxPos().z });
-			m_pShadow->SetPos(m_pos);
+			int nSize = m_pParts.size();
+			if (nSize != 0)
+			{
+				m_pShadow->SetPos(0.0f, 0.0f, { m_pParts[0]->GetMaxPos().x ,0.0,m_pParts[0]->GetMaxPos().z });
+				m_pShadow->SetPos(m_pos);
+
+			}
 
 		}
 		if (m_bDraw == true)
@@ -186,10 +192,15 @@ void CEnemy::Update()
 					if (!bIsDeath)
 					{
 						D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
-						float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-						if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f))
+						int nSize = pEnemy->GetParts().size();
+						if (nSize != 0)
 						{
-							break;
+							float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+							if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f))
+							{
+								break;
+							}
+
 						}
 
 					}
@@ -200,7 +211,11 @@ void CEnemy::Update()
 			//ƒ‚[ƒVƒ‡ƒ“Ä¶
 			if (m_pMotion != NULL)
 			{
-				m_pMotion->PlayMotion(m_pParts.size(), &m_pParts[0], m_MotionType, m_MotionLastType, m_bMotionStop, m_bAttack, m_bNeutral, false);
+				int nSize = m_pParts.size();
+				if (nSize != 0)
+				{
+					m_pMotion->PlayMotion(m_pParts.size(), &m_pParts[0], m_MotionType, m_MotionLastType, m_bMotionStop, m_bAttack, m_bNeutral, false);
+				}
 			}
 
 			delete pCollision;
