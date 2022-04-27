@@ -18,7 +18,7 @@
 #include "map_polygon.h"
 #include "shadow.h"
 #include "motion.h"
-
+#include "smallscore.h"
 #define MIN_MOVE (80.0)		//“G‚ª“®‚­Å¬‚Ì”ÍˆÍ
 #define MAX_MOVE (100.0)	//“G‚ª“®‚­Å‘å‚Ì”ÍˆÍ
 #define MIN_TIME (180.0)		//“G‚ª“®‚­‚Ü‚Å‚ÌŠÔ‚ÌÅ¬‚Ì”ÍˆÍ
@@ -45,6 +45,7 @@ CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 	m_bHitCollision = true;
 	m_bHitRushAttack = false;
 	m_pShadow = nullptr;
+	m_bCanHitRushAttack = true;
 }
 
 CEnemy::~CEnemy()
@@ -348,6 +349,17 @@ void CEnemy::AddLife(int nLife)
 		m_fHitPoint += nDamege;
 
 	}
+}
+//----------------------------------------------------------
+//‘Ì—Í‚Ì‘Œ¸
+//----------------------------------------------------------
+void CEnemy::AddLifeSkill(int nLife)
+{
+	int nDamege = nLife + m_nDefense;
+	m_fHitPoint += nDamege;
+	int nDrawDamage = abs(nDamege);
+	CSmallScore::Create({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, nDrawDamage);
+
 }
 //----------------------------------------------------------
 //‘Ì—Í‚Ì‘Œ¸

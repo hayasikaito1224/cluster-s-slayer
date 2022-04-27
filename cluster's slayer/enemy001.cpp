@@ -24,7 +24,7 @@
 static const float AttackStartNear = 150.0f;//攻撃を始めるまでのプレイヤーとの近さ
 static const float AttackStartTime = 20.0f;//攻撃開始までの時間
 static const int Power = 20;//攻撃力
-static const int Life = 20;//体力
+static const int Life = 10;//体力
 static const float MoveSpeed = 1.0f;//移動速度
 static const int MinEXPNum = 1;//経験値を落とす数
 static const int MaxEXPNum = 3;//経験値を落とす数
@@ -199,6 +199,7 @@ void CEnemy001::AddLife(int nLife)
 {
 	if (m_bDamage == true && m_bHitCollision == true)
 	{
+
 		int nDamege = nLife + m_nDefense;
 		m_fHitPoint += nDamege;
 		int nDrawDamage = abs(nDamege);

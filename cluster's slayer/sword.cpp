@@ -59,6 +59,7 @@ void CSword::Uninit()
 //---------------------------------------------
 void CSword::Update()
 {
+
 	CWeapon::Update();
 	//攻撃当たり判定がオンなら
 	if (m_bCanHitCollision)
@@ -122,7 +123,6 @@ void CSword::Update()
 						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
 						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
 						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
-
 					}
 
 				}
@@ -139,6 +139,8 @@ void CSword::Update()
 //---------------------------------------------
 void CSword::Draw()
 {
+	m_lastpos = { m_HitCollision.m_mtxWorld._41,m_HitCollision.m_mtxWorld._42 ,m_HitCollision.m_mtxWorld._43 };
+
 	CWeapon::Draw();
 }
 //----------------------------------------------
@@ -161,14 +163,20 @@ CSword * CSword::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CModel *pParent)
 bool CSword::IsCollision(const D3DXVECTOR3 & Hitpos, const float & fRadius)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//自分と相手のベクトル
+	D3DXVECTOR3 lastvec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//自分と相手のベクトル
+
 	D3DXVECTOR3 pos = { m_HitCollision.m_mtxWorld._41,m_HitCollision.m_mtxWorld._42 ,m_HitCollision.m_mtxWorld._43 };
 	vec = pos - Hitpos;
+	lastvec = m_lastpos - Hitpos;
 	float fLength = 0.0f;
+	float fLastLength = 0.0f;
+
 	//相手と自分の距離を求める
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
+	fLastLength = sqrtf((lastvec.z*lastvec.z) + (lastvec.x*lastvec.x));
 	float fCollisionRadius = HitSize + fRadius;
 	//相手と自分の距離が自分の当たり判定の大きさより小さくなったら
-	if (fLength <= fCollisionRadius)
+	if (fLength <= fCollisionRadius &&fLastLength > fCollisionRadius)
 	{
 		//当たったという判定を返す
 		return true;

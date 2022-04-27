@@ -34,7 +34,7 @@ static const float AttackWaitTime = 35.0f;
 static const float ComboWaitTime = 10.0f;
 static const float PlayerPower = 5.0f;
 static const float MaxHP = 1000.0f;
-static const float MaxExp = 200000.0f;
+static const float MaxExp = 2.0f;
 static const int RushStartTime = 30;
 
 static bool s_bCursor = true;
@@ -58,7 +58,7 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_fMaxExp = MaxExp;
 	m_bCanAutoHeel = false;
 	m_nTimer = 0;
-	m_bCanRushAttack = true;
+	m_bCanRushAttack = false;
 	m_nRushStartCnt = 0;
 }
 
@@ -150,7 +150,7 @@ void CPlayer::Update()
 				if (pEnemy->GetRushAttack())
 				{
 					//’ÇŒ‚‚·‚é
-					CRushAttack::Create(EnemyPos, pEnemy->GetRot());
+					CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
 					//’ÇŒ‚‚µ‚È‚¢‚æ‚¤‚É‚·‚é
 					pEnemy->SetRushAttack(false);
 				}
@@ -503,7 +503,7 @@ void CPlayer::AttackCtrl()
 	//UŒ‚‚Å‚«‚éó‘Ô‚È‚çUŒ‚‘€ì‚ğ‰Â”\‚É‚·‚é
 	if (m_bCanAttack)
 	{
-		//if (pGamePad->GetButtonTrigger(CDirectInput::B) == true || pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
+		if (pGamePad->GetButtonTrigger(CDirectInput::B) == true || pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
 		{
 			//Œ»İ‚ÌƒL[”‚ğ‚O‚É‚·‚é
 			if (m_pMotion)
@@ -660,6 +660,7 @@ void CPlayer::LevelUp(int nType)
 	case Rocket:
 		break;
 	case RushAttack:
+		m_bCanRushAttack = true;
 		break;
 	}
 }

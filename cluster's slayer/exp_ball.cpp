@@ -55,7 +55,7 @@ void CExp_Ball::Update(void)
 		CGauge *pGauge = CManager::GetGame()->GetExpGauge();
 		if (pGauge)
 		{
-			//pGauge->SetGauge(-1, 0);
+			pGauge->SetGauge(-1, 0);
 		}
 	}
 }

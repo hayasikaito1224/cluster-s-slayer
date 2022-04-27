@@ -4,9 +4,9 @@
 //--------------------------------------------
 #include "enemy_spawn_manager.h"
 #include "enemy001.h"
-static const int SpawnTime = 400;
+static const int SpawnTime = 600;
 static const float SpawnLength = 200.0f;
-static const int SpawnMax = 30;
+static const int SpawnMax = 20;
 
 //--------------------------------------------
 //コンストラクタ
