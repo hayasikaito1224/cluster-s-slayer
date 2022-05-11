@@ -231,3 +231,85 @@ void CScene3D::SetCol(D3DXCOLOR col)
 	m_pVtxBuff->Unlock();
 
 }
+
+//=============================================================================
+//エフェクトカラー変更
+//=============================================================================
+void CScene3D::ColorChange(D3DCOLORVALUE color)
+{
+	VERTEX_3D*pVtx;//頂点情報へのポインタ
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点の色
+	pVtx[0].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[1].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[2].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[3].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}
+
+//=============================================================================
+//エフェクトサイズ変更
+//=============================================================================
+void CScene3D::ChangeSize(D3DXVECTOR3 size)
+{
+	VERTEX_3D*pVtx;//頂点情報へのポインタ
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, size.z);
+	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, size.z);
+	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, -size.z);
+	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, -size.z);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}
+
+//=============================================================================
+//平面エフェクト（回転）
+//=============================================================================
+void CScene3D::SetPosField(D3DXVECTOR3 pos, D3DXVECTOR3 Size, float Rotate, float Rotate2)
+{
+	VERTEX_3D*pVtx;//頂点情報へのポインタ
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(pos.x + (cosf(Rotate2)) * Size.x, Size.y, pos.z + (sinf(Rotate))* Size.x);
+	pVtx[1].pos = D3DXVECTOR3(pos.x + (sinf(Rotate))  * Size.x, Size.y, pos.z - (cosf(Rotate2))* Size.x);
+	pVtx[2].pos = D3DXVECTOR3(pos.x - (sinf(Rotate))  * Size.x, Size.y, pos.z + (cosf(Rotate2))* Size.x);
+	pVtx[3].pos = D3DXVECTOR3(pos.x - (cosf(Rotate2)) * Size.x, Size.y, pos.z - (sinf(Rotate))* Size.x);
+
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+
+}
+
+//=============================================================================
+//ビルボードサイズ変更
+//=============================================================================
+void CScene3D::BillboardSize(float size)
+{
+	VERTEX_3D*pVtx;//頂点情報へのポインタ
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size, size, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(size, size, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-size, -size, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(size, -size, 0.0f);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}

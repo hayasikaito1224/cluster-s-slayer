@@ -90,6 +90,10 @@ void CTexture::Init(void)
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/hiteffect000.jpg",//エフェクト
 		&m_pTexture[HitEffect]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/CycleEffect00.png",//わっかエフェクト
+		&m_pTexture[CycleEffect]);
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,

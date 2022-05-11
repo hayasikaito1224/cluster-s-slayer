@@ -71,6 +71,7 @@ public:
 		TargetText,//目的地表示用の
 		RockOn,//ロックオン用
 		SkillOk,//ロックオン用
+		CycleEffect,	//わっかエフェクト
 		Max,			// テクスチャの最大数
 	} Type;
 

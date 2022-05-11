@@ -22,6 +22,12 @@
 #include "pause.h"
 #include "xload.h"
 #include "directinput.h"
+
+//エフェクト
+#include "LoadEffect.h"
+#define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
+
+
 #include <random>
 //静的メンバ変数宣言
 CInputKeyBoard	*CManager::m_pInputKeyboard = NULL;
@@ -153,6 +159,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	m_pLight[2]->Init(D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.0f), D3DXVECTOR3(0.89f, -0.11f, 0.44f));
 
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
+
+	//エフェクトステータスのロード＆格納
+	CLoadEffect::EffectStateLoad(EFFECT_STATE_TEXT3D);	//3D
 	return S_OK;
 }
 //--------------------------------------------

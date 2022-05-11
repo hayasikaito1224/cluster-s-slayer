@@ -19,6 +19,9 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
+
+#include "PresetSetEffect.h"
+
 #define PLAYER_MOVE_SPEED (6.0f)//ˆÚ“®—Ê
 #define PLAYER_ROCK_LENGTH (500.0f)//ƒƒbƒNƒIƒ“‰Â”\”ÍˆÍ
 #define PLAYER_ATTACK_SPEED (15.0f)		//UŒ‚‚ÌˆÚ“®‘¬“x
@@ -503,7 +506,7 @@ void CPlayer::AttackCtrl()
 	//UŒ‚‚Å‚«‚éó‘Ô‚È‚çUŒ‚‘€ì‚ð‰Â”\‚É‚·‚é
 	if (m_bCanAttack)
 	{
-		//if (pGamePad->GetButtonTrigger(CDirectInput::B) == true || pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
+		if (pGamePad->GetButtonTrigger(CDirectInput::B) == true || pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
 		{
 			//Œ»Ý‚ÌƒL[”‚ð‚O‚É‚·‚é
 			if (m_pMotion)
@@ -542,6 +545,8 @@ void CPlayer::AttackCtrl()
 				m_bAttackWait = true;
 				
 			}
+
+			CPresetEffect::SetEffect3D(0, m_pos, {});
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
 			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);

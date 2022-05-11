@@ -48,6 +48,13 @@ public:
 	void SetCol(D3DXCOLOR col);								//テクスチャの設定
 	static CScene3D *Create(D3DXVECTOR3 size);
 
+	//エフェクト用関数
+	void ColorChange(D3DCOLORVALUE color);	//エフェクト色変更
+	void ChangeSize(D3DXVECTOR3 size);	//TDNサイズ変更
+	void BillboardSize(float size);	//ビルボードサイズ変更
+	void SetPosField(D3DXVECTOR3 pos, D3DXVECTOR3 Size, float Rotate, float Rotate2);//平面系のエフェクトの回転
+	LPDIRECT3DVERTEXBUFFER9 GetVtx() { return m_pVtxBuff; }
+
 private:
 
 protected:

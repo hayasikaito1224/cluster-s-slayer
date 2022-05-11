@@ -40,6 +40,9 @@
     <Filter Include="ソース ファイル\キャラクター\アタックスキル">
       <UniqueIdentifier>{8f02e367-2207-469a-8777-9d26e5177436}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\エフェクト">
+      <UniqueIdentifier>{fbf6ab1f-b9b6-4896-902b-6f813f9e587c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\stage.h">
@@ -210,6 +213,24 @@
     <ClInclude Include="..\cluster%27s slayer\rushattack.h">
       <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
     </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\billeffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\plane.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\straight3d.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\texture.cpp">
@@ -379,6 +400,24 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
       <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\billeffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\plane.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\straight3d.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
