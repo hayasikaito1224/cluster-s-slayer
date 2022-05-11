@@ -1,0 +1,114 @@
+﻿  bg.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  billboard.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  camera.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  character.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  character_partsdata.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  collision.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  directinput.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  effect.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy001.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy_spawn_manager.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  exp_ball.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  fade.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  field.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  frame.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  game.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  gauge.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  gaugeber.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  input.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  item.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コンパイル中...
+  keyboard.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  layer_structure.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  light.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  main.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  manager.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  map_polygon.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  meshsphere.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  model.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  model_spawner.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  motion.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mouse.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  number.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  Particle.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  pause.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  player.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  polygon.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  Renderer.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  result.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  rushattack.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コンパイル中...
+  scene2D.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  Scene3D.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  score.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  selectbottom.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  shadow.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  skillselect.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  smallscore.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  sound.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  stage.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  sword.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  texture.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  title.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  wall.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  weapon.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  XInput.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  xload.cpp
+c:\users\student\desktop\git\cluster-s-slayer\cluster's slayer\main.h(26): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
