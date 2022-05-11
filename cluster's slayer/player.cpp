@@ -19,6 +19,7 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
+#include "blackhole.h"
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -36,6 +37,7 @@ static const float PlayerPower = 5.0f;
 static const float MaxHP = 1000.0f;
 static const float MaxExp = 2.0f;
 static const int RushStartTime = 30;
+static const int BlackHoleShotTime= 200;
 
 static bool s_bCursor = true;
 
@@ -60,6 +62,8 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_nTimer = 0;
 	m_bCanRushAttack = false;
 	m_nRushStartCnt = 0;
+	m_nBlackHoleCnt = BlackHoleShotTime;
+	m_bCanBlackHole = false;
 }
 
 CPlayer::~CPlayer()
@@ -134,8 +138,7 @@ void CPlayer::Update()
 
 	//敵が近くにいるかを算出
 	m_bNearEnemy = IsNearEnemyState();
-
-	//
+	EachSkillManager();
 	//敵との当たり判定
 	CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
 	while (pScene_Enemy != NULL)
@@ -656,6 +659,7 @@ void CPlayer::LevelUp(int nType)
 	case Beam:
 		break;
 	case BlackHole:
+		m_bCanBlackHole = true;
 		break;
 	case Rocket:
 		break;
@@ -872,7 +876,17 @@ void CPlayer::EachSkillManager()
 		}
 
 	}
+	//ブラックホール
+	if (m_bCanBlackHole)
+	{
+		m_nBlackHoleCnt++;
+		if (m_nBlackHoleCnt >= BlackHoleShotTime)
+		{
+			m_nBlackHoleCnt = 0;
+			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy);
+		}
 
+	}
 }
 //-----------------------------------------------
 //攻撃したときの移動処理

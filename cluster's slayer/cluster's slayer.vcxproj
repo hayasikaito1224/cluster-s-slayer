@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
@@ -210,6 +211,7 @@
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />

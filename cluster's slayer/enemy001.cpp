@@ -89,7 +89,7 @@ void CEnemy001::Uninit()
 	//ŒoŒ±’l‚ð—Ž‚Æ‚·
 	for (int nCnt = 0; nCnt < nExpNum; nCnt++)
 	{
-		CExp_Ball::Create(m_pos);
+		//CExp_Ball::Create(m_pos);
 	}
 
 	CEnemy::Uninit();
@@ -204,6 +204,8 @@ void CEnemy001::AddLife(int nLife)
 		m_fHitPoint += nDamege;
 		int nDrawDamage = abs(nDamege);
 		CSmallScore::Create({m_pos.x,m_pos.y+30.0f,m_pos.z}, { 10.0f,20.0f,0.0f }, nDrawDamage);
+		m_fGravity += 200.0f;
+
 	}
 }
 

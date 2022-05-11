@@ -42,6 +42,7 @@ public:
 	virtual void AIMove();
 	virtual void AddLife(int nPower, int nType);
 	virtual void AddLife(int nLife);//体力の増減
+	void HoleAlign(D3DXVECTOR3 holePos, float fHitSize,float AlignSpeed);//ブラックホールに引き寄せられる処理
 	void AddLifeSkill(int nLife);//スキル攻撃を受けたときの体力の増減
 	//静的メンバー関数
 	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
@@ -102,6 +103,8 @@ protected:
 	int	 m_MotionType,	m_MotionLastType;
 	int					m_nPower;//攻撃力
 	int	m_nType;//敵の種類
+	float m_fGravity;
+	
 };
 
 
