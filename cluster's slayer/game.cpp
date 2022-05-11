@@ -31,6 +31,7 @@
 #include "character.h"
 #include "gaugeber.h"
 #include "character_partsdata.h"
+#include "enemy001.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -101,7 +102,7 @@ HRESULT CGame::Init(void)
 	//経験値のゲージを生成
 	if (!m_pExpGauge)
 	{
-		m_pExpGauge = CGauge::Create({ 0.0f,680.0f,0.0f }, { SCREEN_WIDTH,10.0f,0.0f }, { 0.5,0.5,1.0,1.0 }, SCREEN_WIDTH, 1000, CGauge::R_ADD);
+		m_pExpGauge = CGauge::Create({ 0.0f,680.0f,0.0f }, { SCREEN_WIDTH,10.0f,0.0f }, { 0.5,0.5,1.0,1.0 }, SCREEN_WIDTH, 2, CGauge::R_ADD);
 		m_pExpGauge->ResetGauge(0);
 	}
 	//体力ゲージの生成
@@ -109,7 +110,7 @@ HRESULT CGame::Init(void)
 	{
 		float fHP = m_Player->GetLife();
 		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 200.0f,10.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 200, fHP, CGauge::R_ADD);
-		m_pHPGauge->ResetGauge(0);
+		//m_pHPGauge->ResetGauge(0);
 	}
 	//パーティクルシステムの生成
 	if (m_Particle == nullptr)
@@ -140,6 +141,7 @@ HRESULT CGame::Init(void)
 	////操作方法
 	//CPolygon::Create(D3DXVECTOR3(140.0f, SCREEN_HEIGHT-130.0f, 0.0f),
 	//	D3DXVECTOR3(140.0f, 90.0f, 0.0f), CTexture::Operation);
+	CEnemy001::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f });
 
 	m_fAlpha = 1.0f;
 	m_bNextMode = false;

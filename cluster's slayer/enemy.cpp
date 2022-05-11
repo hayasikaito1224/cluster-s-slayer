@@ -18,7 +18,7 @@
 #include "map_polygon.h"
 #include "shadow.h"
 #include "motion.h"
-
+#include "smallscore.h"
 #define MIN_MOVE (80.0)		//敵が動く最小の範囲
 #define MAX_MOVE (100.0)	//敵が動く最大の範囲
 #define MIN_TIME (180.0)		//敵が動くまでの時間の最小の範囲
@@ -30,7 +30,7 @@
 #define MAX_ENEMY_DEFENSE (2)//敵の防御力
 #define MAX_ATTACKSTARTTIME (20)//攻撃開始までの時間
 #define ADDCP (10)		//無敵判定の時間
-
+static const float GravitySpeed = 5.0f;
 CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 {
 	m_bAIMove = false;
@@ -45,6 +45,8 @@ CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 	m_bHitCollision = true;
 	m_bHitRushAttack = false;
 	m_pShadow = nullptr;
+	m_bCanHitRushAttack = true;
+	m_fGravity = 0.0f;
 }
 
 CEnemy::~CEnemy()
@@ -126,6 +128,14 @@ void CEnemy::Update()
 			}
 
 		}
+		//重力に関する処理
+		m_fGravity--;
+		m_pos.y -= m_fGravity;
+
+		if(m_pos.y <= 0.0f)
+		{
+			m_pos.y = 0.0f;
+		}
 		if (m_bDraw == true)
 		{
 			CCollision *pCollision = new CCollision;
@@ -153,15 +163,8 @@ void CEnemy::Update()
 			{
 				float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
 				IsCollision(&m_pos, pPlayer->GetPos(), fRadius, 5.0f);
-				//攻撃判定が当たったかどうか調べる
-				//if (m_bAttack == true && pPlayer->GetHit() == false && m_bHitCollision == true)
-				//{
-				//	Colision();
-				//}
+
 			}
-
-
-
 			//ノックバック状態なら
 			if (m_bKnockback == true)
 			{
@@ -348,6 +351,32 @@ void CEnemy::AddLife(int nLife)
 		m_fHitPoint += nDamege;
 
 	}
+}
+//----------------------------------------------------------
+//ブラックホールに引き寄せられる処理
+//----------------------------------------------------------
+void CEnemy::HoleAlign(D3DXVECTOR3 holePos, float fHitSize, float AlignSpeed)
+{
+	D3DXVECTOR3 vec = m_pos - holePos;
+	float Length = sqrtf(vec.x*vec.x + vec.z*vec.z);
+	float Size = fHitSize + m_fRadius;
+	float moveRot = atan2f(vec.x, vec.z);
+	if (Length <= Size)
+	{
+		m_pos.x -= sinf(moveRot)*AlignSpeed;
+		m_pos.z -= cosf(moveRot)*AlignSpeed;
+	}
+}
+//----------------------------------------------------------
+//体力の増減
+//----------------------------------------------------------
+void CEnemy::AddLifeSkill(int nLife)
+{
+	int nDamege = nLife + m_nDefense;
+	m_fHitPoint += nDamege;
+	int nDrawDamage = abs(nDamege);
+	CSmallScore::Create({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, nDrawDamage);
+
 }
 //----------------------------------------------------------
 //体力の増減

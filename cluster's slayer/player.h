@@ -98,6 +98,7 @@ private:
 	bool m_bAttackReception;//攻撃操作受付
 	bool m_bCanAutoHeel;//オートヒール可能か
 	bool m_bCanRushAttack;//追撃可能か
+	bool m_bCanBlackHole;
 	float m_fAttackWaitTime;//攻撃操作待機時間
 	float m_fAttackMoveTime;//攻撃移動する時間
 	float m_fSoundInterval;
@@ -109,6 +110,7 @@ private:
 	float m_fMaxExpDiameter;//最大経験値の倍率
 	float m_fMaxExp;//最大経験値
 	int m_nRushStartCnt;//追撃開始までのカウント
+	int m_nBlackHoleCnt;
 	int m_nComboType;//今どのコンボかを数える
 	int m_motionType;//モーションの種類
 	int m_motionLastType;//前のモーションの種類

@@ -213,6 +213,7 @@
     <ClInclude Include="..\cluster%27s slayer\rushattack.h">
       <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\cluster%27s slayer\billeffect.h">
       <Filter>ソース ファイル\エフェクト</Filter>
     </ClInclude>
@@ -230,6 +231,10 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h">
       <Filter>ソース ファイル\エフェクト</Filter>
+=======
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,6 +406,7 @@
     <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
       <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp">
       <Filter>ソース ファイル\エフェクト</Filter>
     </ClCompile>
@@ -418,6 +424,10 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp">
       <Filter>ソース ファイル\エフェクト</Filter>
+=======
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     </ClCompile>
   </ItemGroup>
 </Project>

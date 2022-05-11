@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
 Release|Win32|C:\Users\student\Desktop\git\cluster-s-slayer\cluster's slayer\|
+=======
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+Release|Win32|C:\Users\student\Desktop\cluster-s-slayer\cluster's slayer\|
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb

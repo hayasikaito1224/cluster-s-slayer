@@ -136,6 +136,8 @@ void CNumber::Draw(void)
 	D3DXMatrixIdentity(&m_mtxWorld);
 	//ライト無効
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//上から書き込むことをしないようにする
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	//αテスト
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -180,6 +182,8 @@ void CNumber::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0x00);
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//元に戻す
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 }
 //-----------------------------------

@@ -182,10 +182,10 @@ void CShadow::SetPos(const float fposX, const float fposZ, D3DXVECTOR3 scale)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//バッファの生成
-	pVtx[0].pos = D3DXVECTOR3(fposX - scale.x, m_pos.y, fposZ + scale.z);
-	pVtx[1].pos = D3DXVECTOR3(fposX + scale.x, m_pos.y, fposZ + scale.z);
-	pVtx[2].pos = D3DXVECTOR3(fposX - scale.x, m_pos.y, fposZ - scale.z);
-	pVtx[3].pos = D3DXVECTOR3(fposX + scale.x, m_pos.y, fposZ - scale.z);
+	pVtx[0].pos = D3DXVECTOR3(fposX - scale.x, 0.0f, fposZ + scale.z);
+	pVtx[1].pos = D3DXVECTOR3(fposX + scale.x, 0.0f, fposZ + scale.z);
+	pVtx[2].pos = D3DXVECTOR3(fposX - scale.x, 0.0f, fposZ - scale.z);
+	pVtx[3].pos = D3DXVECTOR3(fposX + scale.x, 0.0f, fposZ - scale.z);
 
 	m_pVtxBuff->Unlock();
 

@@ -295,17 +295,20 @@ void CManager::Update(void)
 		{
 			m_pGame->Update();
 			//ポーズ
-			if (m_XInput->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||
-				m_pDirectInput->GetButtonTrigger(m_pDirectInput->START))
-			{
-				if(m_bEnd == false)
-				m_bStop = m_bStop ? false : true;
+			//if (m_XInput->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||
+			//	m_pDirectInput->GetButtonTrigger(m_pDirectInput->START))
+			//{
+			//	if (m_bEnd == false)
+			//	{
+			//		m_bStop = m_bStop ? false : true;
 
-				m_bPause = m_bPause ? false : true;
-				m_pSound->PlaySound(m_pSound->SOUND_LABEL_SE_ENTER);	// タイトルサウンド
-				m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_ENTER,0.6f);	// タイトルサウンド
+			//		m_bPause = m_bPause ? false : true;
+			//		m_pSound->PlaySound(m_pSound->SOUND_LABEL_SE_ENTER);	// タイトルサウンド
+			//		m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_ENTER, 0.6f);	// タイトルサウンド
 
-			}
+			//	}
+
+			//}
 			if (m_bStop == true)
 			{
 				if (m_pPause == NULL)

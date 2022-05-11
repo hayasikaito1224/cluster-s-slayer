@@ -6,6 +6,7 @@
 #define _RASHATTACK_H_
 #include "scene.h"
 class CModel;
+class CEnemy;
 
 class CRushAttack:public CScene
 {
@@ -19,13 +20,20 @@ public:
 	void Draw();
 	void UpperAttack();
 	//静的メンバー関数
-	static CRushAttack *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static CRushAttack *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,CEnemy *pEnemy);
+	bool IsCollision(const D3DXVECTOR3& Hitpos, const float& fRadius);
+
 private:
 	CModel *m_pRushSword;
+	CEnemy *m_pEnemyData;
 	D3DXVECTOR3 m_pos;//位置
 	D3DXVECTOR3 m_rot;//向き
+	D3DXVECTOR3 m_scale;//大きさ
 	D3DXMATRIX m_mtxWorld;//ワールドマトリックス
+	int m_nStartTimer;//追撃が始まるまでのカウンター
+	int m_nEndTimer;//追撃が終わるまでのカウンター
 
+	bool m_bCanAttackStart;//スキルの発動可能か
 	bool m_bIsDeath;
 };
 
