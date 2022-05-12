@@ -16,8 +16,12 @@
 //--------------------------------------------
 CTitle::CTitle()
 {
-	m_Polygon = nullptr;
-	m_bOpra = false;
+	m_nNowType = TITLE_PRESS_ENTER;
+
+	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
+	{
+		m_Polygon[nCnt] = nullptr;
+	}
 }
 //--------------------------------------------
 //デストラクタ
@@ -32,9 +36,38 @@ CTitle::~CTitle()
 //--------------------------------------------
 HRESULT CTitle::Init(void)
 {
-	m_bNextMode = false;
+	m_nNowType = TITLE_PRESS_ENTER;
+	m_bNextMode = true;
+
 	CBg::Create(CTexture::Title, CScene::OBJTYPE_BG, false);	//背景
-	m_Polygon = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH/2.0f, SCREEN_HEIGHT / 2 + 100.0f, 0.0f), D3DXVECTOR3(430.0f, 80.0f, 0.0f), CTexture::GameStart);	//タイトルロゴ
+
+	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
+	{
+		switch (nCnt)
+		{
+		case PORYGON_LOGO:
+			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2 + 100.0f, 0.0f), D3DXVECTOR3(430.0f, 80.0f, 0.0f), CTexture::GameStart);	// タイトルロゴ
+
+			break;
+
+		case PORYGON_FILEBG:
+			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2, 0.0f), CTexture::FADE);	// フェード
+			m_Polygon[nCnt]->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f));
+			break;
+
+		case PORYGON_FILE01:
+		case PORYGON_FILE02:
+		case PORYGON_FILE03:
+
+			int i = nCnt - PORYGON_FILE01;
+			D3DXVECTOR3 size = D3DXVECTOR3(float(SCREEN_WIDTH / 3 - 50) / 2.0f, 250.0f, 0.0f);
+
+			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(float(SCREEN_WIDTH / 3) * i + size.x + 25.0f, 0.0f - size.y, 0.0f), size, CTexture::GameStart);
+
+			break;
+		}
+	}
+
 	return S_OK;
 }
 //--------------------------------------------
@@ -42,10 +75,13 @@ HRESULT CTitle::Init(void)
 //--------------------------------------------
 void CTitle::Uninit(void)
 {
-	if (m_Polygon != NULL)
+	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
 	{
-		m_Polygon->Uninit();
-		m_Polygon= NULL;
+		if (m_Polygon[nCnt] != NULL)
+		{
+			m_Polygon[nCnt]->Uninit();
+			m_Polygon[nCnt] = NULL;
+		}
 	}
 
 	CManager::GetSound()->StopSound(CSound::SOUND_LABEL_BGM_TITLE);
@@ -55,25 +91,58 @@ void CTitle::Uninit(void)
 //--------------------------------------------
 void CTitle::Update(void)
 {
-	CXInput *pGamePad = CManager::GetXInput();
-	CDirectInput *pDGamePad = CManager::GetDirectInput();
-
-	//Aボタンを押すと
-	if (pGamePad->GetButtonTrigger(XINPUT_GAMEPAD_A) == true ||
-		pGamePad->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||
-		pDGamePad->GetButtonTrigger(CDirectInput::START)==true)
+	switch (m_nNowType)
 	{
-		if (m_bNextMode == false)
+	case TITLE_PRESS_ENTER:
+		// PressEnter押す画面
+
+		// ボタンを押すと
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
 		{
-			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
-			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
-
-			//ゲームモードへ行く
-			CFade::SetFade(CManager::MODE_GAME);
-			////二回以上通らないようにする
-			m_bNextMode = true;
-
+			m_nNowType++;
 		}
+
+		break;
+
+	case TITLE_FADE:
+		// フェード
+
+		m_fAlpha += 0.05f;
+		m_Polygon[m_nNowType]->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.05f));
+
+		if (m_fAlpha >= 0.5f)
+		{
+			m_fAlpha = 0.5f;
+			m_nNowType++;
+		}
+
+		break;
+
+	case TITLE_SELECT_DOWN:
+
+		break;
+
+	case TITLE_FILE_SELECT:
+		// ボタンを押すと
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
+		{
+			if (!m_bNextMode)
+			{
+				CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
+				CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+
+				//ゲームモードへ行く
+				CFade::SetFade(CManager::MODE_GAME);
+
+				//二回以上通らないようにする
+				m_bNextMode = true;
+			}
+		}
+
+		break;
+
+	default:
+		break;
 	}
 }
 //--------------------------------------------
@@ -83,4 +152,3 @@ void CTitle::Draw(void)
 {
 
 }
-
