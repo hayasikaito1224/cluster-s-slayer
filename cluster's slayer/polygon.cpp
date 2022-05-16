@@ -29,7 +29,7 @@ CPolygon::~CPolygon()
 
 void CPolygon::SetPos(D3DXVECTOR3 pos)
 {
-
+	m_Pos = pos;
 	CScene::SetPos(pos);
 
 	VERTEX_2D *pVtx;

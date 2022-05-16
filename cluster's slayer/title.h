@@ -33,6 +33,14 @@ public:
 		POLYGON_MAX
 	};
 
+	enum FILE
+	{
+		FILE_01,		// ファイル1
+		FILE_02,		// ファイル2
+		FILE_03,		// ファイル3
+		FILE_MAX
+	};
+
 	CTitle();
 	~CTitle();
 	HRESULT Init(void);
@@ -46,7 +54,8 @@ private:
 
 	int					m_nNowType;		// 選択したタイプ
 	bool				m_bNextMode;	// 次のモードに行くための
-	float m_fAlpha;
+	float				m_fAlpha;		// 画面の明るさ
+	int					m_nSelectFile;	// 選択中のセーブファイル
 };
 
 #endif //_TITLE_H
