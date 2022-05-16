@@ -16,6 +16,7 @@ CModel::CModel()
 	m_pos = D3DXVECTOR3(0.0f,0.0f,0.0f);					//モデルの位置（オフセット）
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);					//向き
 	m_bDraw = true;
+	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
 
 //=============================================================================
@@ -58,6 +59,12 @@ void CModel::Init()
 	{
 		m_vtx[nVtx] = m_pModelDataX.m_vtx[nVtx];
 	}
+	//マテリアルデータ編のポインタを取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
+	pDevice->GetMaterial(&m_SaveMat);
+
+	//マテリアルデータ編のポインタを取得
+	m_pMat = (D3DXMATERIAL*)m_pModelDataX.m_pBuffMat->GetBufferPointer();
 
 }
 
@@ -85,15 +92,14 @@ void CModel::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
 
-	//現在のマテリアルを取得
 	D3DXMATRIX mtxRotModel, mtxTransModel,mtxScale;//計算用マトリックス
 	D3DXMATRIX mtxParent;//親のマトリックス
 	D3DMATERIAL9 Matdef;
 						 //各パーツのワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
-	////サイズ変更
-	//D3DXMatrixScaling(&mtxScale, m_scale.x, m_scale.y, m_scale.z);
-	//D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScale);
+	//サイズ変更
+	D3DXMatrixScaling(&mtxScale, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScale);
 
 	D3DXMatrixRotationYawPitchRoll(&mtxRotModel, m_rot.y, m_rot.x, m_rot.z);
 	////向きを反映
@@ -139,7 +145,7 @@ void CModel::Draw(void)
 
 		}
 		//保存していたマテリアルを戻す
-		pDevice->SetMaterial(&Matdef);
+		pDevice->SetMaterial(&m_SaveMat);
 
 	}
 }
@@ -149,14 +155,14 @@ void CModel::Draw(void)
 void CModel::SetDiffuse(float DiffuseA)
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
-																	 //マテリアルデータ編のポインタを取得
-	m_pMat = (D3DXMATERIAL*)m_pModelDataX.m_pBuffMat->GetBufferPointer();
+	////マテリアルデータ編のポインタを取得
+	//m_pMat = (D3DXMATERIAL*)m_pModelDataX.m_pBuffMat->GetBufferPointer();
 
 	for (int nCntMat = 0; nCntMat < (int)m_pModelDataX.m_nNumMat; nCntMat++)
 	{
 		m_pMat[nCntMat].MatD3D.Diffuse.a = DiffuseA;
-		//マテリアルの設定
-		pDevice->SetMaterial(&m_pMat[nCntMat].MatD3D);
+		////マテリアルの設定
+		//pDevice->SetMaterial(&m_pMat[nCntMat].MatD3D);
 	}
 
 }

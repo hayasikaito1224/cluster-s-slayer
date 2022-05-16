@@ -42,11 +42,13 @@ public:
 	virtual void AIMove();
 	virtual void AddLife(int nPower, int nType);
 	virtual void AddLife(int nLife);//体力の増減
+	void HoleAlign(D3DXVECTOR3 holePos, float fHitSize,float AlignSpeed);//ブラックホールに引き寄せられる処理
+	void AddLifeSkill(int nLife);//スキル攻撃を受けたときの体力の増減
 	//静的メンバー関数
 	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void AIBehavior();//敵AIの挙動の処理
 	void SetbDamage(bool bDamage) { m_bDamage = bDamage; }//ダメージを受けた状態にする
-	bool GetbDamage(void) { return m_bDamage; }//ダメージを受けている状態か取得
+	bool GetbDamage() { return m_bDamage; }//ダメージを受けている状態か取得
 	bool GetAIMove() { return m_bAIMove; }
 	bool GetAIMoveStop() { return m_bAIMoveStop; }
 	void SetHit(const bool& bHit) { m_bHit = bHit; }
@@ -55,8 +57,13 @@ public:
 	bool GetbInvincible() { return m_bInvincible; }
 	void Knockback(D3DXVECTOR3& Playerpos);
 	void SetbHitCollision(bool bHitCollision) { m_bHitCollision = bHitCollision; }
-	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	D3DXVECTOR3 GetPos() { return m_pos; }
+	D3DXVECTOR3 GetRot() { return m_rot; }
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	bool GetRushAttack() { return m_bHitRushAttack; }
+	void SetRushAttack(bool bRushAttack) { m_bHitRushAttack = bRushAttack; }
+	bool GetCanHitRushAttack() { return m_bCanHitRushAttack; }
+	void SetCanHitRushAttack(bool bRushAttack) { m_bCanHitRushAttack = bRushAttack; }
 private:
 protected:
 	std::random_device s_random;	// 非決定的な乱数生成器
@@ -73,6 +80,8 @@ protected:
 	bool	m_bInvincible;//無敵時間の判定
 	bool    m_bEffect;
 	bool m_bHitCollision;//プレイヤーからの攻撃が当たるようにする判定
+	bool m_bHitRushAttack;//プレイヤーの攻撃を受けているか
+	bool m_bCanHitRushAttack;//追撃の攻撃を受けれるか
 	D3DXVECTOR3 m_MoveSpeed; //位置
 	float m_fAng;
 	float s_CntTimer;//カウンター
@@ -94,6 +103,8 @@ protected:
 	int	 m_MotionType,	m_MotionLastType;
 	int					m_nPower;//攻撃力
 	int	m_nType;//敵の種類
+	float m_fGravity;
+	
 };
 
 

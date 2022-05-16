@@ -22,6 +22,12 @@
 #include "pause.h"
 #include "xload.h"
 #include "directinput.h"
+
+//エフェクト
+#include "LoadEffect.h"
+#define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
+
+
 #include <random>
 //静的メンバ変数宣言
 CInputKeyBoard	*CManager::m_pInputKeyboard = NULL;
@@ -41,6 +47,8 @@ CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;
 CXload			*CManager::m_pXload = NULL;
 CDirectInput	*CManager::m_pDirectInput = NULL;
+HWND	CManager::m_hWnd = 0;
+
 bool			CManager::m_bPause = false;
 bool			CManager::m_bStop = false;
 bool			CManager::m_bEnd = false;
@@ -64,6 +72,8 @@ CManager::~CManager()
 //--------------------------------------------
 HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 {
+	//ウィンドウハンドルの保存
+	m_hWnd = hWnd;
 	// レンダラーの生成
 	if (m_pRenderer == NULL)
 	{
@@ -149,6 +159,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	m_pLight[2]->Init(D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.0f), D3DXVECTOR3(0.89f, -0.11f, 0.44f));
 
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
+
+	//エフェクトステータスのロード＆格納
+	CLoadEffect::EffectStateLoad(EFFECT_STATE_TEXT3D);	//3D
 	return S_OK;
 }
 //--------------------------------------------
@@ -195,7 +208,6 @@ void CManager::Uninit(void)
 	if (m_pTexture != NULL)
 	{
 		m_pTexture->Uniinit();
-		delete m_pTexture;
 		m_pTexture = NULL;
 	}
 	if (m_pXload != NULL)
@@ -283,17 +295,20 @@ void CManager::Update(void)
 		{
 			m_pGame->Update();
 			//ポーズ
-			if (m_XInput->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||
-				m_pDirectInput->GetButtonTrigger(m_pDirectInput->START))
-			{
-				if(m_bEnd == false)
-				m_bStop = m_bStop ? false : true;
+			//if (m_XInput->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||
+			//	m_pDirectInput->GetButtonTrigger(m_pDirectInput->START))
+			//{
+			//	if (m_bEnd == false)
+			//	{
+			//		m_bStop = m_bStop ? false : true;
 
-				m_bPause = m_bPause ? false : true;
-				m_pSound->PlaySound(m_pSound->SOUND_LABEL_SE_ENTER);	// タイトルサウンド
-				m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_ENTER,0.6f);	// タイトルサウンド
+			//		m_bPause = m_bPause ? false : true;
+			//		m_pSound->PlaySound(m_pSound->SOUND_LABEL_SE_ENTER);	// タイトルサウンド
+			//		m_pSound->ControllVoice(m_pSound->SOUND_LABEL_SE_ENTER, 0.6f);	// タイトルサウンド
 
-			}
+			//	}
+
+			//}
 			if (m_bStop == true)
 			{
 				if (m_pPause == NULL)

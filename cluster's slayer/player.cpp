@@ -15,6 +15,17 @@
 #include "motion.h"
 #include "sword.h"
 #include "model.h"
+#include "game.h"
+#include "gauge.h"
+#include "gaugeber.h"
+#include "rushattack.h"
+<<<<<<< HEAD
+
+#include "PresetSetEffect.h"
+
+=======
+#include "blackhole.h"
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -24,9 +35,16 @@ static const float PlayerMoveSpeed = 10.0f;//プレイヤーの移動スピード
 static const float CameraLimit = 10.0f;//慣性の制限値
 static const float PlayerFacingUp = -100.0f;//プレイヤーの前に注視点になるようにする値
 static const float RevertTime = 100.0f;
+static const float AttackMoveSpeed = 0.0f;
 static const float AttackMoveTime = 20.0f;
 static const float AttackWaitTime = 35.0f;
 static const float ComboWaitTime = 10.0f;
+static const float PlayerPower = 5.0f;
+static const float MaxHP = 1000.0f;
+static const float MaxExp = 2.0f;
+static const int RushStartTime = 30;
+static const int BlackHoleShotTime= 200;
+
 static bool s_bCursor = true;
 
 CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
@@ -40,6 +58,18 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_bCanAttack = true;
 	m_pSword = nullptr;
 	m_fMoveSpeed = PlayerMoveSpeed;
+	m_fPower = PlayerPower;
+	m_fPowerDiameter = 1.0f;
+	m_fAutoHeel = 0.0f;
+	m_nLevel = 1;
+	m_fMaxExpDiameter = 1.0f;
+	m_fMaxExp = MaxExp;
+	m_bCanAutoHeel = false;
+	m_nTimer = 0;
+	m_bCanRushAttack = false;
+	m_nRushStartCnt = 0;
+	m_nBlackHoleCnt = BlackHoleShotTime;
+	m_bCanBlackHole = false;
 }
 
 CPlayer::~CPlayer()
@@ -60,6 +90,9 @@ CPlayer *CPlayer::Create()
 //---------------------------------------------
 HRESULT CPlayer::Init()
 {
+	//体力の設定
+	m_fHitPoint = MaxHP;
+
 	//階層構造の設定
 	m_pLayer = new CLayer_Structure;
 	m_pLayer->SetLayer_Structure("data/TEXT/PlayerParts000.txt", m_pParts, CModel::TYPE_PLAYER);
@@ -70,6 +103,7 @@ HRESULT CPlayer::Init()
 	m_pMotion->MotionLoad("data/TEXT/PlayerMotion.txt");
 	//武器の生成
 	WeaponSet("data/TEXT/PlayerParts000.txt");
+
 	return S_OK;
 }
 //-----------------------------------------------
@@ -88,16 +122,19 @@ void CPlayer::Update()
 {
 	CInputKeyBoard *Key = CManager::GetInputKeyboard();
 
+
 	if (Key->GetTrigger(DIK_F1) == true)
 	{
 		s_bCursor = s_bCursor ? false : true;
 	}
 	if (s_bCursor)
 	{
-		//クリックした位置のマウス座標を取得
-		GetCursorPos(&m_Cursol);
 		//画面の中心にマウスを設置
-		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+		RECT rec;
+		HWND hDeskWnd = GetForegroundWindow();
+		GetWindowRect(hDeskWnd, &rec); //デスクトップのハンドルからその(画面の)大きさを取得
+
+		SetCursorPos(rec.right/2, rec.bottom/2);
 		//マウスのカメラ操作
 		MouseCameraCtrl();
 
@@ -107,7 +144,7 @@ void CPlayer::Update()
 
 	//敵が近くにいるかを算出
 	m_bNearEnemy = IsNearEnemyState();
-
+	EachSkillManager();
 	//敵との当たり判定
 	CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
 	while (pScene_Enemy != NULL)
@@ -116,17 +153,28 @@ void CPlayer::Update()
 		{
 			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
 			D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+			int nSize = pEnemy->GetParts().size();
+			if (nSize != 0)
+			{
+				if (pEnemy->GetRushAttack())
+				{
+					//追撃する
+					CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
+					//追撃しないようにする
+					pEnemy->SetRushAttack(false);
+				}
+				//当たり判定
+				float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+				if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
+				{
+					break;
+				}
+				else
+				{
+					m_fMoveSpeed = PlayerMoveSpeed;
+				}
+			}
 
-			float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-			if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
-			{
-				m_fMoveSpeed = 5.5f;
-				break;
-			}
-			else
-			{
-				m_fMoveSpeed = PlayerMoveSpeed;
-			}
 		}
 		pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 	}
@@ -422,7 +470,7 @@ void CPlayer::Attack()
 			m_bCanAttackMove = false;
 		}
 		//攻撃時に移動
-		AttackMove(9.0f);
+		AttackMove(AttackMoveSpeed);
 	}
 
 	//最大コンボから最初のコンボに戻るときの待機
@@ -503,6 +551,8 @@ void CPlayer::AttackCtrl()
 				m_bAttackWait = true;
 				
 			}
+
+			CPresetEffect::SetEffect3D(0, m_pos, {});
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
 			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
@@ -576,6 +626,55 @@ void CPlayer::NearEnemyFace()
 	float fAng = atan2(EnemyVec.x, EnemyVec.z);//敵の向き
 	m_rot.y = fAng + D3DX_PI;
 
+}
+//-----------------------------------------------
+//レベルアップの処理
+//-----------------------------------------------
+void CPlayer::LevelUp(int nType)
+{
+	//レベルを加算する
+	m_nLevel += 1;
+	m_fMaxExpDiameter += 0.3f;
+	m_fMaxExp = m_fMaxExp *m_fMaxExpDiameter;
+	CManager::GetGame()->GetExpGauge()->GetGaugeBer(0)->SetGaugeValueMax(m_fMaxExp);
+	switch (nType)
+	{
+	case ATKup:
+		//攻撃力を上げる
+		m_fPowerDiameter += 0.1f;
+		m_fPower = PlayerPower * m_fPowerDiameter;
+		if (m_pSword)
+		{
+			//剣に攻撃力を反映
+			m_pSword->SetPower(m_fPower);
+		}
+		break;
+	case Eye:
+		break;
+	case Heal:
+		//オートヒール設定をオンにする
+		m_bCanAutoHeel = true;
+		m_fAutoHeel += 10.0f;
+		break;
+	case OverHeal:
+		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP,0);
+		CManager::GetGame()->GetHPGauge()->ResetGauge(1);
+		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP/2.0f, 1);
+
+		break;
+	case Sheild:
+		break;
+	case Beam:
+		break;
+	case BlackHole:
+		m_bCanBlackHole = true;
+		break;
+	case Rocket:
+		break;
+	case RushAttack:
+		m_bCanRushAttack = true;
+		break;
+	}
 }
 //-----------------------------------------------
 //今敵の近くかを算出
@@ -696,15 +795,33 @@ void CPlayer::Drawtext()
 	D3DXVECTOR3 PosV = pCamera->GetPosV();
 	D3DXVECTOR3 PosR = pCamera->GetPosR();
 	D3DXVECTOR3 Rot = pCamera->GetRot();
+	CMouse *pMouse = CManager::GetMouse();
+	POINT po;
+	GetCursorPos(&po);
+	float MousePos_X = po.x;
+	float MousePos_Y = po.y;
+	RECT rec;
+	HWND hDeskWnd = GetForegroundWindow();
+	GetWindowRect(hDeskWnd, &rec); //デスクトップのハンドルからその(画面の)大きさを取得
+
+	//nNum += sprintf(&str[nNum], " [GetMousePos().lX] %.5f\n", MousePos_X);
+	//nNum += sprintf(&str[nNum], " [GetMousePos().lY] %.5f\n", MousePos_Y);
+	//nNum += sprintf(&str[nNum], " [rec.left] %d\n", rec.left);
+	//nNum += sprintf(&str[nNum], " [rec.right] %d\n", rec.right);
 
 	nNum += sprintf(&str[nNum], " [MotionCnt] %.5f\n", m_pMotion->GetMotionCnt());
+	nNum += sprintf(&str[nNum], " [攻撃力] %.5f\n", m_fPower);
+	nNum += sprintf(&str[nNum], " [攻撃増加倍率] %.5f\n", m_fPowerDiameter);
+	nNum += sprintf(&str[nNum], " [レベル] %d\n", m_nLevel);
+
 	nNum += sprintf(&str[nNum], " [視点] %.5f,%.5f,%.5f\n", PosV.x, PosV.y, PosV.z);
 	nNum += sprintf(&str[nNum], " [注視点] %.5f,%.5f,%.5f\n", PosR.x, PosR.y, PosR.z);
 	nNum += sprintf(&str[nNum], " [回転] %.5f,%.5f,%.5f\n", Rot.x, Rot.y, Rot.z);
 
-	nNum += sprintf(&str[nNum], " [MotionKey] %d\n", m_pMotion->GetMotionKey());
-	nNum += sprintf(&str[nNum], " [Canhit] %d\n", m_pSword->GetCanHit());
-	nNum += sprintf(&str[nNum], " [m_bCanAttack] %d\n", m_bCanAttack);
+	//nNum += sprintf(&str[nNum], " [MotionKey] %d\n", m_pMotion->GetMotionKey());
+	//nNum += sprintf(&str[nNum], " [Canhit] %d\n", m_pSword->GetCanHit());
+	//nNum += sprintf(&str[nNum], " [m_bCanAttack] %d\n", m_bCanAttack);
+
 
 	LPD3DXFONT pFont = CManager::GetRenderer()->GetFont();
 	// テキスト描画
@@ -738,6 +855,46 @@ bool CPlayer::FixedTimeInterval(float fMaxTime)
 	}
 	//一定時間たったかを返す
 	return bStop;
+}
+//-----------------------------------------------
+//追撃処理
+//-----------------------------------------------
+void CPlayer::PlayerRushAttack()
+{
+
+}
+//-----------------------------------------------
+//各スキルの処理のまとめ
+//-----------------------------------------------
+void CPlayer::EachSkillManager()
+{
+	//オートヒール
+	if (m_bCanAutoHeel)
+	{
+		m_nTimer++;
+
+		if (m_nTimer >= 60)
+		{
+			m_nTimer = 0;
+			float fHP = CManager::GetGame()->GetHPGauge()->GetGaugeBer(1)->GetGaugeValue();
+			if (fHP <= 0.0f)
+			{
+				CManager::GetGame()->GetHPGauge()->SetGauge(-m_fAutoHeel, 0);
+			}
+		}
+
+	}
+	//ブラックホール
+	if (m_bCanBlackHole)
+	{
+		m_nBlackHoleCnt++;
+		if (m_nBlackHoleCnt >= BlackHoleShotTime)
+		{
+			m_nBlackHoleCnt = 0;
+			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy);
+		}
+
+	}
 }
 //-----------------------------------------------
 //攻撃したときの移動処理
@@ -793,6 +950,7 @@ void CPlayer::WeaponSet(const char * pcFileName)
 						if (!m_pSword)
 						{
 							m_pSword = CSword::Create(PartsPos, PartsRot, m_pParts[5]);
+							m_pSword->SetPower(m_fPower);
 						}
 						break;
 					}

@@ -31,7 +31,7 @@ void CPolygon::SetPos(D3DXVECTOR3 pos)
 {
 	m_Pos = pos;
 	CScene::SetPos(pos);
-
+	m_pos = pos;
 	VERTEX_2D *pVtx;
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -46,13 +46,32 @@ void CPolygon::SetPos(D3DXVECTOR3 pos)
 
 }
 //=============================================================================
+//色の設定
+//=============================================================================
+void CPolygon::SetCol(D3DXCOLOR col)
+{
+	m_col = col;
+	VERTEX_2D *pVtx;
+
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//バッファの生成
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	m_pVtxBuff->Unlock();
+
+}
+//=============================================================================
 //初期化
 //=============================================================================
 HRESULT CPolygon::Init()
 {
 	CScene2D::BindTexture(m_Tex);
 	CScene2D::Init();
-	CScene2D::SetPos(m_Pos, m_Scale);
+	CScene2D::SetPos(m_pos, m_Scale);
 	CScene2D::SetCol(m_col);
 	return S_OK;
 }
@@ -88,12 +107,12 @@ void CPolygon::Draw()
 //=============================================================================
 //クリエイト
 //=============================================================================
-CPolygon *CPolygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 scale, CTexture::Type texture, D3DXCOLOR col)
+CPolygon *CPolygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 scale, CTexture::Type texture, D3DXCOLOR col, int nPriority)
 {
 	//インスタンス生成
-	CPolygon *pPolygon = new CPolygon(OBJTYPE_POLYGON);
+	CPolygon *pPolygon = new CPolygon((CScene::OBJTYPE)nPriority);
 
-	pPolygon->m_Pos = pos;
+	pPolygon->m_pos = pos;
 	pPolygon->m_Scale = scale;
 	pPolygon->m_Tex = texture;
 	pPolygon->m_col = col;

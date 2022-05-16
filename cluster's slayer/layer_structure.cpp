@@ -4,7 +4,6 @@
 #include "layer_structure.h"
 #include "model.h"
 
-
 //--------------------------
 //コンストラクト
 //----------------------------
@@ -125,6 +124,116 @@ void CLayer_Structure::SetLayer_Structure(const char * sFileName, vector<CModel*
 							pModel[nIndex]->SetParent(NULL);
 							pModel[nIndex]->SetNumParent(-1);
 						}
+						break;
+					}
+
+				}
+				//終了
+				if (strcmp(string[1], "END_CHARACTERSET") == 0)
+				{
+					break;
+				}
+
+			}
+
+			//スクリプト読込の終了
+			if (strcmp(string[0], "END_SCRIPT") == 0)
+			{
+				break;
+			}
+
+		}
+	}
+
+}
+
+//-----------------------------------------------------------
+//階層構造の読み込み
+//-----------------------------------------------------------
+void CLayer_Structure::SetLayer_Structure(const char * sFileName, CCharacterPartsData::PartsData *PartsData, int nType)
+{
+	int nIndex = 0;						//パーツの番号
+	int nParent = 0;				//親子関係
+	char string[6][255];
+	char pPartsFileName[20][255];	//モデルパーツのファイルネーム
+	memset(&pPartsFileName, NULL, sizeof(pPartsFileName));
+	D3DXVECTOR3 PartsPos, PartsRot;	//各パーツの位置と向き
+	int nCntModel = 0;
+	int nNumModel = 0;
+	int nTypeMode = 0;
+	//textファイル読み込み
+	FILE *pfile = fopen(sFileName, "r");
+	//ヌルチェック
+	if (pfile != NULL)
+	{
+		while (1)
+		{
+			//一単語を読み込む
+			fscanf(pfile, "%s", &string[0]);
+			//何に使うモデル化判断
+			if (strcmp(string[0], "MODEL_TYPE") == 0)
+			{
+				fscanf(pfile, "%s", &string[1]);
+				fscanf(pfile, "%d", &PartsData->nLoadModelType);
+			}
+
+			//モデル数
+			if (strcmp(string[0], "NUM_MODEL") == 0)
+			{
+				fscanf(pfile, "%s", &string[1]);
+				fscanf(pfile, "%d", &PartsData->nMaxModelNum);
+				m_MaxParts = PartsData->nMaxModelNum;
+				//動的確保
+				for (int nCnt = 0; nCnt < m_MaxParts; nCnt++)
+				{
+					PartsData->pModelData.push_back(new CCharacterPartsData::ModelData);
+
+				}
+			}
+
+			//--------------------------------------
+			//モデルの階層構造の設定
+			//--------------------------------------
+			while (strcmp(string[0], "CHARACTERSET") == 0)
+			{
+				fscanf(pfile, "%s", &string[1]);
+
+				//パーツの設定
+				while (strcmp(string[1], "PARTSSET") == 0)
+				{
+					fscanf(pfile, "%s", &string[2]);
+					//モデルパーツの番号
+					if (strcmp(string[2], "INDEX") == 0)
+					{
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%d", &nIndex);
+						PartsData->pModelData[nIndex]->nIndex = nIndex;
+					}
+					//親の番号
+					if (strcmp(string[2], "PARENT") == 0)
+					{
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%d", &nParent);
+						PartsData->pModelData[nIndex]->nParent = nParent;
+
+					}
+					//位置
+					if (strcmp(string[2], "POS") == 0)
+					{
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%f %f %f", &PartsPos.x, &PartsPos.y, &PartsPos.z);
+						PartsData->pModelData[nIndex]->pos = PartsPos;
+					}
+					//向き
+					if (strcmp(string[2], "ROT") == 0)
+					{
+						fscanf(pfile, "%s", &string[2]);
+						fscanf(pfile, "%f %f %f", &PartsRot.x, &PartsRot.y, &PartsRot.z);
+						PartsData->pModelData[nIndex]->rot = PartsRot;
+					}
+					//モデルの生成
+					if (strcmp(string[2], "END_PARTSSET") == 0)
+					{
 						break;
 					}
 

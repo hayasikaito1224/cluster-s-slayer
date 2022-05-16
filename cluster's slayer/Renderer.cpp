@@ -236,7 +236,7 @@ void CRenderer::Draw(void)
 
 
 				pDevice->SetTransform(D3DTS_WORLD, &world_matrix);
-				pGame->Draw(&world_matrix);
+				pGame->Draw();
 			}
 
 			if (nCnt == 0)
@@ -261,7 +261,7 @@ void CRenderer::Draw(void)
 			}
 			if (nCnt == 1)
 			{
-				m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+				//m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 				CScene::MapDraw();
 			}

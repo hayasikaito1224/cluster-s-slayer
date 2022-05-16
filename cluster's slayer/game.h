@@ -19,6 +19,7 @@ class CPolygon;
 class CStage;
 class CCamera;
 class CEnemySpawnManager;
+class CGauge;
 
 class CGame
 {
@@ -33,20 +34,21 @@ public:
 
 	CGame();
 	~CGame();
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(LPD3DXMATRIX mtrix);
+	HRESULT Init();
+	void Uninit();
+	void Update();
+	void Draw();
 
-	static CPlayer *GetPlayer(void) { return m_Player; }
-	static CModel_Spawner	*GetModel(void) { return m_pModel; }
-	static CScore			*GetScore(void) { return m_pScore; }
-	static CMeshSphere		*GetMeshSphere(void) { return m_pMeshSphere; }
-	static CPolygon			*GetCursol(void) { return m_Cursol; }
-	static CParticle		*GetParticle(void) { return m_Particle; }
+	static CPlayer *GetPlayer() { return m_Player; }
+	static CModel_Spawner	*GetModel() { return m_pModel; }
+	static CScore			*GetScore() { return m_pScore; }
+	static CMeshSphere		*GetMeshSphere() { return m_pMeshSphere; }
+	static CPolygon			*GetCursol() { return m_Cursol; }
+	static CParticle		*GetParticle() { return m_Particle; }
+	static CGauge		*GetHPGauge() { return m_pHPGauge; }
+	static CGauge		*GetExpGauge() { return m_pExpGauge; }
 
 private:
-	static std::vector<CPolygon*> m_pCStock;
 	static CEnemySpawnManager		*m_pEnemySpawnManager;
 	static CScore		*m_pScore;
 	static CBg			*m_pBg;
@@ -58,6 +60,9 @@ private:
 	static CPolygon		*m_Cursol;
 	static CMeshSphere	*m_pMeshSphere;
 	static CStage		*m_pStage;
+	static CGauge	*m_pExpGauge;
+	static CGauge	*m_pHPGauge;
+
 	static CParticle	*m_Particle;
 	bool m_bPush;
 	bool m_bEnd;

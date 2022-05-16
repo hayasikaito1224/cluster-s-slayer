@@ -45,7 +45,9 @@ public:
 	D3DXVECTOR3 GetLayerPos() { return m_layerpos; }
 	D3DXVECTOR3 GetLayerRot() { return m_layerrot; }
 	void SetDiffuse(float DiffuseA);
-	D3DXMATERIAL *GetMat() { return m_pSaveMat; }
+	D3DXMATERIAL *GetMat() { return m_pMat; }
+	void SetMat(D3DXMATERIAL *pMat) { m_pMat = pMat; }
+	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }
 	void SetNumParent(int Parent) { m_nNumParent = Parent; }
 	int GetNumParent() { return m_nNumParent; }
 	CXload::ModelVtx GetVtx(int nNumVtx) { return m_vtx[nNumVtx]; }//各モデルの頂点情報の取得
@@ -62,7 +64,10 @@ private:
 	
 	D3DXMATRIX				m_mtxWorld;						//ワールドマトリックス
 	D3DXMATERIAL			*m_pMat;						//マテリアルへのポインタ
-	D3DXMATERIAL			*m_pSaveMat;					//マテリアルへのポインタのセーブ
+	D3DMATERIAL9			m_SaveMat;					//マテリアルへのポインタのセーブ
+	float m_fAlpha;
+	float m_fSaveAlpha;
+
 	int						m_nNumParent;					//現在の親モデルの番号
 	CModel					*m_pParent;						//親モデルのポインタ
 	char					m_sFailName[256];

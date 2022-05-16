@@ -25,6 +25,24 @@
     <Filter Include="ソース ファイル\敵の出現設定">
       <UniqueIdentifier>{ce416282-f320-477b-b0a6-ea75a5606996}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\アイテム">
+      <UniqueIdentifier>{409b5cf5-6d1c-4d3f-814c-cf192471d8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲージ">
+      <UniqueIdentifier>{d6dedc36-cbe9-42a0-9842-8252a3c2a946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\スキル選択">
+      <UniqueIdentifier>{a2bc1e0a-d7d7-46e2-a7ac-32ec09b0ee1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\２Dポリゴンの縁取り">
+      <UniqueIdentifier>{a34d874b-3068-42d7-9893-f54e8752c7b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\キャラクター\アタックスキル">
+      <UniqueIdentifier>{8f02e367-2207-469a-8777-9d26e5177436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\エフェクト">
+      <UniqueIdentifier>{fbf6ab1f-b9b6-4896-902b-6f813f9e587c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\stage.h">
@@ -120,9 +138,6 @@
     <ClInclude Include="..\cluster%27s slayer\game.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\gauge.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\fade.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -164,6 +179,62 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h">
       <Filter>ソース ファイル\敵の出現設定</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\exp_ball.h">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\item.h">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\gauge.h">
+      <Filter>ソース ファイル\ゲージ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\skillselect.h">
+      <Filter>ソース ファイル\スキル選択</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\selectbottom.h">
+      <Filter>ソース ファイル\スキル選択</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\frame.h">
+      <Filter>ソース ファイル\２Dポリゴンの縁取り</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\smallscore.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\number.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\gaugeber.h">
+      <Filter>ソース ファイル\ゲージ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\character_partsdata.h">
+      <Filter>ソース ファイル\キャラクター</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\rushattack.h">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="..\cluster%27s slayer\billeffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\plane.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\straight3d.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h">
+      <Filter>ソース ファイル\エフェクト</Filter>
+=======
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +328,6 @@
     <ClCompile Include="..\cluster%27s slayer\light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\gauge.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -304,6 +372,62 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp">
       <Filter>ソース ファイル\敵の出現設定</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\item.cpp">
+      <Filter>ソース ファイル\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\gauge.cpp">
+      <Filter>ソース ファイル\ゲージ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\skillselect.cpp">
+      <Filter>ソース ファイル\スキル選択</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\selectbottom.cpp">
+      <Filter>ソース ファイル\スキル選択</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\frame.cpp">
+      <Filter>ソース ファイル\２Dポリゴンの縁取り</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\smallscore.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\number.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\gaugeber.cpp">
+      <Filter>ソース ファイル\ゲージ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp">
+      <Filter>ソース ファイル\キャラクター</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="..\cluster%27s slayer\billeffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\plane.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\straight3d.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp">
+      <Filter>ソース ファイル\エフェクト</Filter>
+=======
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
+      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
+>>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     </ClCompile>
   </ItemGroup>
 </Project>

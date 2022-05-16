@@ -100,7 +100,7 @@ void CScene::UpdateAll(void)
 		}
 		else
 		{
-			if (nObj == OBJTYPE_PAUSE || nObj == OBJTYPE_UI || nObj == OBJTYPE_FADE)
+			if (nObj == OBJTYPE_PAUSE || nObj == OBJTYPE_UI || nObj == OBJTYPE_FADE || nObj == OBJTYPE_POLYGON)
 			{
 				if (m_pTop[nObj] != NULL)
 				{

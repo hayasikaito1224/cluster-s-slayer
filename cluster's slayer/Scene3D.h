@@ -48,6 +48,13 @@ public:
 	void SetCol(D3DXCOLOR col);								//テクスチャの設定
 	static CScene3D *Create(D3DXVECTOR3 size);
 
+	//エフェクト用関数
+	void ColorChange(D3DCOLORVALUE color);	//エフェクト色変更
+	void ChangeSize(D3DXVECTOR3 size);	//TDNサイズ変更
+	void BillboardSize(float size);	//ビルボードサイズ変更
+	void SetPosField(D3DXVECTOR3 pos, D3DXVECTOR3 Size, float Rotate, float Rotate2);//平面系のエフェクトの回転
+	LPDIRECT3DVERTEXBUFFER9 GetVtx() { return m_pVtxBuff; }
+
 private:
 
 protected:
@@ -55,7 +62,6 @@ protected:
 	LPDIRECT3DTEXTURE9		m_pTexture = NULL;				//テクスチャへのポインタ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = NULL;				//頂点バッファへのポインタ
 	LPDIRECT3DDEVICE9 m_pDevice = NULL;//デバイスのポインタ
-
 	D3DXMATRIX m_mtxWorld;
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_rot;

@@ -35,17 +35,19 @@ public:
 		FIELD,			//床
 		SKY,			//空
 		FIRE,
-		COMMAND_ATTACK,
-		COMMAND_MAGIC,
-		COMMAND_ENHANCE,
-		COMMAND_BG,//コマンドの背景
+		ATKup,
+		Eye,
+		Heal,
+		OverHeal,
+		Sheild,
+		Beam,
+		BlackHole,
+		Rocket,
+		RushAttack,
 		A_BUTTON,
 		B_BUTTON,
 		X_BUTTON,
 		L_BUTTON,
-		BLAZE,
-		ICECLE,
-		HEEL,
 		Map_Player,
 		Map_Enemy,
 		Map_Purpose,	//目的地に指すやつ
@@ -69,6 +71,7 @@ public:
 		TargetText,//目的地表示用の
 		RockOn,//ロックオン用
 		SkillOk,//ロックオン用
+		CycleEffect,	//わっかエフェクト
 		Max,			// テクスチャの最大数
 	} Type;
 

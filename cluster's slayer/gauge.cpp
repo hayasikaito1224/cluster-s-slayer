@@ -8,13 +8,14 @@
 #include "gauge.h"
 #include "fade.h"
 #include "Polygon.h"
-CGauge::CGauge(OBJTYPE nPriority) : CScene2D(nPriority)
+#include "gaugeber.h"
+
+CGauge::CGauge(OBJTYPE nPriority) : CScene(nPriority)
 {
-	m_pos = { 0.0f,0.0f,0.0f };
-	m_Scale = { 0.0f,0.0f,0.0f };
-	m_col = { 1.0,1.0,1.0,1.0 };
-	m_fMaxGauge = 395.0f;
-	m_AddType = L_ADD;
+	for (int nCnt = 0; nCnt < 2; nCnt++)
+	{
+		m_pGaugeBer[nCnt] = nullptr;
+	}
 	m_pFrame = nullptr;
 }
 
@@ -23,36 +24,31 @@ CGauge::~CGauge()
 
 }
 
-CGauge *CGauge::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 scale, const D3DXCOLOR col, const float MaxGauge, const int nValue, const ADDTYPE type)
+CGauge *CGauge::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const D3DXCOLOR& col, const float& MaxGauge, const int& nValue, const int& type)
 {
 	CGauge *pGauge = NULL;
-	pGauge = new CGauge;
-	pGauge->m_pos = pos;
-	pGauge->m_Scale = scale;
-	pGauge->m_fMaxGauge = MaxGauge;
-	pGauge->m_col = col;
+	pGauge = new CGauge(OBJTYPE_GAUGE);
+	pGauge->m_pGaugeBer[0] = CGaugeBer::Create(pos, scale, col, MaxGauge, nValue, type);
+	pGauge->m_pGaugeBer[1] = CGaugeBer::Create(pos, scale, {1.0,1.0,0.0,1.0}, MaxGauge, nValue, type);
+	pGauge->m_pGaugeBer[1]->ResetGauge();
+	//ゲージの枠の生成
+	if (!pGauge->m_pFrame)
+	{
+		pGauge->m_pFrame = CPolygon::Create({ pos.x + (MaxGauge / 2.0f),pos.y,0.0f }, { scale.x / 1.97f ,scale.y*1.1f,0.0f }, CTexture::GAUGEFRAME);
+	}
 	pGauge->Init();
-	pGauge->BindTexture(CTexture::GAUGEBER);
-	pGauge->m_fValueMax = nValue;
-	pGauge->m_fValue = nValue;
-	pGauge->m_AddType = type;
+
 	return pGauge;
 }
 
 HRESULT CGauge::Init(void)
 {
-	CScene2D::Init();
-	//ゲージの枠の生成
-	if (m_pFrame == nullptr)
-	{
-		m_pFrame = CPolygon::Create({ m_pos.x + (m_fMaxGauge / 2.0f),m_pos.y,0.0f }, { m_Scale.x / 1.97f ,m_Scale.y*1.1f,0.0f }, CTexture::GAUGEFRAME);
-	}
+
 	return S_OK;
 }
 
 void CGauge::Uninit()
 {
-	CScene2D::Uninit();
 	if (m_pFrame != nullptr)
 	{
 		m_pFrame->Uninit();
@@ -63,87 +59,35 @@ void CGauge::Uninit()
 void CGauge::Update()
 {
 
-	SetScalePos(m_pos, m_Scale, m_AddType);
 
-	//ゲージが最大になったら最大値にする
-	if (m_Scale.x >= m_fMaxGauge)
-	{
-		m_Scale.x = m_fMaxGauge;
-	}
-	//ゲージをマイナスまでいかせない
-	else if (m_Scale.x <= 0.0f)
-	{
-		m_Scale.x = 0.0f;
-	}
 }
 
 void CGauge::Draw()
 {
-	CScene2D::Draw();
+	
 }
 //--------------------------------------------------------------------
 //ゲージのリセット
 //--------------------------------------------------------------------
-void CGauge::ResetGauge()
+void CGauge::ResetGauge(int nGaugeType)
 {
-	m_Scale.x = 0.0f;
-	m_fValue = 0;
+	m_pGaugeBer[nGaugeType]->ResetGauge();
 
 }
 
 //--------------------------------------------------------------------
 //ゲージの減少用
 //--------------------------------------------------------------------
-void CGauge::SetGauge(float Set)
+void CGauge::SetGauge(float Set, int nGaugeType)
 {
-	m_fValue -= Set;
-	float fAdd = (m_fMaxGauge * Set) / m_fValueMax;
-	m_Scale.x -= fAdd;
+	m_pGaugeBer[nGaugeType]->SetGauge(Set);
 
-	if (m_fValue >= m_fValueMax)
-	{
-		m_fValue = m_fValueMax;
-		m_Scale.x = m_fMaxGauge;
-	}
 }
 
 //--------------------------------------------------------------------
 //スケールのpos＋側だけ増やすため
 //--------------------------------------------------------------------
-void CGauge::SetScalePos(D3DXVECTOR3 pos, D3DXVECTOR3 scale, ADDTYPE AddType)
+void CGauge::SetScalePos(D3DXVECTOR3 pos, D3DXVECTOR3 scale, int AddType, int nGaugeType)
 {
-
-	CScene::SetPos(pos);
-	CScene::SetScale(scale);
-
-	VERTEX_2D *pVtx;
-
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-	switch (AddType)
-	{
-	case R_ADD:
-		//バッファの生成
-		pVtx[0].pos = D3DXVECTOR3(pos.x, pos.y - scale.y, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(pos.x + scale.x, pos.y - scale.y, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(pos.x, pos.y + scale.y, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(pos.x + scale.x, pos.y + scale.y, 0.0f);
-
-		break;
-	case L_ADD:
-		//バッファの生成
-		pVtx[0].pos = D3DXVECTOR3(pos.x - scale.x, pos.y - scale.y, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(pos.x , pos.y - scale.y, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(pos.x - scale.x, pos.y + scale.y, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(pos.x , pos.y + scale.y, 0.0f);
-
-
-		break;
-	}
-	pVtx[0].tex = D3DXVECTOR2(0.0, 0.0);
-	pVtx[1].tex = D3DXVECTOR2((1.0f / m_fMaxGauge)*scale.x, 0.0);
-	pVtx[2].tex = D3DXVECTOR2(0.0, 1.0);
-	pVtx[3].tex = D3DXVECTOR2((1.0f / m_fMaxGauge)*scale.x, 1.0);
-
-	m_pVtxBuff->Unlock();
-
+	m_pGaugeBer[nGaugeType]->SetScalePos(pos, scale, AddType);
 }

@@ -18,12 +18,16 @@
 #include "map_polygon.h"
 #include "shadow.h"
 #include "motion.h"
-
+#include "exp_ball.h"
+#include "smallscore.h"
+#include "character_partsdata.h"
 static const float AttackStartNear = 150.0f;//攻撃を始めるまでのプレイヤーとの近さ
 static const float AttackStartTime = 20.0f;//攻撃開始までの時間
 static const int Power = 20;//攻撃力
-static const int Life = 20;//体力
+static const int Life = 10;//体力
 static const float MoveSpeed = 1.0f;//移動速度
+static const int MinEXPNum = 1;//経験値を落とす数
+static const int MaxEXPNum = 3;//経験値を落とす数
 
 CEnemy001::CEnemy001(OBJTYPE nPriority) : CEnemy(nPriority)
 {
@@ -53,14 +57,11 @@ CEnemy001 *CEnemy001::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //----------------------------------
 HRESULT CEnemy001::Init()
 {
-	CEnemy::Init();
 	m_nType = NONE;
-	//ファイル読み込み
-	CLayer_Structure *pLayer = NULL;
-	pLayer = new CLayer_Structure;
-	pLayer->SetLayer_Structure("data/TEXT/EnemyParts000.txt", m_pParts, CModel::TYPE_ENEMY);
-	CModel *pmodel = new CModel;
-	if (m_pParts[0])
+	CCharacterPartsData::SetParts(&m_pParts);
+
+	int nSize = m_pParts.size();
+	if (nSize != 0)
 	{
 		m_fRadius = m_pParts[0]->GetMaxPos().x;
 	}
@@ -71,6 +72,7 @@ HRESULT CEnemy001::Init()
 		m_MotionType = 0;
 		m_pMotion->MotionLoad("data/TEXT/poyo_motion.txt");
 	}
+	CEnemy::Init();
 
 	return S_OK;
 }
@@ -79,6 +81,17 @@ HRESULT CEnemy001::Init()
 //----------------------------------
 void CEnemy001::Uninit()
 {
+
+	static std::random_device random;	// 非決定的な乱数生成器
+	std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
+	std::uniform_real_distribution<> randEXPNum(MinEXPNum, MaxEXPNum);//経験値の数を乱数で決める
+	int nExpNum = randEXPNum(mt);
+	//経験値を落とす
+	for (int nCnt = 0; nCnt < nExpNum; nCnt++)
+	{
+		//CExp_Ball::Create(m_pos);
+	}
+
 	CEnemy::Uninit();
 	Release();
 }
@@ -163,8 +176,8 @@ void CEnemy001::AIMove()
 
 		if (m_fWalkSoundInterval <= 0.0f)
 		{
-			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENEMYWALK);
-			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMYWALK, 0.6f);
+			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENEMYWALK);
+			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMYWALK, 0.6f);
 			m_fWalkSoundInterval = 2.3f;
 		}
 		m_pos += m_MoveSpeed;
@@ -186,8 +199,12 @@ void CEnemy001::AddLife(int nLife)
 {
 	if (m_bDamage == true && m_bHitCollision == true)
 	{
+
 		int nDamege = nLife + m_nDefense;
 		m_fHitPoint += nDamege;
+		int nDrawDamage = abs(nDamege);
+		CSmallScore::Create({m_pos.x,m_pos.y+30.0f,m_pos.z}, { 10.0f,20.0f,0.0f }, nDrawDamage);
+		m_fGravity += 200.0f;
 
 	}
 }

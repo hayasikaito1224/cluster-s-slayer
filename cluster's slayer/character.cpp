@@ -14,7 +14,6 @@ CCharacter::CCharacter(OBJTYPE nPriority) : CScene(nPriority)
 {
 	m_pParts.clear();
 	m_IsCharacterDraw = true;
-	m_pLayer = nullptr;
 	m_nPartsMax = 0;
 	m_pMotion = nullptr;
 }
@@ -148,4 +147,16 @@ void CCharacter::HPChange(float fNum)
 void CCharacter::StateChange(state_type StateType)
 {
 	m_StateType = StateType;
+}
+//-----------------------------------------------
+//キャラクターのパーツ取得処理
+//---------------------------------------------
+CModel * CCharacter::GetParts(int nPartsNum)
+{
+	int nSize = m_pParts.size();
+	if (nSize != 0)
+	{
+		return  m_pParts[nPartsNum];
+	}
+	return nullptr;
 }

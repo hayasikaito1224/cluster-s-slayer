@@ -28,8 +28,10 @@ public:
 		OBJTYPE_EFFECT,				//エフェクト
 		OBJTYPE_SHADOW,				//エフェクト
 		OBJTYPE_ITEM,					//UI
+		OBJTYPE_FRAME,//枠
 		OBJTYPE_POLYGON,
 		OBJTYPE_MAP_UI,				//マップに表示するUI
+		OBJTYPE_GAUGE,
 		OBJTYPE_UI,					//UI
 		OBJTYPE_PAUSE,				//PAUSE
 		OBJTYPE_FADE,				//フェード

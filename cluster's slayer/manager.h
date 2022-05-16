@@ -38,30 +38,35 @@ public:
 	CManager();
 	~CManager();
 	HRESULT Init(HINSTANCE hInstance, HWND hWnd, bool bWindow);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
-	static CXload	 *GetXload(void) { return m_pXload; }
-	static CRenderer *GetRenderer(void);
-	static CInputKeyBoard *GetInputKeyboard(void);
-	static CTexture *GetTexture(void);
-	static CFade *GetFade(void)								{ return m_Fade; }
-	static CGame *GetGame(void)								{ return m_pGame; }
+	void Uninit();
+	void Update();
+	void Draw();
+	static CXload	 *GetXload() { return m_pXload; }
+	static CRenderer *GetRenderer();
+	static CInputKeyBoard *GetInputKeyboard();
+	static CTexture *GetTexture();
+	static CFade *GetFade(){ return m_Fade; }
+	static CGame *GetGame(){ return m_pGame; }
 	static void SetMode(MODE mode);						//モードの設定
-	static MODE GetMode(void);
-	static bool GetPause(void) { return m_bPause; }
+	static MODE GetMode();
+	static bool GetPause() { return m_bPause; }
 	static void SetPause(bool bPause, bool bStop = false) {
 		m_bPause = bPause;
 		m_bStop = bStop;
 	}
+	static void SetGameStop(bool bStop) { m_bStop = bStop; }
+
 	static void SetEnd(bool bEnd)							{ m_bEnd = bEnd;}
-	static CXInput *GetXInput(void)							{ return m_XInput; }
-	static CMouse *GetMouse(void)							{ return m_Mouse; }
-	static CSound *GetSound(void)							{ return m_pSound; }
-	static CDirectInput *GetDirectInput(void)				{ return m_pDirectInput; }
-	static bool GetClear(void)								{ return m_bClear; }
+	static CXInput *GetXInput()							{ return m_XInput; }
+	static CMouse *GetMouse()							{ return m_Mouse; }
+	static CSound *GetSound()							{ return m_pSound; }
+	static CDirectInput *GetDirectInput()				{ return m_pDirectInput; }
+	static bool GetClear()								{ return m_bClear; }
 	static void SetClear(bool bClear)						{ m_bClear = bClear; }
+	static HWND GethWnd() { return m_hWnd; }
+
 private:
+	static HWND m_hWnd;//このプログラムが使っているウィンドウのハンドル
 	static CRenderer		*m_pRenderer;
 	static CInputKeyBoard	*m_pInputKeyboard;
 	static CXInput			*m_XInput;
