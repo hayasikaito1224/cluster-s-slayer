@@ -90,9 +90,12 @@ void CStraight3D::Update()
 		m_XZr = (float)atan2(v.x, v.z);		//Šp“x‚˜‚š
 		m_Yr = (float)atan2(v.x, v.y);		//Šp“x‚™
 
-		pos += D3DXVECTOR3(sinf(m_XZr) * -m_move.x, cosf(m_Yr) * -m_move.x, cosf(m_XZr) * -m_move.x);
+		pos += D3DXVECTOR3(
+			sinf(m_XZr) * -m_move.x,	//X
+			-m_move.x * sinf(m_Yr + D3DX_PI / 2),	//‚š(‚™)
+			cosf(m_XZr) * -m_move.x);	//z
 
-		if (r < 30)
+		if (r < 5)
 		{
 			m_bUninit = true;
 		}

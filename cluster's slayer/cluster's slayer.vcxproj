@@ -152,11 +152,8 @@
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
-=======
     <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
@@ -197,6 +194,7 @@
     <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
     <ClInclude Include="..\cluster%27s slayer\result.h" />
+    <ClInclude Include="..\cluster%27s slayer\Rotate3d.h" />
     <ClInclude Include="..\cluster%27s slayer\rushattack.h" />
     <ClInclude Include="..\cluster%27s slayer\scene.h" />
     <ClInclude Include="..\cluster%27s slayer\scene2D.h" />
@@ -220,11 +218,8 @@
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
-=======
     <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
@@ -265,6 +260,7 @@
     <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\result.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Rotate3d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\rushattack.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene2D.cpp" />

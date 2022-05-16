@@ -19,13 +19,10 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
-<<<<<<< HEAD
 
 #include "PresetSetEffect.h"
 
-=======
 #include "blackhole.h"
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
