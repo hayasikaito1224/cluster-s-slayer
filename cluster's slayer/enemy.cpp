@@ -30,7 +30,8 @@
 #define MAX_ENEMY_DEFENSE (2)//敵の防御力
 #define MAX_ATTACKSTARTTIME (20)//攻撃開始までの時間
 #define ADDCP (10)		//無敵判定の時間
-static const float GravitySpeed = 5.0f;
+static const float GravitySpeed = 0.7f;
+int CEnemy::m_nMaxEnemy = 0;
 CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 {
 	m_bAIMove = false;
@@ -47,6 +48,7 @@ CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 	m_pShadow = nullptr;
 	m_bCanHitRushAttack = true;
 	m_fGravity = 0.0f;
+	m_nMaxEnemy++;
 }
 
 CEnemy::~CEnemy()
@@ -88,6 +90,9 @@ HRESULT CEnemy::Init()
 	if (!m_pShadow)
 	{
 		m_pShadow = CShadow::Create({ 0.0f,0.0f,0.0f }, 50.0f, CTexture::Effect);
+		m_pShadow->SetPos(0.0f, 0.0f, { m_pParts[0]->GetMaxPos().x ,0.0,m_pParts[0]->GetMaxPos().z });
+		m_pShadow->SetPos(m_pos);
+
 	}
 
 	return S_OK;
@@ -98,7 +103,7 @@ HRESULT CEnemy::Init()
 void CEnemy::Uninit()
 {
 	CCharacter::Uninit();
-
+	m_nMaxEnemy--;
 	Release();
 }
 //-----------------------------------------
@@ -129,13 +134,14 @@ void CEnemy::Update()
 
 		}
 		//重力に関する処理
-		m_fGravity--;
-		m_pos.y -= m_fGravity;
+		m_fGravity -= GravitySpeed;
+		m_pos.y += m_fGravity;
 
 		if(m_pos.y <= 0.0f)
 		{
 			m_pos.y = 0.0f;
 		}
+
 		if (m_bDraw == true)
 		{
 			CCollision *pCollision = new CCollision;
@@ -163,7 +169,6 @@ void CEnemy::Update()
 			{
 				float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
 				IsCollision(&m_pos, pPlayer->GetPos(), fRadius, 5.0f);
-
 			}
 			//ノックバック状態なら
 			if (m_bKnockback == true)
@@ -375,7 +380,7 @@ void CEnemy::AddLifeSkill(int nLife)
 	int nDamege = nLife + m_nDefense;
 	m_fHitPoint += nDamege;
 	int nDrawDamage = abs(nDamege);
-	CSmallScore::Create({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, nDrawDamage);
+	CSmallScore::Create({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, { 1.0f, 0.3f, 0.3f, 0.0f }, nDrawDamage);
 
 }
 //----------------------------------------------------------
@@ -440,6 +445,12 @@ void CEnemy::Knockback(D3DXVECTOR3& Playerpos)
 	//プレイヤーを動かす
 	m_pos.x -= fSpeed_x;
 	m_pos.z -= fSpeed_z;
+	m_nCntHitInterval++;
+	if (m_nCntHitInterval >= MAX_HIT_TIME)
+	{
+		m_nCntHitInterval = 0;
+		m_bKnockback = false;
+	}
 
 }
 

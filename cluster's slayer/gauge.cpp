@@ -34,7 +34,7 @@ CGauge *CGauge::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const D
 	//ƒQ[ƒW‚Ì˜g‚Ì¶¬
 	if (!pGauge->m_pFrame)
 	{
-		pGauge->m_pFrame = CPolygon::Create({ pos.x + (MaxGauge / 2.0f),pos.y,0.0f }, { scale.x / 1.97f ,scale.y*1.1f,0.0f }, CTexture::GAUGEFRAME);
+		pGauge->m_pFrame = CPolygon::Create({ pos.x + (MaxGauge / 2.0f),pos.y,0.0f }, { scale.x / 1.97f ,scale.y*1.1f,0.0f }, CTexture::GAUGEFRAME, {1.0,1.0,1.0,1.0}, OBJTYPE_GAUGEFRAME);
 	}
 	pGauge->Init();
 

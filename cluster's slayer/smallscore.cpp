@@ -35,8 +35,8 @@ HRESULT CSmallScore::Init()
 	for (int nCnt = 0; nCnt < m_nMaxTruss; nCnt++)
 	{
 		//ナンバーの桁数分生成
-		m_pNumber[nCnt] = CNumber::Create(D3DXVECTOR3(((m_Scale.x * 2)* nCnt), m_pos.y, 0.0f), m_Scale,this);
-		m_pNumber[nCnt]->SetCol(D3DXCOLOR(1.0f, 0.3f, 0.3f, 0.0f));
+		m_pNumber[nCnt] = CNumber::Create(D3DXVECTOR3(((m_Scale.x * 2)* nCnt), m_pos.y, 0.0f), m_Scale,this,true);
+		m_pNumber[nCnt]->SetCol(m_col);
 
 	}
 	//スコアの数値を更新し続ける
@@ -191,13 +191,14 @@ void CSmallScore::DefAlpha()
 //---------------------------------------------------------------
 //インスタンス生成処理
 //---------------------------------------------------------------
-CSmallScore *CSmallScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const int& nSmallScore)
+CSmallScore *CSmallScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const D3DXCOLOR& col, const int& nSmallScore)
 {
 	//インスタンス生成
 	CSmallScore *pSmallScore = new CSmallScore(OBJTYPE_UI);
 	if (pSmallScore != NULL)
 	{
 		pSmallScore->m_pos = pos;
+		pSmallScore->m_col = col;
 		pSmallScore->m_Scale = scale;
 		pSmallScore->m_nSmallScore = nSmallScore;
 		//桁数を数える

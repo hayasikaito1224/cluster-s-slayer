@@ -6,7 +6,8 @@
 #include "enemy001.h"
 static const int SpawnTime = 600;
 static const float SpawnLength = 200.0f;
-static const int SpawnMax = 20;
+static const int SpawnMax = 10;
+static const int SpawnLimit =20;
 
 //--------------------------------------------
 //コンストラクタ
@@ -43,7 +44,8 @@ void CEnemySpawnManager::Update(void)
 {
 	//スポーンするまでの時間をカウント
 	m_nSpawnCnt++;
-	if (m_nSpawnCnt >= m_nSpawnTime)
+	int nMaxEnemy = CEnemy::GetMaxEnemy();
+	if (m_nSpawnCnt >= m_nSpawnTime && nMaxEnemy <= SpawnLimit)
 	{
 
 		//最大値行くまで敵を生成

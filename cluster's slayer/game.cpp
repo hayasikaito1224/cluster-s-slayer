@@ -32,6 +32,9 @@
 #include "gaugeber.h"
 #include "character_partsdata.h"
 #include "enemy001.h"
+#include "stage_preset_data.h"
+#include <time.h>
+#include "gametimer.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -50,11 +53,13 @@ CParticle   *CGame::m_Particle = nullptr;
 CEnemySpawnManager   *CGame::m_pEnemySpawnManager = nullptr;
 CGauge   *CGame::m_pExpGauge = nullptr;
 CGauge   *CGame::m_pHPGauge = nullptr;
+CGametimer   *CGame::m_pGametimer = nullptr;
 
 static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
+static int ClearTime = 10;
 
 //--------------------------------------------
 //コンストラクタ
@@ -78,6 +83,7 @@ CGame::CGame()
 	m_pEnemySpawnManager = nullptr;
 	m_pExpGauge = nullptr;
 	m_pHPGauge = nullptr;
+	m_bIsClear = false;
 }
 //--------------------------------------------
 //デストラクタ
@@ -109,7 +115,7 @@ HRESULT CGame::Init(void)
 	if (!m_pHPGauge)
 	{
 		float fHP = m_Player->GetLife();
-		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 200.0f,10.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 200, fHP, CGauge::R_ADD);
+		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 400.0f,15.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 400, fHP, CGauge::R_ADD);
 		//m_pHPGauge->ResetGauge(0);
 	}
 	//パーティクルシステムの生成
@@ -120,15 +126,22 @@ HRESULT CGame::Init(void)
 	//空の生成
 	if (m_pMeshSphere == NULL)
 	{
-		m_pMeshSphere = CMeshSphere::Create(D3DXVECTOR3(0.0f, -1000.0f, 0.0f),
+		m_pMeshSphere = CMeshSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 0.0f),
 			D3DXVECTOR3(0.0f, 0.0f, 0.0f),
-			8, 4, 40000.0f, 1.0f, CTexture::FADE);
+			8, 4, 40000.0f, 1.0f, CTexture::SKY);
 	}
+	CStage_Preset_Data::StagePresetLoad("data/TEXT/PresetFileName.txt");
 	//ステージの生成
 	if (m_pStage == NULL)
 	{
 		m_pStage = new CStage;
-		m_pStage->Load("data/TEXT/StageData002.txt");
+		m_pStage->Init();
+		m_pStage->SetStage();
+	}
+	//CField::Create({ 0.0,0.0,0.0 }, {150.0f,0.0,150.0f}, { 0.0f,0.0f,0.0f }, 20, 20, CTexture::FIELD);
+	if (!m_pGametimer)
+	{
+		m_pGametimer = CGametimer::Create({ SCREEN_WIDTH / 2,100.0f,0.0f }, { 1.0,1.0,1.0,1.0 });
 	}
 	//敵の出現設定の生成
 	if (!m_pEnemySpawnManager)
@@ -141,7 +154,7 @@ HRESULT CGame::Init(void)
 	////操作方法
 	//CPolygon::Create(D3DXVECTOR3(140.0f, SCREEN_HEIGHT-130.0f, 0.0f),
 	//	D3DXVECTOR3(140.0f, 90.0f, 0.0f), CTexture::Operation);
-	CEnemy001::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f });
+	//CEnemy001::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f });
 
 	m_fAlpha = 1.0f;
 	m_bNextMode = false;
@@ -153,7 +166,11 @@ HRESULT CGame::Init(void)
 //--------------------------------------------
 void CGame::Uninit(void)
 {
-
+	if (m_pGametimer)
+	{
+		m_pGametimer->Uninit();
+		m_pGametimer = nullptr;
+	}
 	if (m_Player)
 	{
 		m_Player->Uninit();
@@ -220,6 +237,16 @@ void CGame::Update(void)
 				CSkillSelect::Create();
 			}
 		}
+		if (m_pGametimer)
+		{
+			int nTime = m_pGametimer->GetMinute();
+			if (nTime >= ClearTime)
+			{
+				m_bIsClear = true;
+			}
+		}
+		//クリア判定が有効ならクリア画面を表示させる
+
 	}
 
 }

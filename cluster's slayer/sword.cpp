@@ -90,6 +90,13 @@ void CSword::Update()
 						{
 							pEnemy->SetRushAttack(true);
 						}
+						//“G‚ð’µ‚Ë‚³‚¹‚é
+						if (m_nCombo == 3)
+						{
+							pEnemy->SetGravity(14.0f);
+							pEnemy->SetbKnockback(true);
+
+						}
 						//“G‚É“–‚½‚Á‚½”»’è‚ð“n‚·
 						pEnemy->SetbDamage(true);
 						pEnemy->AddLife(-m_fPower);

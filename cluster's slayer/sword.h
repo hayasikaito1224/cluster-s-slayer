@@ -17,8 +17,10 @@ public:
 	void Draw();
 	static CSword *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,CModel *pParent);
 	bool IsCollision(const D3DXVECTOR3& Hitpos, const float& fRadius);
+	void SetCombo(int nCombo) { m_nCombo = nCombo; }
 private:
 	D3DXVECTOR3 m_lastpos;
+	int m_nCombo;
 };
 
 
