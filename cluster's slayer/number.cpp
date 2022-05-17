@@ -18,6 +18,7 @@ CNumber::CNumber()
 	m_pVtxBuff = nullptr;
 	m_pTexture = nullptr;
 	m_rot = { 0.0f,0.0f,0.0f };
+	m_bCanParent = false;
 }
 
 //=============================================================================
@@ -30,7 +31,7 @@ CNumber::~CNumber()
 //---------------------------------------------------------------
 //インスタンス生成処理
 //---------------------------------------------------------------
-CNumber *CNumber::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale,CSmallScore *pParent)
+CNumber *CNumber::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale,CSmallScore *pParent, const bool& bCanParent)
 {
 	//インスタンス生成
 	CNumber *pNumber = new CNumber;
@@ -39,6 +40,7 @@ CNumber *CNumber::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale,CSmall
 		pNumber->m_pos = pos;
 		pNumber->m_Scale = scale;
 		pNumber->m_pParent = pParent;
+		pNumber->m_bCanParent = bCanParent;
 		//テクスチャ画像の設定
 		pNumber->m_pTexture = CManager::GetTexture()->GetTexture(CTexture::TIME);
 
@@ -150,20 +152,24 @@ void CNumber::Draw(void)
 	//位置を反映
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
-	if (m_pParent)
+	//ペアレント設定が有効ならペアレントする
+	if (m_bCanParent)
 	{
-		mtxParent = m_pParent->GetMatrix();
-	}
-	else
-	{
-		//最新のマトリックスを取得
-		pDevice->GetTransform(D3DTS_WORLD, &mtxParent);
-	}
+		if (m_pParent)
+		{
+			mtxParent = m_pParent->GetMatrix();
+		}
+		else
+		{
+			//最新のマトリックスを取得
+			pDevice->GetTransform(D3DTS_WORLD, &mtxParent);
+		}
+		//算出した各パーツのワールドマトリックスと親のマトリックスを掛け合わせる
+		D3DXMatrixMultiply(&m_mtxWorld,
+			&m_mtxWorld,
+			&mtxParent);
 
-	//算出した各パーツのワールドマトリックスと親のマトリックスを掛け合わせる
-	D3DXMatrixMultiply(&m_mtxWorld,
-		&m_mtxWorld,
-		&mtxParent);
+	}
 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);

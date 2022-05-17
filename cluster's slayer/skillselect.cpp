@@ -47,13 +47,13 @@ HRESULT CSkillSelect::Init(void)
 	{
 		//スキル選択画面の背景の生成
 		pSelectWindowBg = CPolygon::Create({ SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, 0.0f },
-		{ SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, 0.0f }, CTexture::FADE, { 1.0f,1.0f,1.0f,0.0f }, OBJTYPE_SHADOW);
+		{ SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, 0.0f }, CTexture::FADE, { 1.0f,1.0f,1.0f,0.0f }, OBJTYPE_TIME);
 
 	}
 	if (!pSelectWindow)
 	{
 		//スキル選択画面画像の生成
-		pSelectWindow = CPolygon::Create({ SCREEN_WIDTH / 2.0f,320.0f,0.0f }, SelectWindowSize, CTexture::FADE, {1.0,1.0,1.0,0.5}, OBJTYPE_SHADOW);
+		pSelectWindow = CPolygon::Create({ SCREEN_WIDTH / 2.0f,320.0f,0.0f }, SelectWindowSize, CTexture::FADE, {1.0,1.0,1.0,0.5}, OBJTYPE_TIME);
 	}
 
 	return S_OK;

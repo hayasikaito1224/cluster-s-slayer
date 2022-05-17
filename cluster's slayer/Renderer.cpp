@@ -140,10 +140,10 @@ HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 		m_pCamera[0]->SetViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 		m_pCamera[0]->SetAngleView(PLAYER_CAMERA_ANGLE_OF_VIEW);
 
-		m_pCamera[1] = new CCamera;
-		m_pCamera[1]->Init();
-		m_pCamera[1]->SetViewport(SCREEN_WIDTH-200,0, 200, 200, 0);
-		m_pCamera[1]->SetAngleView(MAP_ANGLE_OF_VIEW);
+		//m_pCamera[1] = new CCamera;
+		//m_pCamera[1]->Init();
+		//m_pCamera[1]->SetViewport(SCREEN_WIDTH-200,0, 200, 200, 0);
+		//m_pCamera[1]->SetAngleView(MAP_ANGLE_OF_VIEW);
 	}
 
 	return S_OK;
@@ -204,7 +204,7 @@ void CRenderer::Draw(void)
 	{
 		D3DVIEWPORT9 CurrentViewPort;
 		m_pD3DDevice->GetViewport(&CurrentViewPort);
-		for (int nCnt = 0; nCnt < 2; nCnt++)
+		for (int nCnt = 0; nCnt < 1; nCnt++)
 		{
 			m_pD3DDevice->SetViewport(&m_pCamera[nCnt]->GetViewport());
 			// バックバッファ＆Ｚバッファのクリア

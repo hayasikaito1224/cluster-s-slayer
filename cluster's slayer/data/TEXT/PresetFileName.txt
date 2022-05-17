@@ -1,0 +1,7 @@
+STAGE_PRESET_FILE = data/TEXT/StageData002.txt
+STAGE_PRESET_FILE = data/TEXT/StageData002.txt
+STAGE_PRESET_FILE = data/TEXT/StageData002.txt
+STAGE_PRESET_FILE = data/TEXT/StageData002.txt
+STAGE_PRESET_FILE = data/TEXT/StageData002.txt
+
+END_SCRIPT

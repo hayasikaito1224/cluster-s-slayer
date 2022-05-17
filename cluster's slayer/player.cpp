@@ -19,13 +19,8 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
-<<<<<<< HEAD
-
 #include "PresetSetEffect.h"
-
-=======
 #include "blackhole.h"
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -266,7 +261,7 @@ void CPlayer::Draw()
 
 	//プレイヤーの位置にカメラを追従させる
 	FollowingPlayerCamera();
-	Drawtext();
+	//Drawtext();
 }
 //-----------------------------------------------
 //移動の処理(キーボード)
@@ -541,6 +536,7 @@ void CPlayer::AttackCtrl()
 
 			if (m_pSword)
 			{
+				m_pSword->SetCombo(m_nComboType);
 				//武器の当たり判定をオンにする
 				m_pSword->SetCanHit(true);
 			}
@@ -552,7 +548,6 @@ void CPlayer::AttackCtrl()
 				
 			}
 
-			CPresetEffect::SetEffect3D(0, m_pos, {});
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
 			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
@@ -633,9 +628,11 @@ void CPlayer::NearEnemyFace()
 void CPlayer::LevelUp(int nType)
 {
 	//レベルを加算する
+	m_fMaxExp *= 1.1f;
+	int nEXP_B = m_nLevel * 15;
+	m_fMaxExp = (m_fMaxExp + nEXP_B) / 2;
 	m_nLevel += 1;
-	m_fMaxExpDiameter += 0.3f;
-	m_fMaxExp = m_fMaxExp *m_fMaxExpDiameter;
+
 	CManager::GetGame()->GetExpGauge()->GetGaugeBer(0)->SetGaugeValueMax(m_fMaxExp);
 	switch (nType)
 	{
@@ -813,6 +810,7 @@ void CPlayer::Drawtext()
 	nNum += sprintf(&str[nNum], " [攻撃力] %.5f\n", m_fPower);
 	nNum += sprintf(&str[nNum], " [攻撃増加倍率] %.5f\n", m_fPowerDiameter);
 	nNum += sprintf(&str[nNum], " [レベル] %d\n", m_nLevel);
+	nNum += sprintf(&str[nNum], " [必要経験値] %.2f\n", m_fMaxExp);
 
 	nNum += sprintf(&str[nNum], " [視点] %.5f,%.5f,%.5f\n", PosV.x, PosV.y, PosV.z);
 	nNum += sprintf(&str[nNum], " [注視点] %.5f,%.5f,%.5f\n", PosR.x, PosR.y, PosR.z);

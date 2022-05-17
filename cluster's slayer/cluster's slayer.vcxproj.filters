@@ -1,433 +1,199 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ソース ファイル\キャラクター">
-      <UniqueIdentifier>{65ba1219-7963-4922-bf84-323a190289b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\武器">
-      <UniqueIdentifier>{810fcfa2-60d9-4a99-bd71-b61bd1a7660b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\キャラクター\敵">
-      <UniqueIdentifier>{da7f4a59-c939-4a1e-ab41-058039eadbd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\敵の出現設定">
-      <UniqueIdentifier>{ce416282-f320-477b-b0a6-ea75a5606996}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\アイテム">
-      <UniqueIdentifier>{409b5cf5-6d1c-4d3f-814c-cf192471d8ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ゲージ">
-      <UniqueIdentifier>{d6dedc36-cbe9-42a0-9842-8252a3c2a946}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\スキル選択">
-      <UniqueIdentifier>{a2bc1e0a-d7d7-46e2-a7ac-32ec09b0ee1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\２Dポリゴンの縁取り">
-      <UniqueIdentifier>{a34d874b-3068-42d7-9893-f54e8752c7b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\キャラクター\アタックスキル">
-      <UniqueIdentifier>{8f02e367-2207-469a-8777-9d26e5177436}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\エフェクト">
-      <UniqueIdentifier>{fbf6ab1f-b9b6-4896-902b-6f813f9e587c}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\cluster%27s slayer\stage.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\texture.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\title.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\wall.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\XInput.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\xload.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\main.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\manager.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\model.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\motion.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\mouse.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\Particle.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\Polygon.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\Renderer.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\result.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\scene.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\scene2D.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\Scene3D.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\score.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\shadow.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\sound.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\directinput.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\effect.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\bg.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\billboard.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\camera.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\input.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\keyboard.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\layer_structure.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\light.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\game.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\fade.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\field.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\player.h">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\character.h">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\model_spawner.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\map_polygon.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\meshsphere.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\collision.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\pause.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\weapon.h">
-      <Filter>ソース ファイル\武器</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\sword.h">
-      <Filter>ソース ファイル\武器</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\enemy.h">
-      <Filter>ソース ファイル\キャラクター\敵</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\enemy001.h">
-      <Filter>ソース ファイル\キャラクター\敵</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h">
-      <Filter>ソース ファイル\敵の出現設定</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\exp_ball.h">
-      <Filter>ソース ファイル\アイテム</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\item.h">
-      <Filter>ソース ファイル\アイテム</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\gauge.h">
-      <Filter>ソース ファイル\ゲージ</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\skillselect.h">
-      <Filter>ソース ファイル\スキル選択</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\selectbottom.h">
-      <Filter>ソース ファイル\スキル選択</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\frame.h">
-      <Filter>ソース ファイル\２Dポリゴンの縁取り</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\smallscore.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\number.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\gaugeber.h">
-      <Filter>ソース ファイル\ゲージ</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\character_partsdata.h">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\rushattack.h">
-      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="..\cluster%27s slayer\billeffect.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\plane.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\straight3d.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h">
-      <Filter>ソース ファイル\エフェクト</Filter>
-=======
-    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
-      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cluster%27s slayer\texture.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\wall.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\XInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\xload.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\manager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\model.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\motion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\mouse.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\Particle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\polygon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\Renderer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\scene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\scene2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\Scene3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\score.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\shadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\sound.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\character.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\directinput.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\field.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\frame.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\game.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\gauge.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\gaugeber.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\input.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\item.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\keyboard.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\layer_structure.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\light.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\main.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\manager.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\meshsphere.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\model.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\model_spawner.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\motion.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\mouse.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\number.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Particle.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\pause.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\plane.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\player.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\polygon.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\result.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\rushattack.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\scene.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\scene2D.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Scene3D.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\score.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\selectbottom.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\shadow.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\skillselect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\smallscore.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\sound.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\straight3d.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\sword.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\texture.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\title.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\wall.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\weapon.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\XInput.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\xload.cpp" />
     <ClCompile Include="..\cluster%27s slayer\stage.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ステージ</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\directinput.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="..\cluster%27s slayer\stage_preset.cpp">
+      <Filter>ステージ</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\effect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\bg.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\billboard.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\keyboard.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\layer_structure.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\light.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\fade.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\player.cpp">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\character.cpp">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\model_spawner.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\meshsphere.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\pause.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\weapon.cpp">
-      <Filter>ソース ファイル\武器</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\sword.cpp">
-      <Filter>ソース ファイル\武器</Filter>
+    <ClCompile Include="..\cluster%27s slayer\stage_preset_data.cpp">
+      <Filter>ステージ</Filter>
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\enemy.cpp">
-      <Filter>ソース ファイル\キャラクター\敵</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\enemy001.cpp">
-      <Filter>ソース ファイル\キャラクター\敵</Filter>
+      <Filter>敵</Filter>
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp">
-      <Filter>ソース ファイル\敵の出現設定</Filter>
+      <Filter>敵</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp">
-      <Filter>ソース ファイル\アイテム</Filter>
+    <ClCompile Include="..\cluster%27s slayer\enemy001.cpp">
+      <Filter>敵</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\item.cpp">
-      <Filter>ソース ファイル\アイテム</Filter>
+    <ClCompile Include="..\cluster%27s slayer\enemy_goblin.cpp">
+      <Filter>敵</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\gauge.cpp">
-      <Filter>ソース ファイル\ゲージ</Filter>
+    <ClCompile Include="damage_collision.cpp">
+      <Filter>ダメージを与える当たり判定</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\skillselect.cpp">
-      <Filter>ソース ファイル\スキル選択</Filter>
+    <ClCompile Include="..\cluster%27s slayer\gametimer.cpp">
+      <Filter>ゲーム時間系</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\selectbottom.cpp">
-      <Filter>ソース ファイル\スキル選択</Filter>
+    <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp">
+      <Filter>ゲーム時間系</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\frame.cpp">
-      <Filter>ソース ファイル\２Dポリゴンの縁取り</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\smallscore.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\number.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\gaugeber.cpp">
-      <Filter>ソース ファイル\ゲージ</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp">
-      <Filter>ソース ファイル\キャラクター</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
-      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="..\cluster%27s slayer\billeffect.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\plane.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\straight3d.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp">
-      <Filter>ソース ファイル\エフェクト</Filter>
-=======
-    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
-      <Filter>ソース ファイル\キャラクター\アタックスキル</Filter>
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cluster%27s slayer\bg.h" />
+    <ClInclude Include="..\cluster%27s slayer\billboard.h" />
+    <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
+    <ClInclude Include="..\cluster%27s slayer\camera.h" />
+    <ClInclude Include="..\cluster%27s slayer\character.h" />
+    <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
+    <ClInclude Include="..\cluster%27s slayer\collision.h" />
+    <ClInclude Include="..\cluster%27s slayer\directinput.h" />
+    <ClInclude Include="..\cluster%27s slayer\effect.h" />
+    <ClInclude Include="..\cluster%27s slayer\exp_ball.h" />
+    <ClInclude Include="..\cluster%27s slayer\fade.h" />
+    <ClInclude Include="..\cluster%27s slayer\field.h" />
+    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h" />
+    <ClInclude Include="..\cluster%27s slayer\frame.h" />
+    <ClInclude Include="..\cluster%27s slayer\game.h" />
+    <ClInclude Include="..\cluster%27s slayer\gauge.h" />
+    <ClInclude Include="..\cluster%27s slayer\gaugeber.h" />
+    <ClInclude Include="..\cluster%27s slayer\input.h" />
+    <ClInclude Include="..\cluster%27s slayer\item.h" />
+    <ClInclude Include="..\cluster%27s slayer\keyboard.h" />
+    <ClInclude Include="..\cluster%27s slayer\layer_structure.h" />
+    <ClInclude Include="..\cluster%27s slayer\light.h" />
+    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h" />
+    <ClInclude Include="..\cluster%27s slayer\main.h" />
+    <ClInclude Include="..\cluster%27s slayer\manager.h" />
+    <ClInclude Include="..\cluster%27s slayer\map_polygon.h" />
+    <ClInclude Include="..\cluster%27s slayer\meshsphere.h" />
+    <ClInclude Include="..\cluster%27s slayer\model.h" />
+    <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
+    <ClInclude Include="..\cluster%27s slayer\motion.h" />
+    <ClInclude Include="..\cluster%27s slayer\mouse.h" />
+    <ClInclude Include="..\cluster%27s slayer\number.h" />
+    <ClInclude Include="..\cluster%27s slayer\Particle.h" />
+    <ClInclude Include="..\cluster%27s slayer\pause.h" />
+    <ClInclude Include="..\cluster%27s slayer\plane.h" />
+    <ClInclude Include="..\cluster%27s slayer\player.h" />
+    <ClInclude Include="..\cluster%27s slayer\Polygon.h" />
+    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h" />
+    <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
+    <ClInclude Include="..\cluster%27s slayer\result.h" />
+    <ClInclude Include="..\cluster%27s slayer\rushattack.h" />
+    <ClInclude Include="..\cluster%27s slayer\scene.h" />
+    <ClInclude Include="..\cluster%27s slayer\scene2D.h" />
+    <ClInclude Include="..\cluster%27s slayer\Scene3D.h" />
+    <ClInclude Include="..\cluster%27s slayer\score.h" />
+    <ClInclude Include="..\cluster%27s slayer\selectbottom.h" />
+    <ClInclude Include="..\cluster%27s slayer\shadow.h" />
+    <ClInclude Include="..\cluster%27s slayer\skillselect.h" />
+    <ClInclude Include="..\cluster%27s slayer\smallscore.h" />
+    <ClInclude Include="..\cluster%27s slayer\sound.h" />
+    <ClInclude Include="..\cluster%27s slayer\straight3d.h" />
+    <ClInclude Include="..\cluster%27s slayer\sword.h" />
+    <ClInclude Include="..\cluster%27s slayer\texture.h" />
+    <ClInclude Include="..\cluster%27s slayer\title.h" />
+    <ClInclude Include="..\cluster%27s slayer\wall.h" />
+    <ClInclude Include="..\cluster%27s slayer\weapon.h" />
+    <ClInclude Include="..\cluster%27s slayer\XInput.h" />
+    <ClInclude Include="..\cluster%27s slayer\xload.h" />
+    <ClInclude Include="..\cluster%27s slayer\stage.h">
+      <Filter>ステージ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\stage_preset.h">
+      <Filter>ステージ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\stage_preset_data.h">
+      <Filter>ステージ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy.h">
+      <Filter>敵</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h">
+      <Filter>敵</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy001.h">
+      <Filter>敵</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\enemy_goblin.h">
+      <Filter>敵</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\damage_collision.h">
+      <Filter>ダメージを与える当たり判定</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\gametimer.h">
+      <Filter>ゲーム時間系</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\2Dnumber.h">
+      <Filter>ゲーム時間系</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ステージ">
+      <UniqueIdentifier>{08832eca-20c7-49a1-9994-b42815db3582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="敵">
+      <UniqueIdentifier>{d4baf361-a53d-4131-8bb1-88622642aefa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ダメージを与える当たり判定">
+      <UniqueIdentifier>{aac689e6-469b-4342-9a14-81628bdd87a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム時間系">
+      <UniqueIdentifier>{25a4ca0e-e6a5-41a4-92f2-f63d95b046c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

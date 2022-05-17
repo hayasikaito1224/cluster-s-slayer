@@ -21,19 +21,26 @@
 #include "exp_ball.h"
 #include "smallscore.h"
 #include "character_partsdata.h"
+#include "damage_collision.h"
+#include "gaugeber.h"
 static const float AttackStartNear = 150.0f;//攻撃を始めるまでのプレイヤーとの近さ
 static const float AttackStartTime = 20.0f;//攻撃開始までの時間
-static const int Power = 20;//攻撃力
+static const int Power = 2;//攻撃力
 static const int Life = 10;//体力
 static const float MoveSpeed = 1.0f;//移動速度
-static const int MinEXPNum = 1;//経験値を落とす数
-static const int MaxEXPNum = 3;//経験値を落とす数
+static const int MinEXPNum = 2;//経験値を落とす数
+static const int MaxEXPNum = 5;//経験値を落とす数
+static const float AttackSize = 100.0f;//攻撃範囲
+static const float AttackCollisionStartTime = 15.0f;//攻撃判定開始までの時間
+static const float AttackCollisionEndTime = 20.0f;//攻撃判定開始までの時間
 
 CEnemy001::CEnemy001(OBJTYPE nPriority) : CEnemy(nPriority)
 {
 	m_nPower = Power;
 	m_fHitPoint = (float)Life;
 	m_fMoveSpeed = MoveSpeed;
+	m_pDamageCollision = nullptr;
+	m_bOnAttackCollision = false;
 }
 
 CEnemy001::~CEnemy001()
@@ -65,7 +72,10 @@ HRESULT CEnemy001::Init()
 	{
 		m_fRadius = m_pParts[0]->GetMaxPos().x;
 	}
-
+	if (!m_pDamageCollision)
+	{
+		m_pDamageCollision = CDamage_Collision::Create({0.0f,50.0f,30.0f}, AttackSize,m_pParts[3]);
+	}
 	if (!m_pMotion)
 	{
 		m_pMotion = new CMotion;
@@ -81,17 +91,23 @@ HRESULT CEnemy001::Init()
 //----------------------------------
 void CEnemy001::Uninit()
 {
-
+	int nDiameter = CManager::GetGameTime();
 	static std::random_device random;	// 非決定的な乱数生成器
 	std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
 	std::uniform_real_distribution<> randEXPNum(MinEXPNum, MaxEXPNum);//経験値の数を乱数で決める
+	std::uniform_real_distribution<> randBonusEXPNum(0, 1 * (nDiameter / 60.0f));//経験値の数を乱数で決める
+
 	int nExpNum = randEXPNum(mt);
+	int nExpBonus = randBonusEXPNum(mt);
 	//経験値を落とす
 	for (int nCnt = 0; nCnt < nExpNum; nCnt++)
 	{
-		//CExp_Ball::Create(m_pos);
+		CExp_Ball::Create(m_pos,1);
 	}
-
+	for (int nCnt = 0; nCnt < nExpBonus; nCnt++)
+	{
+		CExp_Ball::Create(m_pos, 5);
+	}
 	CEnemy::Uninit();
 	Release();
 }
@@ -101,6 +117,19 @@ void CEnemy001::Uninit()
 void CEnemy001::Update()
 {
 	CEnemy::Update();
+	if (m_pDamageCollision)
+	{
+		m_pDamageCollision->Update();
+	}
+	//モーションタイプが攻撃なら
+	if (m_bOnAttackCollision)
+	{
+		Attack();
+	}
+	else
+	{
+		m_fAttackCollisionTime = 0.0f;
+	}
 }
 //-----------------------------------------
 //描画
@@ -108,6 +137,8 @@ void CEnemy001::Update()
 void CEnemy001::Draw()
 {
 	CEnemy::Draw();
+	m_pDamageCollision->Draw();
+
 }
 
 //-----------------------------------------
@@ -127,10 +158,11 @@ void CEnemy001::AIAttack()
 				m_nAttackStartCnt = 0;
 				m_MotionType = ATTACK;
 				m_bAttack = true;
+				//当たり判定を発生させる
+				m_bOnAttackCollision = true;
 				//攻撃音
-				CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
-				CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.7f);
-
+				//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
+				//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.7f);
 			}
 
 		}
@@ -138,6 +170,51 @@ void CEnemy001::AIAttack()
 	else
 	{
 		m_nAttackStartCnt = 0;
+
+	}
+
+}
+//-----------------------------------------
+//攻撃処理
+//-----------------------------------------
+void CEnemy001::Attack()
+{
+	CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
+	m_fAttackCollisionTime++;
+	if (m_fAttackCollisionTime >= AttackCollisionStartTime &&
+		m_fAttackCollisionTime <= AttackCollisionEndTime)
+	{
+		////プレイヤーに対しての当たり判定
+		if (pPlayer)
+		{
+			int nSize = pPlayer->GetParts().size();
+			if (nSize > 0)
+			{
+				float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
+				bool bHit = false;
+				D3DXVECTOR3 pos = pPlayer->GetPos();
+				bHit = m_pDamageCollision->IsCollision(pos, fRadius);
+				if (bHit)
+				{
+					//プレイヤーの体力を減らす
+					CGauge *pGauge = CManager::GetGame()->GetHPGauge();
+					float fSecondHP = pGauge->GetGaugeBer(1)->GetGaugeValue();
+					if (fSecondHP > 0)
+					{
+						pGauge->SetGauge(Power, 1);
+					}
+					else
+					{
+						pGauge->SetGauge(Power, 0);
+					}
+					CSmallScore::Create({ pos.x,pPlayer->GetParts(2)->GetMaxPos().y + 30.0f,pos.z }, { 10.0f,20.0f,0.0f }, { 1.0f, 0.6f, 0.6f, 0.0f }, Power);
+
+					m_fAttackCollisionTime = 0.0f;
+					m_bOnAttackCollision = false;
+				}
+			}
+
+		}
 
 	}
 
@@ -203,9 +280,7 @@ void CEnemy001::AddLife(int nLife)
 		int nDamege = nLife + m_nDefense;
 		m_fHitPoint += nDamege;
 		int nDrawDamage = abs(nDamege);
-		CSmallScore::Create({m_pos.x,m_pos.y+30.0f,m_pos.z}, { 10.0f,20.0f,0.0f }, nDrawDamage);
-		m_fGravity += 200.0f;
-
+		CSmallScore::Create({m_pos.x,m_pos.y+30.0f,m_pos.z}, { 10.0f,20.0f,0.0f }, { 1.0f, 0.3f, 0.3f, 0.0f }, nDrawDamage);
 	}
 }
 

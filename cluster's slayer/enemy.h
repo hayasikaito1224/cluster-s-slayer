@@ -1,8 +1,10 @@
+//-----------------------------
+//敵の処理
+//-----------------------------
+
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 #include "character.h"
-
-
 class CSound;
 
 #define MAX_KEYSET (10) //最大キーセット数
@@ -44,6 +46,7 @@ public:
 	virtual void AddLife(int nLife);//体力の増減
 	void HoleAlign(D3DXVECTOR3 holePos, float fHitSize,float AlignSpeed);//ブラックホールに引き寄せられる処理
 	void AddLifeSkill(int nLife);//スキル攻撃を受けたときの体力の増減
+
 	//静的メンバー関数
 	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void AIBehavior();//敵AIの挙動の処理
@@ -64,13 +67,19 @@ public:
 	void SetRushAttack(bool bRushAttack) { m_bHitRushAttack = bRushAttack; }
 	bool GetCanHitRushAttack() { return m_bCanHitRushAttack; }
 	void SetCanHitRushAttack(bool bRushAttack) { m_bCanHitRushAttack = bRushAttack; }
+	void SetGravity(float fGravity) {m_fGravity = fGravity;}
+	void SetbKnockback(bool bKnockBack) { m_bKnockback = bKnockBack; }
+	static int GetMaxEnemy() { return m_nMaxEnemy; }
 private:
+	static int m_nMaxEnemy;
 protected:
 	std::random_device s_random;	// 非決定的な乱数生成器
 	bool  m_bKnockback;//ノックバックするかどうかの判定
 	bool m_bOnMissile;
 	bool m_bDraw;
 	bool m_bHit;//攻撃を受けたかどうか
+	bool m_bOnAttackCollision;
+
 	int  m_nTimer;
 	float	m_fMovingRange;//敵が自動で動く距離
 	int	m_nDefense;

@@ -39,6 +39,7 @@ HRESULT CLight::Init(D3DXCOLOR Diffuse, D3DXVECTOR3 vecDir)
 	m_light.Type = D3DLIGHT_DIRECTIONAL;
 	//ライトの拡散光
 	m_light.Diffuse = Diffuse;
+	m_light.Ambient = { 1.0f,1.0f ,1.0f ,1.0f };
 	//ライトの方向を設定
 	r_vecDir = vecDir;
 	D3DXVec3Normalize(&r_vecDir, &r_vecDir);//正規化する
@@ -47,7 +48,11 @@ HRESULT CLight::Init(D3DXCOLOR Diffuse, D3DXVECTOR3 vecDir)
 	pDevice->SetLight(m_nId, &m_light);
 	//ライトを有効にする
 	pDevice->LightEnable(m_nId, TRUE);
-
+	//pDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
+	//// アンビエントライト（環境光）を設定する
+	//pDevice->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+	//// スペキュラ（鏡面反射）を有効にする
+	//pDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 
 	return S_OK;
 }

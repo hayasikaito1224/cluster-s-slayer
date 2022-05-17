@@ -124,6 +124,7 @@ void CRushAttack::Update(void)
 						{
 							pEnemy->SetCanHitRushAttack(false);
 							pEnemy->AddLifeSkill(-Power);
+							pEnemy->SetGravity(12.0f);
 							//ヒットエフェクト
 							std::random_device random;	// 非決定的な乱数生成器
 							std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード

@@ -27,13 +27,13 @@ public:
 	D3DXMATRIX GetMatrix() { return m_mtxWorld; }//ワールドマトリックスの取得
 
 	int CSmallScore::GetSmallScore(void) { return m_nSmallScore; }
-	static CSmallScore *Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const int& nSmallScore);//インスタンス生成処理
+	static CSmallScore *Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& scale, const D3DXCOLOR& col, const int& nSmallScore);//インスタンス生成処理
 
 private:
 	D3DXVECTOR3 m_rot;//向き
 	D3DXMATRIX m_mtxWorld;//ワールドマトリックス
 	D3DXMATRIX m_mtxView;									//ビューマトリックス
-
+	D3DXCOLOR m_col;
 	D3DXVECTOR3					m_Scale;				//敵の大きさ
 	D3DXVECTOR3					m_pos;				//基準の位置
 	float						m_fMove;

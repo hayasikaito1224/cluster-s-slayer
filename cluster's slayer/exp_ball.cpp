@@ -15,6 +15,7 @@ CExp_Ball::CExp_Ball(OBJTYPE nPriority):CItem(nPriority)
 {
 	pItemObj = nullptr;
 	m_fRadius = BallSize;
+	m_nExp = 0;
 }
 //--------------------------------------------
 //デストラクタ
@@ -55,7 +56,7 @@ void CExp_Ball::Update(void)
 		CGauge *pGauge = CManager::GetGame()->GetExpGauge();
 		if (pGauge)
 		{
-			pGauge->SetGauge(-1, 0);
+			pGauge->SetGauge(-m_nExp, 0);
 		}
 	}
 }
@@ -70,11 +71,12 @@ void CExp_Ball::Draw()
 //--------------------------------------------
 //インスタンス生成
 //--------------------------------------------
-CExp_Ball * CExp_Ball::Create(const D3DXVECTOR3 & pos)
+CExp_Ball * CExp_Ball::Create(const D3DXVECTOR3 & pos, const int& nExp)
 {
 	//インスタンス生成
 	CExp_Ball *pExp_Ball = new CExp_Ball(OBJTYPE_ITEM);
 	pExp_Ball->m_pos = { pos.x,pos.y+ (pExp_Ball->m_fRadius*2.0f),pos.z};
+	pExp_Ball->m_nExp = nExp;
 	if (pExp_Ball)
 	{
 		pExp_Ball->Init();

@@ -124,6 +124,7 @@ void CModel::Draw(void)
 	D3DXMatrixMultiply(&m_mtxWorld,
 		&m_mtxWorld,
 		&mtxParent);
+
 	if (m_bDraw == true)
 	{
 
