@@ -11,6 +11,12 @@
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\directinput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\enemy.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\enemy001.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
     <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
     <ClCompile Include="..\cluster%27s slayer\field.cpp" />
@@ -52,6 +58,10 @@
     <ClCompile Include="..\cluster%27s slayer\skillselect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\smallscore.cpp" />
     <ClCompile Include="..\cluster%27s slayer\sound.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\stage.cpp" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
     <ClCompile Include="..\cluster%27s slayer\straight3d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\sword.cpp" />
     <ClCompile Include="..\cluster%27s slayer\texture.cpp" />
@@ -60,6 +70,7 @@
     <ClCompile Include="..\cluster%27s slayer\weapon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\XInput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\xload.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\cluster%27s slayer\stage.cpp">
       <Filter>ステージ</Filter>
     </ClCompile>
@@ -90,6 +101,9 @@
     <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp">
       <Filter>ゲーム時間系</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="..\cluster%27s slayer\Rotate3d.cpp" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
@@ -102,6 +116,12 @@
     <ClInclude Include="..\cluster%27s slayer\collision.h" />
     <ClInclude Include="..\cluster%27s slayer\directinput.h" />
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\enemy.h" />
+    <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
+    <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
     <ClInclude Include="..\cluster%27s slayer\exp_ball.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
     <ClInclude Include="..\cluster%27s slayer\field.h" />
@@ -143,6 +163,10 @@
     <ClInclude Include="..\cluster%27s slayer\skillselect.h" />
     <ClInclude Include="..\cluster%27s slayer\smallscore.h" />
     <ClInclude Include="..\cluster%27s slayer\sound.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\stage.h" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
     <ClInclude Include="..\cluster%27s slayer\straight3d.h" />
     <ClInclude Include="..\cluster%27s slayer\sword.h" />
     <ClInclude Include="..\cluster%27s slayer\texture.h" />
@@ -151,6 +175,7 @@
     <ClInclude Include="..\cluster%27s slayer\weapon.h" />
     <ClInclude Include="..\cluster%27s slayer\XInput.h" />
     <ClInclude Include="..\cluster%27s slayer\xload.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\cluster%27s slayer\stage.h">
       <Filter>ステージ</Filter>
     </ClInclude>
@@ -195,5 +220,8 @@
     <Filter Include="ゲーム時間系">
       <UniqueIdentifier>{25a4ca0e-e6a5-41a4-92f2-f63d95b046c6}</UniqueIdentifier>
     </Filter>
+=======
+    <ClInclude Include="..\cluster%27s slayer\Rotate3d.h" />
+>>>>>>> cb47dd5a32241e759f3f9e60b918504f1018f2a0
   </ItemGroup>
 </Project>

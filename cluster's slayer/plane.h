@@ -10,6 +10,7 @@
 
 //ƒ}ƒNƒ’è‹`
 #define CIRCLE (float(rand() % 324) / 100.0f - float(rand() % 324) / 100.0f) //‰~
+#define CIRCLE2 (float(rand() % 648) / 100.0f - float(rand() % 648) / 100.0f) //‰~
 
 class CPlane : public CScene3D
 {
