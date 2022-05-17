@@ -8,6 +8,10 @@
 #include "control.h"
 #include "straight3d.h"
 
+#include "player.h"
+#include "manager.h"
+#include "renderer.h"
+#include "game.h"
 
 //*****************************************************************************
 //コンストラクタ
@@ -70,6 +74,7 @@ HRESULT CRotate3D::Init(D3DXVECTOR3 SetSize,
 	m_fRandAngle = CIRCLE2;
 	m_fRandAngle2 = CIRCLE2;
 
+	SetPos(m_pos, m_Size);
 
 	return S_OK;
 }
@@ -88,7 +93,7 @@ void CRotate3D::Uninit()
 void CRotate3D::Update()
 {
 	D3DXVECTOR3 pos = GetPos();
-
+	D3DXVECTOR3 PlayerPos = CManager::GetGame()->GetPlayer()->GetPos();
 
 	switch (m_EffectTime)
 	{
@@ -120,9 +125,9 @@ void CRotate3D::Update()
 	m_fAngle += m_fAddAngle;
 
 	m_pos = D3DXVECTOR3(
-		pos.x + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * cosf(m_fRandAngle2 + m_fAngle),
+		PlayerPos.x + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * cosf(m_fRandAngle2 + m_fAngle),
 		pos.y + m_nDistanse * cosf(m_fRandAngle + m_fAngle),
-		pos.z + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * sinf(m_fRandAngle2 + m_fAngle));
+		PlayerPos.z + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * sinf(m_fRandAngle2 + m_fAngle));
 
 
 	if (m_nDistanse < 0)

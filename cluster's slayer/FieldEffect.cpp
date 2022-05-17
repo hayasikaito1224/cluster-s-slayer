@@ -101,8 +101,7 @@ void CFieldEffect::Uninit()
 void CFieldEffect::Update()
 {
 	float fAngle;
-	float fAngle2, fAngleY;
-	float RandY;
+	float fAngle2;
 	int Y = (int)m_fDistance;
 
 	//ƒJƒ‰[‚Ì•Ï“®
@@ -171,9 +170,9 @@ void CFieldEffect::Update()
 
 				CStraight3D::Create(
 					D3DXVECTOR3(
-						m_fDistance  * sinf(fAngle) * cosf(fAngle2),
-						m_fDistance / 2 * cosf(fAngle),
-						m_fDistance  * sinf(fAngle) * sinf(fAngle2)
+						m_pos.x + m_fDistance  * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 2 * cosf(fAngle),
+						m_pos.z + m_fDistance  * sinf(fAngle) * sinf(fAngle2)
 					),
 
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
@@ -209,9 +208,9 @@ void CFieldEffect::Update()
 
 				CStraight3D::Create(
 					D3DXVECTOR3(
-						m_fDistance * sinf(fAngle) * cosf(fAngle2),
-						m_fDistance / 2 * cosf(fAngle),
-						m_fDistance * sinf(fAngle) * sinf(fAngle2)
+						m_pos.x + m_fDistance * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 2 * cosf(fAngle),
+						m_pos.z + m_fDistance * sinf(fAngle) * sinf(fAngle2)
 					),
 
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
@@ -234,7 +233,7 @@ void CFieldEffect::Update()
 			m_FieldTimedelta++;
 			if (m_FieldTimedelta >= m_FieldTime)
 			{
-				CPresetEffect::SetEffect3D(m_CreatePreset, D3DXVECTOR3(0.0f, 0.0f, 0.0f), {});
+				CPresetEffect::SetEffect3D(m_CreatePreset, m_pos, {});
 				m_FieldTimedelta = 0;
 			}
 		}
@@ -259,9 +258,9 @@ void CFieldEffect::Update()
 
 				CStraight3D::Create(
 					D3DXVECTOR3(
-						m_fDistance / 3 * sinf(fAngle) * cosf(fAngle2),
-						m_fDistance / 4 * cosf(fAngle),
-						m_fDistance / 3 * sinf(fAngle) * sinf(fAngle2)
+						m_pos.x + m_fDistance / 3 * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 4 * cosf(fAngle),
+						m_pos.z + m_fDistance / 3 * sinf(fAngle) * sinf(fAngle2)
 					),
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
 					D3DXVECTOR3(Size, Size, 0.0f),
