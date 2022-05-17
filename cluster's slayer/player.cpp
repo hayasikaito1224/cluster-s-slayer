@@ -20,8 +20,6 @@
 #include "gaugeber.h"
 #include "rushattack.h"
 
-#include "PresetSetEffect.h"
-
 #include "blackhole.h"
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
@@ -549,7 +547,6 @@ void CPlayer::AttackCtrl()
 				
 			}
 
-			CPresetEffect::SetEffect3D(0, m_pos, {});
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
 			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
