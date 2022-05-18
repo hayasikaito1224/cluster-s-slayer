@@ -22,6 +22,7 @@
 #include "pause.h"
 #include "xload.h"
 #include "directinput.h"
+#include "gamemenu.h"
 
 //エフェクト
 #include "LoadEffect.h"
@@ -39,6 +40,7 @@ CModel_Spawner	*CManager::m_pModel = NULL;
 CGame			*CManager::m_pGame = NULL;
 CTitle			*CManager::m_pTitle = NULL;
 CResult			*CManager::m_pResult = NULL;
+CGameMenu		*CManager::m_pGameMenu = NULL;
 CFade			*CManager::m_Fade = NULL;
 CXInput			*CManager::m_XInput = NULL;
 CManager::MODE	 CManager::m_Mode = MODE_TITLE;		// 初期モード
@@ -290,6 +292,14 @@ void CManager::Update(void)
 		}
 		break;
 
+	case MODE_MENU:
+		if (m_pGameMenu != NULL)
+		{
+			m_pGameMenu->Update();
+		}
+
+		break;
+
 	case MODE_GAME:			//ゲーム画面
 		if (m_pGame != NULL)
 		{
@@ -354,6 +364,14 @@ void CManager::Draw(void)
 		{
 			//m_pTitle->Update();
 		}
+		break;
+
+	case MODE_MENU:
+		if (m_pGameMenu != NULL)
+		{
+			m_pGameMenu->Draw();
+		}
+
 		break;
 
 	case MODE_GAME:			//ゲーム画面
@@ -421,6 +439,16 @@ void CManager::SetMode(MODE mode)
 		}
 		break;
 
+	case MODE_MENU:
+		if (m_pGameMenu != NULL)
+		{
+			//m_pSound->StopSound(m_pSound->SOUND_LABEL_BGM_TITLE);
+			m_pTitle->Uninit();
+			m_pTitle = NULL;
+		}
+
+		break;
+
 	case MODE_GAME:			//ゲーム画面
 		if (m_pGame != NULL)
 		{
@@ -457,6 +485,16 @@ void CManager::SetMode(MODE mode)
 
 		}
 		break;
+
+	case MODE_MENU:
+		if (m_pGameMenu != NULL)
+		{
+			m_pGameMenu = new CGameMenu;
+			m_pGameMenu->Init();
+			//m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);
+			//m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_GAME, 0.1f);
+		}
+
 	case MODE_GAME:			//ゲーム画面
 		if (m_pGame == NULL)
 		{

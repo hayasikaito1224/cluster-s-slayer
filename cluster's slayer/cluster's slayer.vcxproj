@@ -152,11 +152,8 @@
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
-=======
     <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
@@ -216,15 +213,15 @@
     <ClInclude Include="..\cluster%27s slayer\weapon.h" />
     <ClInclude Include="..\cluster%27s slayer\XInput.h" />
     <ClInclude Include="..\cluster%27s slayer\xload.h" />
+    <ClInclude Include="gamemenu.h" />
+    <ClInclude Include="savedata.h" />
+    <ClInclude Include="titleselectbutton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
-=======
     <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
->>>>>>> 3575225159dc829d52ee4dafa36ad6e6086fb4fb
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
@@ -284,6 +281,9 @@
     <ClCompile Include="..\cluster%27s slayer\weapon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\XInput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\xload.cpp" />
+    <ClCompile Include="gamemenu.cpp" />
+    <ClCompile Include="savedata.cpp" />
+    <ClCompile Include="titleselectbutton.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

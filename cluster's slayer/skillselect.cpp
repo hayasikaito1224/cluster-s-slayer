@@ -104,7 +104,6 @@ void CSkillSelect::Update(void)
 					pPlayer->LevelUp(nSkillType);
 					m_bEnd = true;
 				}
-
 			}
 		}
 	}

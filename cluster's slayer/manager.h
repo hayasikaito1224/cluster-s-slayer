@@ -23,6 +23,7 @@ class CMouse;
 class CSound;
 class CPause;
 class CXload;
+class CGameMenu;
 
 class CManager
 {
@@ -30,6 +31,7 @@ public:
 	typedef enum
 	{
 		MODE_TITLE=0,			//タイトル画面
+		MODE_MENU,				//ゲーム開始前のメニュー画面
 		MODE_GAME,				//ゲーム画面
 		MODE_RESULT,			//リザルト画面
 		MODE_MAX
@@ -78,6 +80,7 @@ private:
 	static CPlayer			*m_pPlayer;
 	static CModel_Spawner	*m_pModel;
 	static CTitle			*m_pTitle;
+	static CGameMenu		*m_pGameMenu;
 	static CGame			*m_pGame;
 	static CResult			*m_pResult;
 	static MODE				m_Mode;				//現在のモード

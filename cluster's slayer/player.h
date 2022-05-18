@@ -49,7 +49,8 @@ public:
 		Beam,
 		BlackHole,
 		Rocket,
-		RushAttack
+		RushAttack,
+		Skill_Max
 	};
 
 	CPlayer(OBJTYPE nPriority = CScene::OBJTYPE_NONE);

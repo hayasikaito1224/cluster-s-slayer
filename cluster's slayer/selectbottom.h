@@ -36,7 +36,7 @@ private:
 	CFrame *pFrame;//２Dポリゴンの縁
 	int m_nSkillNo;//スキルの番号
 	bool m_bIsSelect;//現在選択しているか
-	bool m_bIsDecision;;//現在決定しているか
+	bool m_bIsDecision;//現在決定しているか
 	bool m_bPopSelectBottom;
 	bool m_bEnd;//終了判定
 };
