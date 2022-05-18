@@ -14,10 +14,6 @@
 #include "titleselectbutton.h"
 #include "savedata.h"
 #include "mouse.h"
-<<<<<<< HEAD
-
-=======
->>>>>>> b140d3476263e6c7ac6834e8890829c75e787e2e
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
@@ -124,13 +120,9 @@ void CTitle::Update(void)
 		// PressEnter押す画面
 
 		// ボタンを押すと
-<<<<<<< HEAD
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) ||
 			CManager::GetInputKeyboard()->GetTrigger(DIK_SPACE) ||
 			CManager::GetMouse()->GetTrigger(CMouse::MOUSE_LEFT))
-=======
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN)|| pMouse->GetTrigger(CMouse::MOUSE_LEFT))
->>>>>>> b140d3476263e6c7ac6834e8890829c75e787e2e
 		{
 			m_nNowType++;
 		}
