@@ -23,7 +23,7 @@
 #include "xload.h"
 #include "directinput.h"
 #include "gamemenu.h"
-
+#include "stage_preset_data.h"
 //エフェクト
 #include "LoadEffect.h"
 #define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
@@ -108,6 +108,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 		m_pXload = new CXload;
 		m_pXload->Init();
 	}
+	CStage_Preset_Data::StagePresetLoad("data/TEXT/PresetFileName.txt");
+
 	// サウンドの生成
 	if (m_pSound == NULL)
 	{
@@ -486,6 +488,8 @@ void CManager::SetMode(MODE mode)
 		if (m_pTitle == NULL)
 		{
 			m_bClear = false;
+			ShowCursor(true);
+
 			m_pTitle = new CTitle;
 			m_pTitle->Init();
 			m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_TITLE);	// タイトルサウンド

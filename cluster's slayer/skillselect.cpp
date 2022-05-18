@@ -55,6 +55,7 @@ HRESULT CSkillSelect::Init(void)
 		//スキル選択画面画像の生成
 		pSelectWindow = CPolygon::Create({ SCREEN_WIDTH / 2.0f,320.0f,0.0f }, SelectWindowSize, CTexture::FADE, {1.0,1.0,1.0,0.5}, OBJTYPE_TIME);
 	}
+	ShowCursor(true);
 
 	return S_OK;
 }
@@ -63,6 +64,9 @@ HRESULT CSkillSelect::Init(void)
 //--------------------------------------------
 void CSkillSelect::Uninit(void)
 {
+	//カーソルをみえるようにする
+	ShowCursor(false);
+
 	if (pSelectWindow)
 	{
 		pSelectWindow->Uninit();
