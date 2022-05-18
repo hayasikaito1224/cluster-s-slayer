@@ -18,10 +18,10 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	static CExp_Ball *Create(const D3DXVECTOR3& pos);
+	static CExp_Ball *Create(const D3DXVECTOR3& pos,const int& nExp);
 
 private:
-
+	int m_nExp;
 };
 
 

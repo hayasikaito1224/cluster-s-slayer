@@ -20,6 +20,7 @@ class CStage;
 class CCamera;
 class CEnemySpawnManager;
 class CGauge;
+class CGametimer;
 
 class CGame
 {
@@ -47,6 +48,7 @@ public:
 	static CParticle		*GetParticle() { return m_Particle; }
 	static CGauge		*GetHPGauge() { return m_pHPGauge; }
 	static CGauge		*GetExpGauge() { return m_pExpGauge; }
+	static CGametimer		*GetGameTimer() { return m_pGametimer; }
 
 private:
 	static CEnemySpawnManager		*m_pEnemySpawnManager;
@@ -62,6 +64,7 @@ private:
 	static CStage		*m_pStage;
 	static CGauge	*m_pExpGauge;
 	static CGauge	*m_pHPGauge;
+	static CGametimer	*m_pGametimer;
 
 	static CParticle	*m_Particle;
 	bool m_bPush;
@@ -69,6 +72,7 @@ private:
 	int m_nCntDelay;//ディレイのカウンタ
 	float				m_fAlpha;
 	bool				m_bNextMode;//二重押し防止変数
+	bool m_bIsClear;
 	int					m_nTimer;//カウンター
 	CScene3D			*m_pFlore;//床
 };

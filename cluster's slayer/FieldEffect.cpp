@@ -101,7 +101,7 @@ void CFieldEffect::Uninit()
 void CFieldEffect::Update()
 {
 	float fAngle;
-	float RandY;
+	float fAngle2;
 	int Y = (int)m_fDistance;
 
 	//ÉJÉâÅ[ÇÃïœìÆ
@@ -147,7 +147,7 @@ void CFieldEffect::Update()
 	}
 
 	float moveMin = m_ParticleMove3d * -1 / 1.5f;
-	float Life = m_nParticleLife ;
+	float Life = m_nParticleLife;
 	float Size = m_ParticleAddSize / 1.5f;
 	float AddR = fAddRotate * 30;
 	float Distance = m_fDistance / 1.5f;
@@ -166,16 +166,22 @@ void CFieldEffect::Update()
 			for (int i = 0; i < m_nDensity + 20; i++)
 			{
 				fAngle = CIRCLE;
-				RandY = float(rand() % Y / 3) + 5;
+				fAngle2 = CIRCLE;
 
-				CStraight3D::Create(D3DXVECTOR3(m_pos.x + sinf(fAngle) * Distance, RandY / 1.5, m_pos.z + cosf(fAngle) * Distance),
+				CStraight3D::Create(
+					D3DXVECTOR3(
+						m_pos.x + m_fDistance  * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 2 * cosf(fAngle),
+						m_pos.z + m_fDistance  * sinf(fAngle) * sinf(fAngle2)
+					),
+
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
-					D3DXVECTOR3(Size, Size, 0.0f),
+					D3DXVECTOR3(m_ParticleAddSize, m_ParticleAddSize, 0.0f),
 					D3DXVECTOR3(moveMin, 0.0f, 0.0f),
 					m_ParticleColor,
 					m_ParticleAddColor,
 					m_nParticleTex,
-					Life,
+					m_nParticleLife,
 					CStraight3D::TARGET,
 					m_pos,
 					m_nParticleSynthetic);
@@ -198,8 +204,15 @@ void CFieldEffect::Update()
 			for (int i = 0; i < m_nDensity; i++)
 			{
 				fAngle = CIRCLE;
-				RandY = float(rand() % Y) + 10;
-				CStraight3D::Create(D3DXVECTOR3(m_pos.x + (sinf(fAngle)) * m_fDistance, RandY / 2, m_pos.z + (cosf(fAngle)) * m_fDistance),
+				fAngle2 = CIRCLE;
+
+				CStraight3D::Create(
+					D3DXVECTOR3(
+						m_pos.x + m_fDistance * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 2 * cosf(fAngle),
+						m_pos.z + m_fDistance * sinf(fAngle) * sinf(fAngle2)
+					),
+
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
 					D3DXVECTOR3(m_ParticleAddSize, m_ParticleAddSize, 0.0f),
 					D3DXVECTOR3(m_ParticleMove3d, 0.0f, 0.0f),
@@ -241,12 +254,17 @@ void CFieldEffect::Update()
 			for (int i = 0; i < m_nDensity + 10; i++)
 			{
 				fAngle = CIRCLE;
-				RandY = float(rand() % Y / 3) + 5;
+				fAngle2 = CIRCLE;
 
-				CStraight3D::Create(D3DXVECTOR3(m_pos.x + sinf(fAngle)* Distance / 6, RandY / 5, m_pos.z + cosf(fAngle) * Distance / 6),
+				CStraight3D::Create(
+					D3DXVECTOR3(
+						m_pos.x + m_fDistance / 3 * sinf(fAngle) * cosf(fAngle2),
+						m_pos.y + m_fDistance / 4 * cosf(fAngle),
+						m_pos.z + m_fDistance / 3 * sinf(fAngle) * sinf(fAngle2)
+					),
 					D3DXVECTOR3(m_ParticleSize, m_ParticleSize, 0.0f),
 					D3DXVECTOR3(Size, Size, 0.0f),
-					D3DXVECTOR3(moveMin / 2 , 0.0f, 0.0f),
+					D3DXVECTOR3(moveMin / 2, 0.0f, 0.0f),
 					m_ParticleColor,
 					m_ParticleAddColor,
 					m_nParticleTex,

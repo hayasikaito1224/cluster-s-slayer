@@ -66,6 +66,7 @@ public:
 	static bool GetClear()								{ return m_bClear; }
 	static void SetClear(bool bClear)						{ m_bClear = bClear; }
 	static HWND GethWnd() { return m_hWnd; }
+	static int GetGameTime() { return m_nGameTime; }
 
 private:
 	static HWND m_hWnd;//このプログラムが使っているウィンドウのハンドル
@@ -91,6 +92,9 @@ private:
 	static CPause			*m_pPause;
 	static CXload			*m_pXload;			//Xファイルの読み込みクラス
 	static bool	m_bClear;					//クリアしたかの判定
+	static float m_fTimer;
+	static int m_nGameTime;
+
 };
 
 

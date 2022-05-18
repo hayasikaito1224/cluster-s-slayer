@@ -50,6 +50,8 @@ CPause			*CManager::m_pPause = NULL;
 CXload			*CManager::m_pXload = NULL;
 CDirectInput	*CManager::m_pDirectInput = NULL;
 HWND	CManager::m_hWnd = 0;
+float	CManager::m_fTimer = 0.0f;
+int	CManager::m_nGameTime = 0;
 
 bool			CManager::m_bPause = false;
 bool			CManager::m_bStop = false;
@@ -156,7 +158,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	{
 		m_pLight[nLight] = new CLight;
 	}
-	m_pLight[0]->Init(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.22f, -0.87f, 0.44f));
+	m_pLight[0]->Init(D3DXCOLOR( 1.0f,  1.0f,  1.0f, 1.0f), D3DXVECTOR3(0.22f, -0.87f, 0.44f));
 	m_pLight[1]->Init(D3DXCOLOR(0.65f, 0.65f, 0.65f, 1.0f), D3DXVECTOR3(-0.18f, 0.88f, -0.44f));
 	m_pLight[2]->Init(D3DXCOLOR(0.15f, 0.15f, 0.15f, 1.0f), D3DXVECTOR3(0.89f, -0.11f, 0.44f));
 
@@ -332,7 +334,13 @@ void CManager::Update(void)
 				{
 					m_pPause = NULL;
 				}
-
+				//ƒQ[ƒ€ŽžŠÔ‚ð”‚¦‚é
+				m_fTimer++;
+				if (m_fTimer >= 60)
+				{
+					m_fTimer = 0;
+					m_nGameTime++;
+				}
 			}
 
 		}

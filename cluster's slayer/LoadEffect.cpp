@@ -83,6 +83,12 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	int FieldTime = 0;
 	int FieldCreate = 0;
 	int CreatePreset = 0;
+	int nSecondTime = 0;
+	int nVtx = 0;
+	int nType = 0;
+	D3DXVECTOR2 TexMove = D3DXVECTOR2(0.0f, 0.0f);
+	float TexNum = 1.0f;
+
 
 
 
@@ -370,7 +376,31 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 					fscanf(pFile, "%s", &aFile[0]);
 					fscanf(pFile, "%d", &CreatePreset);
 				}
-
+				if (strcmp(&aFile[0], "SECONDTIME") == 0)	//2番目の時間
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%d", &nSecondTime);
+				}
+				if (strcmp(&aFile[0], "VTX") == 0)	//頂点数
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%d", &nVtx);
+				}
+				if (strcmp(&aFile[0], "TYPE") == 0)	//頂点数
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%d", &nType);
+				}
+				if (strcmp(&aFile[0], "TEXMOVE") == 0)	//テクスチャ移動量
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%f %f", &TexMove.x, &TexMove.y);
+				}
+				if (strcmp(&aFile[0], "TEXNUM") == 0)	//テクスチャ移動量
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%f", &TexNum);
+				}
 			}
 			//エフェクト情報セット
 			if (strcmp(&aFile[0], "EFFECTSTATE2D") == 0)
@@ -396,7 +426,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 					ParticleAddSize, Active, col, ChangeColor, Secondcol, SecondChangeColor, SecondSynthetic, nLife, Density, TrajectTop, TrajectCur, Move3D, RandMove,
 					(bool)bRandColR, (bool)bRandColG, (bool)bRandColB,
 					nSynthetic, nTexture, Distance, ParticleTime, pos, fActiveAddSize,
-					FieldTime, (bool)FieldCreate, CreatePreset);
+					FieldTime, (bool)FieldCreate, CreatePreset,
+					nSecondTime, nVtx, nType, TexMove, TexNum);
 
 				m_Total++;
 			}

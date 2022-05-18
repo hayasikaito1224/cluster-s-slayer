@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
@@ -9,10 +13,19 @@
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
+    <ClCompile Include="damage_collision.cpp" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClCompile Include="..\cluster%27s slayer\directinput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy.cpp" />
     <ClCompile Include="..\cluster%27s slayer\enemy001.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\enemy_goblin.cpp" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClCompile Include="..\cluster%27s slayer\enemy_spawn_manager.cpp" />
     <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
@@ -45,6 +58,10 @@
     <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\result.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\Rotate3d.cpp" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClCompile Include="..\cluster%27s slayer\rushattack.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene2D.cpp" />
@@ -56,6 +73,11 @@
     <ClCompile Include="..\cluster%27s slayer\smallscore.cpp" />
     <ClCompile Include="..\cluster%27s slayer\sound.cpp" />
     <ClCompile Include="..\cluster%27s slayer\stage.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\cluster%27s slayer\stage_preset.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\stage_preset_data.cpp" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClCompile Include="..\cluster%27s slayer\straight3d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\sword.cpp" />
     <ClCompile Include="..\cluster%27s slayer\texture.cpp" />
@@ -64,11 +86,19 @@
     <ClCompile Include="..\cluster%27s slayer\weapon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\XInput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\xload.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="titleselectbutton.cpp" />
     <ClCompile Include="savedata.cpp" />
     <ClCompile Include="gamemenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+=======
+    <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Sphere.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cluster%27s slayer\2Dnumber.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
@@ -77,10 +107,18 @@
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
     <ClInclude Include="..\cluster%27s slayer\collision.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\damage_collision.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\directinput.h" />
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\enemy_goblin.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\enemy_spawn_manager.h" />
     <ClInclude Include="..\cluster%27s slayer\exp_ball.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
@@ -88,6 +126,10 @@
     <ClInclude Include="..\cluster%27s slayer\FieldEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\frame.h" />
     <ClInclude Include="..\cluster%27s slayer\game.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\gametimer.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\gauge.h" />
     <ClInclude Include="..\cluster%27s slayer\gaugeber.h" />
     <ClInclude Include="..\cluster%27s slayer\input.h" />
@@ -113,6 +155,10 @@
     <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
     <ClInclude Include="..\cluster%27s slayer\result.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\Rotate3d.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\rushattack.h" />
     <ClInclude Include="..\cluster%27s slayer\scene.h" />
     <ClInclude Include="..\cluster%27s slayer\scene2D.h" />
@@ -124,6 +170,11 @@
     <ClInclude Include="..\cluster%27s slayer\smallscore.h" />
     <ClInclude Include="..\cluster%27s slayer\sound.h" />
     <ClInclude Include="..\cluster%27s slayer\stage.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\cluster%27s slayer\stage_preset.h" />
+    <ClInclude Include="..\cluster%27s slayer\stage_preset_data.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
     <ClInclude Include="..\cluster%27s slayer\straight3d.h" />
     <ClInclude Include="..\cluster%27s slayer\sword.h" />
     <ClInclude Include="..\cluster%27s slayer\texture.h" />
@@ -132,8 +183,13 @@
     <ClInclude Include="..\cluster%27s slayer\weapon.h" />
     <ClInclude Include="..\cluster%27s slayer\XInput.h" />
     <ClInclude Include="..\cluster%27s slayer\xload.h" />
+<<<<<<< HEAD
     <ClInclude Include="titleselectbutton.h" />
     <ClInclude Include="savedata.h" />
     <ClInclude Include="gamemenu.h" />
+=======
+    <ClInclude Include="..\cluster%27s slayer\SphereEffect.h" />
+    <ClInclude Include="..\cluster%27s slayer\Sphere.h" />
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
   </ItemGroup>
 </Project>

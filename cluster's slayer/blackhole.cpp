@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "Particle.h"
 #include "enemy.h"
+#include "PresetSetEffect.h"
 static const float MoveSpeedMax = 4.0f;
 static const float MoveSpeedMin = 2.0f;
 static const float HoleSpeed = 1.5f;
@@ -49,11 +50,19 @@ void CBlackHole::Uninit(void)
 void CBlackHole::Update(void)
 {
 	m_nDeleteTimer++;
-
+	if (m_pEnemyData)
+	{
+		bool bDeath = m_pEnemyData->GetDeath();
+		if (bDeath)
+		{
+			m_pEnemyData = nullptr;
+		}
+	}
 	if (m_nDeleteTimer >= HoleExpansionTime && !m_bHoleExpansion)
 	{
 		m_nDeleteTimer = 0;
 		m_bHoleExpansion = true;
+		CPresetEffect::SetEffect3D(0, m_pos, {});
 	}
 	else if (m_nDeleteTimer >= DeleteTime && m_bHoleExpansion)
 	{

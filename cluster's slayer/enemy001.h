@@ -3,6 +3,7 @@
 #include "enemy.h"
 
 class CSound;
+class CDamage_Collision;
 
 #define MAX_KEYSET (10) //最大キーセット数
 #define MAX_DRAWRADIUS (1000.0f)
@@ -39,6 +40,7 @@ public:
 	 void Update();
 	 void Draw();
 	 void AIAttack();
+	 void Attack();
 	 void AIMove();
 	 void AddLife(int nPower, int nType);
 	 void AddLife(int nLife);//体力の増減
@@ -46,6 +48,8 @@ public:
 	static CEnemy001 *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
+	CDamage_Collision *m_pDamageCollision;
+	float m_fAttackCollisionTime;
 };
 
 

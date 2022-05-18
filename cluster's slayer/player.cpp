@@ -19,12 +19,19 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
+<<<<<<< HEAD
 #include "PresetSetEffect.h"
 #include "blackhole.h"
+=======
+#include "blackhole.h"
+
+#include "PresetSetEffect.h"
+>>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
 
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
+#define EFFECT_PLAYER_POS_Y (60.0f)		//エフェクト出す高さ
 static const float MouseCameraLimit_X = 600.0f;//マウスの位置をカメラの回転速度に使用するための制限値
 static const float MouseCameraLimit_Y = 200.0f;//マウスの位置をカメラの回転速度に使用するための制限値
 static const float PlayerMoveSpeed = 10.0f;//プレイヤーの移動スピード
@@ -262,7 +269,7 @@ void CPlayer::Draw()
 
 	//プレイヤーの位置にカメラを追従させる
 	FollowingPlayerCamera();
-	Drawtext();
+	//Drawtext();
 }
 //-----------------------------------------------
 //移動の処理(キーボード)
@@ -540,6 +547,12 @@ void CPlayer::AttackCtrl()
 				//武器の当たり判定をオンにする
 				m_pSword->SetCanHit(true);
 			}
+			if (m_pSword)
+			{
+				m_pSword->SetCombo(m_nComboType);
+				//武器の当たり判定をオンにする
+				m_pSword->SetCanHit(true);
+			}
 			//最大コンボに行ったら
 			if (m_nComboType >= COMBO_3)
 			{
@@ -548,7 +561,6 @@ void CPlayer::AttackCtrl()
 				
 			}
 
-			CPresetEffect::SetEffect3D(0, m_pos, {});
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
 			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
@@ -629,9 +641,11 @@ void CPlayer::NearEnemyFace()
 void CPlayer::LevelUp(int nType)
 {
 	//レベルを加算する
+	m_fMaxExp *= 1.1f;
+	int nEXP_B = m_nLevel * 15;
+	m_fMaxExp = (m_fMaxExp + nEXP_B) / 2;
 	m_nLevel += 1;
-	m_fMaxExpDiameter += 0.3f;
-	m_fMaxExp = m_fMaxExp *m_fMaxExpDiameter;
+
 	CManager::GetGame()->GetExpGauge()->GetGaugeBer(0)->SetGaugeValueMax(m_fMaxExp);
 	switch (nType)
 	{
@@ -644,6 +658,12 @@ void CPlayer::LevelUp(int nType)
 			//剣に攻撃力を反映
 			m_pSword->SetPower(m_fPower);
 		}
+
+		//エフェクト
+		CPresetEffect::SetEffect3D(2, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
+		CPresetEffect::SetEffect3D(3, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
+		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+
 		break;
 	case Eye:
 		break;
@@ -657,8 +677,19 @@ void CPlayer::LevelUp(int nType)
 		CManager::GetGame()->GetHPGauge()->ResetGauge(1);
 		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP/2.0f, 1);
 
+
+		//エフェクト
+		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
+		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
+		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+
 		break;
 	case Sheild:
+
+		//エフェクト(まだ処理ないけど勝手に追加しましたすまん)
+		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
+		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
+		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
 		break;
 	case Beam:
 		break;
@@ -809,6 +840,7 @@ void CPlayer::Drawtext()
 	nNum += sprintf(&str[nNum], " [攻撃力] %.5f\n", m_fPower);
 	nNum += sprintf(&str[nNum], " [攻撃増加倍率] %.5f\n", m_fPowerDiameter);
 	nNum += sprintf(&str[nNum], " [レベル] %d\n", m_nLevel);
+	nNum += sprintf(&str[nNum], " [必要経験値] %.2f\n", m_fMaxExp);
 
 	nNum += sprintf(&str[nNum], " [視点] %.5f,%.5f,%.5f\n", PosV.x, PosV.y, PosV.z);
 	nNum += sprintf(&str[nNum], " [注視点] %.5f,%.5f,%.5f\n", PosR.x, PosR.y, PosR.z);

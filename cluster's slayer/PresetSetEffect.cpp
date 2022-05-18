@@ -14,6 +14,8 @@
 //#include "Trajectory.h"
 #include "straight3d.h"
 #include "FieldEffect.h"
+#include "Rotate3d.h"
+//#include "sphereEffect.h"
 
 #include <assert.h>
 
@@ -130,7 +132,12 @@ void CPresetEffect::SetEffectState3D(int nPattern,
 	float m_fActiveAddSize,
 	int m_FieldTime,
 	bool m_fieldCreate,
-	int mCreatePreset)
+	int mCreatePreset,
+	int m_nSecondTime,
+	int m_nVtx,
+	int m_nType,
+	D3DXVECTOR2 m_TexMove,
+	float m_TexNum)
 {
 	m_EffectState3D[m_nEffectPattern].m_nPattern = nPattern;
 	m_EffectState3D[m_nEffectPattern].m_fRotate = m_fRotate;
@@ -166,8 +173,11 @@ void CPresetEffect::SetEffectState3D(int nPattern,
 	m_EffectState3D[m_nEffectPattern].m_FieldTime = m_FieldTime;
 	m_EffectState3D[m_nEffectPattern].m_fieldCreate = m_fieldCreate;
 	m_EffectState3D[m_nEffectPattern].mCreatePreset = mCreatePreset;
-
-
+	m_EffectState3D[m_nEffectPattern].m_nSecondTime = m_nSecondTime;
+	m_EffectState3D[m_nEffectPattern].m_nVtx = m_nVtx;
+	m_EffectState3D[m_nEffectPattern].m_nType = m_nType;
+	m_EffectState3D[m_nEffectPattern].m_TexMove = m_TexMove;
+	m_EffectState3D[m_nEffectPattern].m_TexNum = m_TexNum;
 
 	m_nEffectPattern++;
 }
@@ -176,146 +186,146 @@ void CPresetEffect::SetEffectState3D(int nPattern,
 //=============================================================================
 // 呼ばれた物を呼び出すやつ2D
 //=============================================================================
-void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
-{
-	switch (m_EffectState2D[nPattern].m_nPattern)
-	{
-	case(1):
-		//for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-		//{
-		//	//各色のランダム化
-		//	if (m_EffectState2D[nPattern].m_bColorRandR == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandG == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandB == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-		//	}
-
-
-		//	//出現位置が自分の位置か
-		//	if (m_EffectState2D[nPattern].m_bMousePos == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_pos = pos;
-		//	}
-
-		//	CMovement::Create(m_EffectState2D[nPattern].m_pos,
-		//		m_EffectState2D[nPattern].m_move,
-		//		m_EffectState2D[nPattern].m_Col,
-		//		m_EffectState2D[nPattern].m_Changecolor,
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-		//		m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
-		//		m_EffectState2D[nPattern].m_Addmove,
-		//		m_EffectState2D[nPattern].Synthetic);
-		//}
-		break;
-	case(2):
-		//for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-		//{
-		//	//出現位置が自分の位置か
-		//	if (m_EffectState2D[nPattern].m_bMousePos == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_pos = pos;
-		//	}
-		//	//各色のランダム化
-		//	if (m_EffectState2D[nPattern].m_bColorRandR == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandG == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandB == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-		//	}
-
-		//	CMouseTracking::Create(pos,
-		//		m_EffectState2D[nPattern].m_move,
-		//		m_EffectState2D[nPattern].m_Col,
-		//		m_EffectState2D[nPattern].m_Changecolor,
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-		//		m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
-		//		Endpos, m_EffectState2D[nPattern].m_nDiffusion,
-		//		m_EffectState2D[nPattern].m_nDestroyvec,
-		//		m_EffectState2D[nPattern].Synthetic);
-		//}
-		break;
-	case(3):
-		//for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-		//{
-
-		//	//各色のランダム化
-		//	if (m_EffectState2D[nPattern].m_bColorRandR == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandG == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandB == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-		//	}
-
-		//	CRotate::Create(pos,
-		//		m_EffectState2D[nPattern].m_move,
-		//		m_EffectState2D[nPattern].m_Col,
-		//		m_EffectState2D[nPattern].m_Changecolor,
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-		//		m_EffectState2D[nPattern].m_nLife,
-		//		m_EffectState2D[nPattern].nTexture,
-		//		m_EffectState2D[nPattern].m_fRotate,
-		//		m_EffectState2D[nPattern].Synthetic);
-		//}
-		break;
-	case(4):
-		//for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-		//{
-
-		//	//各色のランダム化
-		//	if (m_EffectState2D[nPattern].m_bColorRandR == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandG == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-		//	}
-		//	if (m_EffectState2D[nPattern].m_bColorRandB == true)
-		//	{
-		//		m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-		//	}
-
-		//	CRotate::Create(pos,
-		//		m_EffectState2D[nPattern].m_move,
-		//		m_EffectState2D[nPattern].m_Col,
-		//		m_EffectState2D[nPattern].m_Changecolor,
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-		//		D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-		//		m_EffectState2D[nPattern].m_nLife,
-		//		m_EffectState2D[nPattern].nTexture,
-		//		m_EffectState2D[nPattern].m_fRotate,
-		//		m_EffectState2D[nPattern].Synthetic);
-		//}
-		break;
-
-	default:
-		assert(false);
-		break;
-	}
-}
-
+//void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
+//{
+//	switch (m_EffectState2D[nPattern].m_nPattern)
+//	{
+//	case(1):
+//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+//		{
+//			//各色のランダム化
+//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+//			}
+//
+//
+//			//出現位置が自分の位置か
+//			if (m_EffectState2D[nPattern].m_bMousePos == true)
+//			{
+//				m_EffectState2D[nPattern].m_pos = pos;
+//			}
+//
+//			CMovement::Create(m_EffectState2D[nPattern].m_pos,
+//				m_EffectState2D[nPattern].m_move,
+//				m_EffectState2D[nPattern].m_Col,
+//				m_EffectState2D[nPattern].m_Changecolor,
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+//				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
+//				m_EffectState2D[nPattern].m_Addmove,
+//				m_EffectState2D[nPattern].Synthetic);
+//		}
+//		break;
+//	case(2):
+//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+//		{
+//			//出現位置が自分の位置か
+//			if (m_EffectState2D[nPattern].m_bMousePos == true)
+//			{
+//				m_EffectState2D[nPattern].m_pos = pos;
+//			}
+//			//各色のランダム化
+//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+//			}
+//
+//			CMouseTracking::Create(pos,
+//				m_EffectState2D[nPattern].m_move,
+//				m_EffectState2D[nPattern].m_Col,
+//				m_EffectState2D[nPattern].m_Changecolor,
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+//				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
+//				Endpos, m_EffectState2D[nPattern].m_nDiffusion,
+//				m_EffectState2D[nPattern].m_nDestroyvec,
+//				m_EffectState2D[nPattern].Synthetic);
+//		}
+//		break;
+//	case(3):
+//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+//		{
+//
+//			//各色のランダム化
+//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+//			}
+//
+//			CRotate::Create(pos,
+//				m_EffectState2D[nPattern].m_move,
+//				m_EffectState2D[nPattern].m_Col,
+//				m_EffectState2D[nPattern].m_Changecolor,
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+//				m_EffectState2D[nPattern].m_nLife,
+//				m_EffectState2D[nPattern].nTexture,
+//				m_EffectState2D[nPattern].m_fRotate,
+//				m_EffectState2D[nPattern].Synthetic);
+//		}
+//		break;
+//	case(4):
+//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+//		{
+//
+//			//各色のランダム化
+//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+//			}
+//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+//			{
+//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+//			}
+//
+//			CRotate::Create(pos,
+//				m_EffectState2D[nPattern].m_move,
+//				m_EffectState2D[nPattern].m_Col,
+//				m_EffectState2D[nPattern].m_Changecolor,
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+//				m_EffectState2D[nPattern].m_nLife,
+//				m_EffectState2D[nPattern].nTexture,
+//				m_EffectState2D[nPattern].m_fRotate,
+//				m_EffectState2D[nPattern].Synthetic);
+//		}
+//		break;
+//
+//	default:
+//		assert(false);
+//		break;
+//	}
+//}
+//
 //=============================================================================
 // 呼ばれた物を呼び出すやつ3D
 //=============================================================================
@@ -336,6 +346,7 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 	bool bRx = false;
 	bool bRy = false;
 	bool bRz = false;
+	float RandAngle;
 
 	D3DXVECTOR3 move = m_EffectState3D[nPattern].move3d;
 
@@ -345,24 +356,28 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 
 		break;
 	case(1):	//パーティクル
-		move.x = (float(rand() % (int)m_EffectState3D[nPattern].move3d.x)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.x));
-		move.x /= 10;
-		move.y = (float(rand() % (int)m_EffectState3D[nPattern].move3d.y)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.y));
-		move.y /= 10;
-		move.z = (float(rand() % (int)m_EffectState3D[nPattern].move3d.z)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.z));
-		move.z /= 10;
+		for (int nCnt = 0; nCnt < m_EffectState3D[nPattern].m_nDensity; nCnt++)
+		{
+
+			move.x = (float(rand() % (int)m_EffectState3D[nPattern].move3d.x)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.x));
+			move.x /= 10;
+			move.y = (float(rand() % (int)m_EffectState3D[nPattern].move3d.y)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.y));
+			move.y /= 10;
+			move.z = (float(rand() % (int)m_EffectState3D[nPattern].move3d.z)) - (float(rand() % (int)m_EffectState3D[nPattern].move3d.z));
+			move.z /= 10;
 
 
-		CStraight3D::Create(pos,
-			D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, m_EffectState3D[nPattern].m_fSize, 0.0f),
-			D3DXVECTOR3(m_EffectState3D[nPattern].m_fAddSize, m_EffectState3D[nPattern].m_fAddSize, 0.0f),
-			move,
-			m_EffectState3D[nPattern].m_Col,
-			m_EffectState3D[nPattern].m_Changecolor,
-			m_EffectState3D[nPattern].nTexture,
-			m_EffectState3D[nPattern].m_nLife,
-			CStraight3D::STRAIGHT, {},
-			m_EffectState3D[nPattern].Synthetic);
+			CStraight3D::Create(pos,
+				D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, m_EffectState3D[nPattern].m_fSize, 0.0f),
+				D3DXVECTOR3(m_EffectState3D[nPattern].m_fAddSize, m_EffectState3D[nPattern].m_fAddSize, 0.0f),
+				move,
+				m_EffectState3D[nPattern].m_Col,
+				m_EffectState3D[nPattern].m_Changecolor,
+				m_EffectState3D[nPattern].nTexture,
+				m_EffectState3D[nPattern].m_nLife,
+				CStraight3D::STRAIGHT, {},
+				m_EffectState3D[nPattern].Synthetic);
+		}
 		break;
 	case(2):	//纏わせ
 		Vectl = pos - Endpos;
@@ -443,7 +458,8 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 		}
 		break;
 	case(3):	//フィールド
-		CFieldEffect::Create(D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, 0.0f, m_EffectState3D[nPattern].m_fSize),
+		CFieldEffect::Create(
+			D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, 0.0f, m_EffectState3D[nPattern].m_fSize),
 			D3DXVECTOR3(pos.x, m_EffectState3D[nPattern].pos.y, pos.z),
 			m_EffectState3D[nPattern].m_Col,
 			m_EffectState3D[nPattern].m_Changecolor,
@@ -468,6 +484,50 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 			m_EffectState3D[nPattern].m_fieldCreate,
 			m_EffectState3D[nPattern].mCreatePreset);
 
+		break;
+	case(4):
+		break;
+	case(5):
+		for (int nCnt = 0; nCnt < m_EffectState3D[nPattern].m_nDensity; nCnt++)
+		{
+
+			RandAngle = CIRCLE;
+
+			CRotate3D::Create(
+				D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+				D3DXVECTOR3(pos.x, pos.y, pos.z), {},
+				D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, m_EffectState3D[nPattern].m_fSize, 0.0f),
+				D3DXVECTOR3(m_EffectState3D[nPattern].m_fAddSize, m_EffectState3D[nPattern].m_fAddSize, 0.0f),
+				m_EffectState3D[nPattern].m_Col,
+				m_EffectState3D[nPattern].m_Changecolor,
+				m_EffectState3D[nPattern].m_nDistance,
+				m_EffectState3D[nPattern].m_move,
+				RandAngle,
+				m_EffectState3D[nPattern].m_fRotate,
+				m_EffectState3D[nPattern].nTexture,
+				m_EffectState3D[nPattern].Synthetic,
+				m_EffectState3D[nPattern].m_nLife,
+				m_EffectState3D[nPattern].ParticleTime,
+				m_EffectState3D[nPattern].m_nSecondTime,
+				m_EffectState3D[nPattern].m_MaxSize
+			);
+		}
+		break;
+	case(6):
+		//CSphereEffect::Create(
+		//	D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		//	0.0f,
+		//	m_EffectState3D[nPattern].m_fSize,
+		//	m_EffectState3D[nPattern].nTexture,
+		//	m_EffectState3D[nPattern].m_Col,
+		//	m_EffectState3D[nPattern].m_Changecolor,
+		//	m_EffectState3D[nPattern].m_nLife,
+		//	m_EffectState3D[nPattern].Synthetic,
+		//	m_EffectState3D[nPattern].m_fAddSize,
+		//	m_EffectState3D[nPattern].m_nVtx,
+		//	(CSphereEffect::SPHERE_TYPE)m_EffectState3D[nPattern].m_nType,
+		//	m_EffectState3D[nPattern].m_TexMove,
+		//	m_EffectState3D[nPattern].m_TexNum);
 		break;
 	}
 }
