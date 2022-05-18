@@ -10,7 +10,7 @@
 // マクロ
 //*****************************************************************************
 #define MAX_EFFECTPATTERN_2D (8)
-#define MAX_EFFECTPATTERN_3D (8)
+#define MAX_EFFECTPATTERN_3D (16)
 
 
 class CPresetEffect
@@ -78,6 +78,11 @@ public:
 		int m_FieldTime;	//フィールド生成間隔
 		bool m_fieldCreate;	//フィールド生成するか
 		int mCreatePreset;	//どのプリセットを生成するか
+		int m_nSecondTime;	//2番目の時間計算
+		int m_nVtx;	//頂点数
+		int m_nType;	//タイプ
+		D3DXVECTOR2 m_TexMove;	//テクスチャ移動
+		float m_TexNum;	//テクスチャ枚数
 	} EFFECT_STATE3D;
 
 
@@ -140,7 +145,12 @@ public:
 		float m_fActiveAddSize,
 		int m_FieldTime,
 		bool m_fieldCreate,
-		int mCreatePreset);
+		int mCreatePreset,
+		int m_nSecondTime,
+		int m_nVtx,
+		int m_nType,
+		D3DXVECTOR2 m_TexMove,
+		float m_TexNum);
 
 	static void SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos);
 	static void SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos);
