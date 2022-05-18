@@ -19,12 +19,7 @@
 //--------------------------------------------
 CGameMenu::CGameMenu()
 {
-	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
-	{
-		m_Polygon[nCnt] = nullptr;
-	}
-
-	for (int nCnt = 0; nCnt < max_MenuButton; nCnt++)
+	for (int nCnt = 0; nCnt < MENUBUTTON_MAX; nCnt++)
 	{
 		pButton[nCnt] = nullptr;
 	}
@@ -46,31 +41,57 @@ HRESULT CGameMenu::Init(void)
 	m_nSelectType = 0;
 	m_nDecisionType = 0;
 
-	CBg::Create(CTexture::Title, CScene::OBJTYPE_BG, false);	//背景
+	CBg::Create(CTexture::FADE, CScene::OBJTYPE_BG, false);	//背景
 
-	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
+	int line = 0;
+	D3DXVECTOR3 SkillPos = D3DXVECTOR3(115.0f, SCREEN_HEIGHT / 2 - 150, 0.0f);
+	D3DXVECTOR3 SkillSize = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
+
+	for (int nCnt = 0; nCnt < MENUBUTTON_MAX; nCnt++)
 	{
+		line++;
+
 		switch (nCnt)
 		{
-		case PORYGON_FILEBG:
-			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2, 0.0f), CTexture::FADE, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), CScene::OBJTYPE_BG);	// タイトルロゴ
+		case CPlayer::ATKup:
+		case CPlayer::Eye:
+		case CPlayer::Heal:
+		case CPlayer::OverHeal:
+		case CPlayer::Sheild:
+		case CPlayer::Beam:
+		case CPlayer::BlackHole:
+		case CPlayer::Rocket:
+		case CPlayer::RushAttack:
+			pButton[nCnt] = CTitleSelectButton::Create(SkillPos, SkillSize, CTexture::ATKup + nCnt);
 
 			break;
 
-		case PORYGON_GAME_START:
-			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 4.0f, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 8.0f, SCREEN_HEIGHT / 8.0f, 0.0f), CTexture::Text, D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f));	// フェード
+		case MENUBUTTON_GAME_START:
+			pButton[nCnt] = CTitleSelectButton::Create(
+				D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 250, SCREEN_HEIGHT / 2.0f, 0.0f),
+				D3DXVECTOR3(SCREEN_WIDTH / 5.0f, SCREEN_HEIGHT / 5.0f, 0.0f),
+				CTexture::Text);
+
 			break;
 
-		case PORYGON_UPGRADE:
-			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH - m_Polygon[PORYGON_GAME_START]->GetPos().x, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 12.0f, SCREEN_HEIGHT / 12.0f, 0.0f), CTexture::Text);
+		case MENUBUTTON_RETURN_TO_TITLE:
+			pButton[nCnt] = CTitleSelectButton::Create(
+				D3DXVECTOR3(SCREEN_WIDTH - (SCREEN_WIDTH / 4.0f), SCREEN_HEIGHT - (SCREEN_HEIGHT / 8.0f), 0.0f),
+				D3DXVECTOR3(SCREEN_WIDTH / 8.0f, SCREEN_HEIGHT / 16.0f, 0.0f),
+				CTexture::Text);
 
-			break;
-
-		case PORYGON_RETURN_TO_TITLE:
 			break;
 
 		default:
 			break;
+		}
+
+		SkillPos.x += 115.0f;
+
+		if (line % 3 == 0)
+		{
+			SkillPos.x = 115.0f;
+			SkillPos.y += 115.0f;
 		}
 	}
 
@@ -81,15 +102,6 @@ HRESULT CGameMenu::Init(void)
 //--------------------------------------------
 void CGameMenu::Uninit(void)
 {
-	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
-	{
-		if (m_Polygon[nCnt] != NULL)
-		{
-			m_Polygon[nCnt]->Uninit();
-			m_Polygon[nCnt] = NULL;
-		}
-	}
-
 	CManager::GetSound()->StopSound(CSound::SOUND_LABEL_BGM_TITLE);
 }
 //--------------------------------------------
@@ -97,7 +109,48 @@ void CGameMenu::Uninit(void)
 //--------------------------------------------
 void CGameMenu::Update(void)
 {
+	if (!m_bNextMode)
+	{
+		for (int nCnt = 0; nCnt < MENUBUTTON_MAX; nCnt++)
+		{
+			if (pButton[nCnt]->GetDecision())
+			{
+				m_nDecisionType = nCnt;
+			}
 
+			if (m_nDecisionType != 0)
+			{
+				//どれかが決定している状態なら終了
+				if (m_nDecisionType == MENUBUTTON_GAME_START)
+				{
+					// 強化したスキルをセーブ
+
+					// 音声を再生
+					CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
+					CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+
+					m_bNextMode = true;
+
+					// ゲームシーンへ行く
+					CFade::SetFade(CManager::MODE_GAME);
+				}
+
+				else if (m_nDecisionType == MENUBUTTON_RETURN_TO_TITLE)
+				{
+					// 強化したスキルをセーブ
+
+					// 音声を再生
+					CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
+					CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+
+					m_bNextMode = true;
+
+					// タイトルシーンへ行く
+					CFade::SetFade(CManager::MODE_TITLE);
+				}
+			}
+		}
+	}
 }
 //--------------------------------------------
 //描画
@@ -105,11 +158,4 @@ void CGameMenu::Update(void)
 void CGameMenu::Draw(void)
 {
 
-}
-
-void CGameMenu::ButtonCreate(int num)
-{
-	D3DXVECTOR3 size = D3DXVECTOR3(float(SCREEN_WIDTH / 3 - 50) / 2.0f, 250.0f, 0.0f);
-	pButton[num] = CTitleSelectButton::Create(
-		m_Polygon[num + PORYGON_GAME_START]->GetPos(), m_Polygon[num + PORYGON_GAME_START]->GetScale(), CTexture::Text);
 }

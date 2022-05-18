@@ -43,7 +43,7 @@ CResult			*CManager::m_pResult = NULL;
 CGameMenu		*CManager::m_pGameMenu = NULL;
 CFade			*CManager::m_Fade = NULL;
 CXInput			*CManager::m_XInput = NULL;
-CManager::MODE	 CManager::m_Mode = MODE_TITLE;		// 初期モード
+CManager::MODE	 CManager::m_Mode = MODE_MENU;		// 初期モード
 CMouse			*CManager::m_Mouse = NULL;
 CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;
@@ -377,7 +377,7 @@ void CManager::Draw(void)
 	case MODE_MENU:
 		if (m_pGameMenu != NULL)
 		{
-			m_pGameMenu->Draw();
+			//m_pGameMenu->Draw();
 		}
 
 		break;
@@ -451,8 +451,8 @@ void CManager::SetMode(MODE mode)
 		if (m_pGameMenu != NULL)
 		{
 			//m_pSound->StopSound(m_pSound->SOUND_LABEL_BGM_TITLE);
-			m_pTitle->Uninit();
-			m_pTitle = NULL;
+			m_pGameMenu->Uninit();
+			m_pGameMenu = NULL;
 		}
 
 		break;
@@ -495,13 +495,14 @@ void CManager::SetMode(MODE mode)
 		break;
 
 	case MODE_MENU:
-		if (m_pGameMenu != NULL)
+		if (m_pGameMenu == NULL)
 		{
 			m_pGameMenu = new CGameMenu;
 			m_pGameMenu->Init();
 			//m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);
 			//m_pSound->ControllVoice(m_pSound->SOUND_LABEL_BGM_GAME, 0.1f);
 		}
+		break;
 
 	case MODE_GAME:			//ゲーム画面
 		if (m_pGame == NULL)

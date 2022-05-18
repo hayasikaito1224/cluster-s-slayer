@@ -6,23 +6,22 @@
 
 #include "main.h"
 #include "scene.h"
-static const int max_MenuButton = 3;
-
+#include "player.h"
 //前方宣言
 class CBg;
 class CPolygon;
 class CSound;
 class CTitleSelectButton;
+
 class CGameMenu
 {
 public:
-	enum POLYGON
+	enum BUTTON
 	{
-		PORYGON_FILEBG,				// 背景
-		PORYGON_GAME_START,			// ゲーム開始
-		PORYGON_UPGRADE,			// スキル取得
-		PORYGON_RETURN_TO_TITLE,	// タイトルへ遷移
-		POLYGON_MAX
+		// 各スキルのボタンがここにあるとする
+		MENUBUTTON_GAME_START = CPlayer::Skill_Max,	// ゲーム開始
+		MENUBUTTON_RETURN_TO_TITLE,	// タイトルへ遷移
+		MENUBUTTON_MAX
 	};
 
 	CGameMenu();
@@ -34,13 +33,9 @@ public:
 	void NextMode(bool bNextMode) { m_bNextMode = bNextMode; }
 
 private:
-	void ButtonCreate(int num);
+	bool m_bNextMode;	// 次のモードに行くための
 
-	CPolygon	*m_Polygon[POLYGON_MAX];
-
-	bool		m_bNextMode;	// 次のモードに行くための
-
-	CTitleSelectButton *pButton[max_MenuButton];
+	CTitleSelectButton *pButton[MENUBUTTON_MAX];
 	int m_nSelectType;//現在選択しているボタンの種類
 	int m_nDecisionType;//現在決定しているボタンの種類
 };

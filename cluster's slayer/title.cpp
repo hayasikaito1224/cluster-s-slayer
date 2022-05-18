@@ -13,6 +13,7 @@
 #include "directinput.h"
 #include "titleselectbutton.h"
 #include "savedata.h"
+#include "mouse.h"
 
 //--------------------------------------------
 //コンストラクタ
@@ -113,7 +114,9 @@ void CTitle::Update(void)
 		// PressEnter押す画面
 
 		// ボタンを押すと
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) ||
+			CManager::GetInputKeyboard()->GetTrigger(DIK_SPACE) ||
+			CManager::GetMouse()->GetTrigger(CMouse::MOUSE_LEFT))
 		{
 			m_nNowType++;
 		}
@@ -189,8 +192,8 @@ void CTitle::Update(void)
 
 						m_bNextMode = true;
 
-						// ゲームシーンへ行く
-						CFade::SetFade(CManager::MODE_GAME);
+						// メニューシーンへ行く
+						CFade::SetFade(CManager::MODE_MENU);
 					}
 
 					else
