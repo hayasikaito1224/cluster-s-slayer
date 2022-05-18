@@ -19,14 +19,11 @@
 #include "gauge.h"
 #include "gaugeber.h"
 #include "rushattack.h"
-<<<<<<< HEAD
 #include "PresetSetEffect.h"
 #include "blackhole.h"
-=======
 #include "blackhole.h"
 
 #include "PresetSetEffect.h"
->>>>>>> 6af73af4ad73b73fb3e6320e06434eeb92cf7e46
 
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲

@@ -218,7 +218,7 @@ void CTitle::Update(void)
 				//‚Ç‚ê‚©‚ªŒˆ’è‚µ‚Ä‚¢‚éó‘Ô‚È‚çI—¹
 				if (m_nDecisionType < PORYGON_FILEDELETE)
 				{
-					string FileName = "data\\STAGE\\data";
+					string FileName = "data\\SAVE\\data";
 					FileName += to_string(nCnt + 1);
 					FileName += ".txt";
 

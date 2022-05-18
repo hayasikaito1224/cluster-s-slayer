@@ -59,7 +59,7 @@ static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-static int ClearTime = 10;
+static int ClearTime = 1;
 
 //--------------------------------------------
 //コンストラクタ
@@ -220,33 +220,42 @@ void CGame::Update(void)
 	//ゲームが続いていたら
 	if (m_bEnd == false)
 	{
-		if (m_pEnemySpawnManager&&!CManager::GetPause())
+		if (!m_bNextMode)
 		{
-			m_pEnemySpawnManager->Update();
-		}
-		if (m_pExpGauge)
-		{
-			float fExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValue();
-			float fMaxExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValueMax();
-			//経験値ゲージが最大になったら０に戻す
-			if (fExp >= fMaxExp)
+			if (m_pEnemySpawnManager && !CManager::GetPause())
 			{
-				//ゲームを止める
-				CManager::SetPause(true, false);
-				m_pExpGauge->ResetGauge(0);
-				CSkillSelect::Create();
+				m_pEnemySpawnManager->Update();
 			}
-		}
-		if (m_pGametimer)
-		{
-			int nTime = m_pGametimer->GetMinute();
-			if (nTime >= ClearTime)
+			if (m_pExpGauge)
 			{
-				m_bIsClear = true;
+				float fExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValue();
+				float fMaxExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValueMax();
+				//経験値ゲージが最大になったら０に戻す
+				if (fExp >= fMaxExp)
+				{
+					//ゲームを止める
+					CManager::SetPause(true, false);
+					m_pExpGauge->ResetGauge(0);
+					CSkillSelect::Create();
+				}
 			}
-		}
-		//クリア判定が有効ならクリア画面を表示させる
+			if (m_pGametimer)
+			{
+				int nTime = m_pGametimer->GetMinute();
+				if (nTime >= ClearTime)
+				{
+					m_bIsClear = true;
+				}
+			}
 
+			//クリア判定が有効ならクリア画面を表示させる
+			if (m_bIsClear)
+			{
+				m_bNextMode = true;
+				// タイトルシーンへ行く
+				CFade::SetFade(CManager::MODE_TITLE);
+			}
+		}
 	}
 
 }

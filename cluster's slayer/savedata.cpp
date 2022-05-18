@@ -102,6 +102,8 @@ HRESULT CSaveData::LoadFile(string FileName)
 	if (m_nClearPercent > m_nMaxClearPercent)	m_nClearPercent = m_nMaxClearPercent;
 	if (m_nHaveMoney > m_nMaxHaveMoney)	m_nHaveMoney = m_nMaxHaveMoney;
 
+	// データに各種変数を突っ込む(Set)
+
 	return S_OK;
 }
 
@@ -110,6 +112,8 @@ HRESULT CSaveData::LoadFile(string FileName)
 //=============================================================================
 HRESULT CSaveData::SaveFile()
 {
+	// 各種変数にデータを突っ込む(Get)
+
 	// ファイルに書き込む
 	ofstream File(m_FileName);
 
