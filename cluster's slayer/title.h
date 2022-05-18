@@ -49,6 +49,7 @@ private:
 	void ButtonCreate(int num);
 
 	CPolygon	*m_Polygon[POLYGON_MAX];
+	CPolygon	*m_TitleLogo;
 
 	int			m_nNowType;		// 現在のタイトルアニメーション
 	bool		m_bNextMode;	// 次のモードに行くための

@@ -96,8 +96,8 @@ CGame::~CGame()
 //--------------------------------------------
 HRESULT CGame::Init(void)
 {
-	//マウスの表示をなくす
-	//ShowCursor(false);
+	ShowCursor(false);
+
 	//キャラクターのパーツを読み込み
 	CCharacterPartsData::Create();
 	//プレイヤーの生成
@@ -130,7 +130,6 @@ HRESULT CGame::Init(void)
 			D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 			8, 4, 40000.0f, 1.0f, CTexture::SKY);
 	}
-	CStage_Preset_Data::StagePresetLoad("data/TEXT/PresetFileName.txt");
 	//ステージの生成
 	if (m_pStage == NULL)
 	{
@@ -209,6 +208,11 @@ void CGame::Uninit(void)
 		m_pExpGauge->Uninit();
 		m_pExpGauge = nullptr;
 	}
+	if (m_pEnemySpawnManager)
+	{
+		m_pEnemySpawnManager->Uninit();
+		m_pEnemySpawnManager = nullptr;
+	}
 }
 //--------------------------------------------
 //更新
@@ -237,7 +241,9 @@ void CGame::Update(void)
 					CManager::SetPause(true, false);
 					m_pExpGauge->ResetGauge(0);
 					CSkillSelect::Create();
+
 				}
+
 			}
 			if (m_pGametimer)
 			{
