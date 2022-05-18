@@ -64,7 +64,7 @@ HRESULT CSkillSelect::Init(void)
 //--------------------------------------------
 void CSkillSelect::Uninit(void)
 {
-	//カーソルをみえるようにする
+	//カーソルをみえないようにする
 	ShowCursor(false);
 
 	if (pSelectWindow)

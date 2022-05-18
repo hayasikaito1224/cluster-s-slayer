@@ -465,6 +465,7 @@ void CManager::SetMode(MODE mode)
 			m_pSound->StopSound(m_pSound->SOUND_LABEL_BGM_GAME);
 			m_pGame->Uninit();
 			m_pGame = NULL;
+			ShowCursor(true);
 		}
 		break;
 
@@ -488,7 +489,7 @@ void CManager::SetMode(MODE mode)
 		if (m_pTitle == NULL)
 		{
 			m_bClear = false;
-			ShowCursor(true);
+
 
 			m_pTitle = new CTitle;
 			m_pTitle->Init();

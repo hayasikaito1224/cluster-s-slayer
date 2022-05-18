@@ -13,14 +13,14 @@
 #include "directinput.h"
 #include "titleselectbutton.h"
 #include "savedata.h"
-
+#include "mouse.h"
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
 CTitle::CTitle()
 {
 	m_nNowType = TITLE_PRESS_ENTER;
-
+	m_TitleLogo = nullptr;
 	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
 	{
 		m_Polygon[nCnt] = nullptr;
@@ -50,7 +50,7 @@ HRESULT CTitle::Init(void)
 	m_nSelectType = 0;
 	m_nDecisionType = 0;
 
-	CBg::Create(CTexture::Title, CScene::OBJTYPE_BG, false);	//背景
+	m_TitleLogo = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2 - 100.0f, 0.0f), D3DXVECTOR3(250.0f, 170.0f, 0.0f), CTexture::Title, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), CScene::OBJTYPE_BG);	// タイトルロゴ
 
 	for (int nCnt = 0; nCnt < POLYGON_MAX; nCnt++)
 	{
@@ -60,7 +60,7 @@ HRESULT CTitle::Init(void)
 		switch (nCnt)
 		{
 		case PORYGON_LOGO:
-			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2 + 100.0f, 0.0f), D3DXVECTOR3(430.0f, 80.0f, 0.0f), CTexture::GameStart, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), CScene::OBJTYPE_BG);	// タイトルロゴ
+			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2 + 200.0f, 0.0f), D3DXVECTOR3(330.0f, 60.0f, 0.0f), CTexture::GameStart, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), CScene::OBJTYPE_BG);	// タイトルロゴ
 
 			break;
 
@@ -99,7 +99,11 @@ void CTitle::Uninit(void)
 			m_Polygon[nCnt] = NULL;
 		}
 	}
-
+	if (m_TitleLogo)
+	{
+		m_TitleLogo->Uninit();
+		m_TitleLogo = nullptr;
+	}
 	CManager::GetSound()->StopSound(CSound::SOUND_LABEL_BGM_TITLE);
 }
 //--------------------------------------------
@@ -107,13 +111,16 @@ void CTitle::Uninit(void)
 //--------------------------------------------
 void CTitle::Update(void)
 {
+	//マウス情報の取得
+	CMouse *pMouse = CManager::GetMouse();
+
 	switch (m_nNowType)
 	{
 	case TITLE_PRESS_ENTER:
 		// PressEnter押す画面
 
 		// ボタンを押すと
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN)|| pMouse->GetTrigger(CMouse::MOUSE_LEFT))
 		{
 			m_nNowType++;
 		}
