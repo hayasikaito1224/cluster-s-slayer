@@ -93,9 +93,8 @@ CTitleSelectButton *CTitleSelectButton::Create(const D3DXVECTOR3& pos, const D3D
 		if (!pSkillSelect->pSelectBottom)
 		{
 			//ƒXƒLƒ‹‘I‘ð‰æ–Ê‰æ‘œ‚Ì¶¬
-			pSkillSelect->pSelectBottom = CPolygon::Create(pos, size, (CTexture::Type)tex, { 1.0,1.0,1.0,0.0f });
+			pSkillSelect->pSelectBottom = CPolygon::Create(pos, size, (CTexture::Type)tex, { 1.0,1.0,1.0,1.0f });
 		}
-		int nTex = 0;
 
 		pSkillSelect->Init();
 	}

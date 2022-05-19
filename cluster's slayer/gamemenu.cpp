@@ -41,7 +41,7 @@ HRESULT CGameMenu::Init(void)
 	m_nSelectType = 0;
 	m_nDecisionType = 0;
 
-	CBg::Create(CTexture::FADE, CScene::OBJTYPE_BG, false);	//îwåi
+	CBg::Create(CTexture::GAUGEBER, CScene::OBJTYPE_BG, false);	//îwåi
 
 	int line = 0;
 	D3DXVECTOR3 SkillPos = D3DXVECTOR3(115.0f, SCREEN_HEIGHT / 2 - 150, 0.0f);
