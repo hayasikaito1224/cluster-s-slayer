@@ -175,6 +175,7 @@
     <ClInclude Include="..\cluster%27s slayer\gametimer.h" />
     <ClInclude Include="..\cluster%27s slayer\gauge.h" />
     <ClInclude Include="..\cluster%27s slayer\gaugeber.h" />
+    <ClInclude Include="..\cluster%27s slayer\guard.h" />
     <ClInclude Include="..\cluster%27s slayer\input.h" />
     <ClInclude Include="..\cluster%27s slayer\item.h" />
     <ClInclude Include="..\cluster%27s slayer\keyboard.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
+    <ClInclude Include="3Dpolygon.h" />
     <ClInclude Include="..\cluster%27s slayer\number.h" />
     <ClInclude Include="..\cluster%27s slayer\Particle.h" />
     <ClInclude Include="..\cluster%27s slayer\pause.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\guard.cpp" />
+    <ClCompile Include="3Dpolygon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Sphere.cpp" />
     <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp" />
     <ClCompile Include="damage_collision.cpp" />

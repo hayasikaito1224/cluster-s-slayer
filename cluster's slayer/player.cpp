@@ -21,10 +21,9 @@
 #include "rushattack.h"
 #include "PresetSetEffect.h"
 #include "blackhole.h"
-#include "blackhole.h"
-
+#include "guard.h"
 #include "PresetSetEffect.h"
-
+#include "smallscore.h"
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -44,6 +43,7 @@ static const float MaxHP = 1000.0f;
 static const float MaxExp = 2.0f;
 static const int RushStartTime = 30;
 static const int BlackHoleShotTime= 200;
+static const int GuardMax = 20;
 
 static bool s_bCursor = true;
 
@@ -70,6 +70,9 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_nRushStartCnt = 0;
 	m_nBlackHoleCnt = BlackHoleShotTime;
 	m_bCanBlackHole = false;
+	m_pDamegeGuard = nullptr;
+	m_nNumGuard = GuardMax;
+	m_bCanDamegeGuard = false;
 }
 
 CPlayer::~CPlayer()
@@ -111,6 +114,7 @@ HRESULT CPlayer::Init()
 //---------------------------------------------
 void CPlayer::Uninit()
 {
+
 	CCharacter::Uninit();
 
 }
@@ -121,7 +125,6 @@ void CPlayer::Uninit()
 void CPlayer::Update()
 {
 	CInputKeyBoard *Key = CManager::GetInputKeyboard();
-
 
 	if (Key->GetTrigger(DIK_F1) == true)
 	{
@@ -138,6 +141,11 @@ void CPlayer::Update()
 		//マウスのカメラ操作
 		MouseCameraCtrl();
 
+	}
+	if (m_pDamegeGuard)
+	{
+		//m_pDamegeGuard->SetParent(m_pParts[0]);
+		m_pDamegeGuard->SetPos(m_pos);
 	}
 	//剣の処理の更新
 	m_pSword->Update();
@@ -295,6 +303,22 @@ void CPlayer::KeyboardMove()
 		m_bCanAttack = true;
 
 
+	}
+	if (Key->GetTrigger(DIK_R) == true)
+	{
+		m_bCanDamegeGuard = true;
+		if (!m_pDamegeGuard)
+		{
+			//ダメージガードの生成
+			m_pDamegeGuard = CGuard::Create(m_pos, m_pParts[0]->GetPos().y, GuardMax);
+			//現在のダメージガードの個数をマックス地にする
+			m_nNumGuard = GuardMax;
+		}
+		else
+		{
+			m_nNumGuard++;
+			m_pDamegeGuard->SetGuardQuantity(m_nNumGuard);
+		}
 	}
 	//前に進む
 	if (Key->GetPress(DIK_A) == true)
@@ -687,6 +711,20 @@ void CPlayer::LevelUp(int nType)
 		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
 		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
 		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+																								//ダメージガード生成
+		m_bCanDamegeGuard = true;
+		if (!m_pDamegeGuard)
+		{
+			//ダメージガードの生成
+			m_pDamegeGuard = CGuard::Create(m_pos, m_pParts[0]->GetPos().y, GuardMax);
+			//現在のダメージガードの個数をマックス地にする
+			m_nNumGuard = GuardMax;
+		}
+		else
+		{
+			m_nNumGuard++;
+			m_pDamegeGuard->SetGuardQuantity(m_nNumGuard);
+		}
 		break;
 	case Beam:
 		break;
@@ -698,6 +736,55 @@ void CPlayer::LevelUp(int nType)
 	case RushAttack:
 		m_bCanRushAttack = true;
 		break;
+	}
+}
+//-----------------------------------------------
+//敵の攻撃が当たった時のガードが壊れる処理
+//-----------------------------------------------
+void CPlayer::HitDamege(int nPower)
+{
+	//プレイヤーの体力を減らす
+	CGauge *pGauge = CManager::GetGame()->GetHPGauge();
+	float fSecondHP = pGauge->GetGaugeBer(1)->GetGaugeValue();
+	if (fSecondHP > 0)
+	{
+		pGauge->SetGauge(nPower, 1);
+	}
+	else
+	{
+		pGauge->SetGauge(nPower, 0);
+	}
+	CSmallScore::Create({ m_pos.x,m_pParts[2]->GetMaxPos().y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, { 1.0f, 0.6f, 0.6f, 0.0f }, nPower);
+
+	if (m_bCanDamegeGuard && m_nNumGuard != 0)
+	{
+		if (m_pDamegeGuard)
+		{
+			m_nNumGuard--;
+
+			if (m_nNumGuard <= 0)
+			{
+				m_nNumGuard = 0;
+				m_bCanDamegeGuard = false;
+			}
+			if (m_pDamegeGuard)
+			{
+				//ダメージガードの数を減らす
+				m_pDamegeGuard->SetGuardQuantity(m_nNumGuard);
+
+			}
+
+		}
+	}
+	if (m_nNumGuard <= 0)
+	{
+		if (m_pDamegeGuard)
+		{
+			m_pDamegeGuard->Uninit();
+			m_pDamegeGuard = nullptr;
+
+		}
+
 	}
 }
 //-----------------------------------------------

@@ -6,7 +6,7 @@
 #include "character.h"
 class CEnemy;
 class CSword;
-
+class CGuard;
 class CPlayer : public CCharacter
 {
 public:
@@ -70,6 +70,7 @@ public:
 	void Dodge();//回避
 	void NearEnemyFace();//近い敵の方向にプレイヤーを向かせる
 	void LevelUp(int nType);//レベルアップの処理
+	void HitDamege(int nPower);
 	int GetLevel() { return m_nLevel; }
 	float GetMaxExp() { return m_fMaxExp; }
 
@@ -86,6 +87,7 @@ private:
 	void PlayerRushAttack();//追撃
 	void EachSkillManager();//各スキルの処理のまとめ
 	CSword *m_pSword;//剣
+	CGuard *m_pDamegeGuard;
 	POINT m_Cursol;
 	void AttackMove(float fMoveVolume);
 	CEnemy *m_pNearEnemy;//プレイヤーから近い敵の情報
@@ -100,6 +102,7 @@ private:
 	bool m_bCanAutoHeel;//オートヒール可能か
 	bool m_bCanRushAttack;//追撃可能か
 	bool m_bCanBlackHole;
+	bool m_bCanDamegeGuard;
 	float m_fAttackWaitTime;//攻撃操作待機時間
 	float m_fAttackMoveTime;//攻撃移動する時間
 	float m_fSoundInterval;
@@ -115,6 +118,7 @@ private:
 	int m_nComboType;//今どのコンボかを数える
 	int m_motionType;//モーションの種類
 	int m_motionLastType;//前のモーションの種類
+	int m_nNumGuard;//今つけてるダメージガードの数
 	int m_nLevel;//レベル
 	int m_nTimer;
 
