@@ -44,11 +44,7 @@ CResult			*CManager::m_pResult = NULL;
 CGameMenu		*CManager::m_pGameMenu = NULL;
 CFade			*CManager::m_Fade = NULL;
 CXInput			*CManager::m_XInput = NULL;
-<<<<<<< HEAD
-CManager::MODE	 CManager::m_Mode = MODE_MENU;		// 初期モード
-=======
 CManager::MODE	 CManager::m_Mode = MODE_GAME;		// 初期モード
->>>>>>> 8c1100fda1db604f3c3605b626df0bcb100fe915
 CMouse			*CManager::m_Mouse = NULL;
 CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;

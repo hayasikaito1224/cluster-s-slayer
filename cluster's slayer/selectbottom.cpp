@@ -121,6 +121,7 @@ void CSkillSelectBottom::Update(void)
 			{
 				m_bEndStatement = true;
 			}
+
 			else
 			{
 				m_nCntChar++;
