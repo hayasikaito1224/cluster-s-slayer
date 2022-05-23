@@ -273,11 +273,7 @@ EFFECTSTATE3D
 	PATTERN = 3				//動きのパターン
 	ROTATE = 0.00						//回転
 	MOVE = 1.0						//移動
-<<<<<<< HEAD
 	SIZE = 20.0						//大きさ
-=======
-	SIZE = 0.0						//大きさ
->>>>>>> 6d5bc155473f02295313716d83e9b204d3e259ed
 	ADDSIZE = 120.0					//大きさ変動
 	DENSITY = 1						//粒密度
 	PARTICLESIZE = 0.0						//粒サイズ

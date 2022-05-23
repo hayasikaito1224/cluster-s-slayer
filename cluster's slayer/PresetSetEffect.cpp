@@ -343,7 +343,7 @@ void CPresetEffect::SetEffectState3D(
 //=============================================================================
 // åƒÇŒÇÍÇΩï®ÇåƒÇ—èoÇ∑Ç‚Ç¬3D
 //=============================================================================
-void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, D3DXVECTOR3 Size)
+void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, D3DXVECTOR3 Size, bool bPosTaget)
 {
 	D3DXVECTOR3 Vectl;
 	float fA;
@@ -536,23 +536,45 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 		fVec = sqrtf(Size.x * Size.x + Size.z * Size.z);
 
 
+		if (bPosTaget == true)
+		{
+			CSphereEffect::Create(
+				pos,
+				0.0f,
+				fVec,
+				m_EffectState3D[nPattern].nTexture,
+				m_EffectState3D[nPattern].m_Col,
+				m_EffectState3D[nPattern].m_Changecolor,
+				m_EffectState3D[nPattern].m_nLife,
+				m_EffectState3D[nPattern].Synthetic,
+				m_EffectState3D[nPattern].m_fAddSize,
+				m_EffectState3D[nPattern].m_nVtx,
+				(CSphereEffect::SPHERE_TYPE)m_EffectState3D[nPattern].m_nType,
+				m_EffectState3D[nPattern].m_TexMove,
+				m_EffectState3D[nPattern].m_TexNum,
+				m_EffectState3D[nPattern].AnimCnt,
+				m_EffectState3D[nPattern].m_TexSplit);
 
-		CSphereEffect::Create(
-			pos,
-			0.0f,
-			fVec,
-			m_EffectState3D[nPattern].nTexture,
-			m_EffectState3D[nPattern].m_Col,
-			m_EffectState3D[nPattern].m_Changecolor,
-			m_EffectState3D[nPattern].m_nLife,
-			m_EffectState3D[nPattern].Synthetic,
-			m_EffectState3D[nPattern].m_fAddSize,
-			m_EffectState3D[nPattern].m_nVtx,
-			(CSphereEffect::SPHERE_TYPE)m_EffectState3D[nPattern].m_nType,
-			m_EffectState3D[nPattern].m_TexMove,
-			m_EffectState3D[nPattern].m_TexNum,
-			m_EffectState3D[nPattern].AnimCnt,
-			m_EffectState3D[nPattern].m_TexSplit);
+		}
+		else
+		{
+			CSphereEffect::Create(
+				pos,
+				0.0f,
+				m_EffectState3D[nPattern].m_fSize,
+				m_EffectState3D[nPattern].nTexture,
+				m_EffectState3D[nPattern].m_Col,
+				m_EffectState3D[nPattern].m_Changecolor,
+				m_EffectState3D[nPattern].m_nLife,
+				m_EffectState3D[nPattern].Synthetic,
+				m_EffectState3D[nPattern].m_fAddSize,
+				m_EffectState3D[nPattern].m_nVtx,
+				(CSphereEffect::SPHERE_TYPE)m_EffectState3D[nPattern].m_nType,
+				m_EffectState3D[nPattern].m_TexMove,
+				m_EffectState3D[nPattern].m_TexNum,
+				m_EffectState3D[nPattern].AnimCnt,
+				m_EffectState3D[nPattern].m_TexSplit);
+		}
 		break;
 	}
 }
@@ -636,7 +658,7 @@ void CPresetEffect::Update()
 				{
 					if (m_Order3D[i3][i].nDeley < nCntDeley[i])
 					{
-						SetEffect3D(m_Order3D[i3][i].m_nOrder[i2], m_Order3D[i3][i].pos[i2], m_Order3D[i3][i].Endpos[i2],{});
+						SetEffect3D(m_Order3D[i3][i].m_nOrder[i2], m_Order3D[i3][i].pos[i2], m_Order3D[i3][i].Endpos[i2], {}, {});
 						m_Order3D[i3][i].bOne[i2] = true;
 					}
 				}
