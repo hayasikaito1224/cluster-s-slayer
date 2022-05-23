@@ -343,7 +343,7 @@ void CPresetEffect::SetEffectState3D(
 //=============================================================================
 // 呼ばれた物を呼び出すやつ3D
 //=============================================================================
-void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
+void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, D3DXVECTOR3 Size)
 {
 	D3DXVECTOR3 Vectl;
 	float fA;
@@ -357,6 +357,7 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 	float y;
 	float z;
 	float x;
+	float fVec;
 	bool bRx = false;
 	bool bRy = false;
 	bool bRz = false;
@@ -475,7 +476,7 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 		break;
 	case(3):	//フィールド
 		CFieldEffect::Create(
-			D3DXVECTOR3(m_EffectState3D[nPattern].m_fSize, 0.0f, m_EffectState3D[nPattern].m_fSize),
+			D3DXVECTOR3(Size.x, 0.0f, Size.z),
 			D3DXVECTOR3(pos.x, m_EffectState3D[nPattern].pos.y, pos.z),
 			m_EffectState3D[nPattern].m_Col,
 			m_EffectState3D[nPattern].m_Changecolor,
@@ -531,10 +532,15 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 		}
 		break;
 	case(6):
+
+		fVec = sqrtf(Size.x * Size.x + Size.z * Size.z);
+
+
+
 		CSphereEffect::Create(
 			pos,
 			0.0f,
-			m_EffectState3D[nPattern].m_fSize,
+			fVec,
 			m_EffectState3D[nPattern].nTexture,
 			m_EffectState3D[nPattern].m_Col,
 			m_EffectState3D[nPattern].m_Changecolor,
@@ -630,7 +636,7 @@ void CPresetEffect::Update()
 				{
 					if (m_Order3D[i3][i].nDeley < nCntDeley[i])
 					{
-						SetEffect3D(m_Order3D[i3][i].m_nOrder[i2], m_Order3D[i3][i].pos[i2], m_Order3D[i3][i].Endpos[i2]);
+						SetEffect3D(m_Order3D[i3][i].m_nOrder[i2], m_Order3D[i3][i].pos[i2], m_Order3D[i3][i].Endpos[i2],{});
 						m_Order3D[i3][i].bOne[i2] = true;
 					}
 				}

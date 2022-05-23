@@ -96,10 +96,10 @@ void CMissile_Bullet::Update(void)
 	}
 	if (m_bUninit)
 	{
-		CPresetEffect::SetEffect3D(13, m_pos, {});
-		CPresetEffect::SetEffect3D(14, m_pos, {});
-		CPresetEffect::SetEffect3D(15, m_pos, {});
-		CPresetEffect::SetEffect3D(12, m_pos, {});
+		CPresetEffect::SetEffect3D(13, m_pos, {},{});
+		CPresetEffect::SetEffect3D(14, m_pos, {},{});
+		CPresetEffect::SetEffect3D(15, m_pos, {},{});
+		CPresetEffect::SetEffect3D(12, m_pos, {}, D3DXVECTOR3(100.0f, 0.0f, 100.0f));
 
 		Uninit();
 	}
