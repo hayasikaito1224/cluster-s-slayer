@@ -675,9 +675,9 @@ void CPlayer::LevelUp(int nType)
 		}
 
 		//エフェクト
-		CPresetEffect::SetEffect3D(2, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//回るやつ
-		CPresetEffect::SetEffect3D(3, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//散らすやつ
-		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(2, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//回るやつ
+		CPresetEffect::SetEffect3D(3, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//散らすやつ
+		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//大きくなるだけのやつ
 
 		break;
 	case Eye:
@@ -694,17 +694,16 @@ void CPlayer::LevelUp(int nType)
 
 
 		//エフェクト
-		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//回るやつ
-		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//散らすやつ
-		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {}, {});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//回るやつ
+		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//散らすやつ
+		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {}, {}, {});	//大きくなるだけのやつ
 
 		break;
 	case Sheild:
 
-		//エフェクト(まだ処理ないけど勝手に追加しましたすまん)
-		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//回るやつ
-		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//散らすやつ
-		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//回るやつ
+		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//散らすやつ
+		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//大きくなるだけのやつ
 																								//ダメージガード生成
 		m_bCanDamegeGuard = true;
 		m_bCanDamege = false;

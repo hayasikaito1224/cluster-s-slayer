@@ -102,7 +102,6 @@ void CMissile::Update()
 						std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
 
 						m_pEnemyPos[m_nCntSearch] = { cosf(randAng(mt))* SearchRange ,0.0f,sinf(randAng(mt))* SearchRange };
-						CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {});
 
 						m_nCntSearch++;
 					}
@@ -134,11 +133,8 @@ void CMissile::Update()
 		{
 			m_fIntervalTimer = 0.0f;
 			//ミサイルを発射
-<<<<<<< HEAD
 			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,MissilePopPosY,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
-=======
 			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,200.0f,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
->>>>>>> 6d5bc155473f02295313716d83e9b204d3e259ed
 
 			//次の敵の位置に移す
 			m_nCntSearch++;
@@ -181,11 +177,8 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 	{
 		//敵の位置を保存
 		m_pEnemyPos[m_nCntSearch] = EnemyPos;
-<<<<<<< HEAD
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {});
 
-=======
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f), true);
 		m_nCntSearch++;
 
 	}
@@ -197,8 +190,7 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 		std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
 
 		m_pEnemyPos[m_nCntSearch] = { cosf(randAng(mt))* SearchRange ,0.0f,sinf(randAng(mt))* SearchRange };
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
->>>>>>> 6d5bc155473f02295313716d83e9b204d3e259ed
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f), true);
 		m_nCntSearch++;
 
 	}
