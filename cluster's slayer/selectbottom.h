@@ -55,6 +55,7 @@ private:
 	bool m_bIsDecision;//Œ»İŒˆ’è‚µ‚Ä‚¢‚é‚©
 	bool m_bPopSelectBottom;
 	bool m_bEnd;//I—¹”»’è
+	bool m_bPopText;
 };
 
 

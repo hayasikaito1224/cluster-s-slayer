@@ -16,11 +16,11 @@ static const float IconSize = 50.0f;//アイコンの大きさ
 static const float TextSize = 15.0f;//アイコンの大きさ
 static const float TextInterval = 17.0f;//アイコンの大きさ
 
-static const int TextLinefeed = 8;//改行するライン
+static const int TextLinefeed = 9;//改行するライン
 
 static const D3DXVECTOR3 IconPos = {10.0f,-100.0f,0.0f};//アイコンの位置
 static const float TextPosY = 70.0f;//アイコンの位置
-static const float TextPosX = TextSize*7;//アイコンの位置
+static const float TextPosX = 120.0f;//アイコンの位置
 
 //--------------------------------------------
 //コンストラクタ
@@ -34,6 +34,7 @@ CSkillSelectBottom::CSkillSelectBottom(OBJTYPE nPriority) :CScene(nPriority)
 	pFrame = nullptr;
 	m_Letter.clear();
 	m_Text.clear();
+	m_bPopText = false;
 }
 //--------------------------------------------
 //デストラクタ
@@ -97,6 +98,42 @@ void CSkillSelectBottom::Update(void)
 	{
 		SelectBottom();
 	}
+	if (m_bPopText)
+	{
+		m_bPopText = false;
+		//スキル説明の文章の生成
+
+		int nSize = m_Text[m_nCntText].size();
+		int nTextLine = TextLinefeed;
+		if (nSize <= TextLinefeed)
+		{
+			nTextLine = nSize;
+		}
+		for (m_nCntLetter = 0; m_nCntLetter < nSize; m_nCntLetter++)
+		{
+			float fPosX = ((m_size.x * 2) / nTextLine) * m_nCntChar;
+			float fSize = ((m_size.x) / nTextLine);
+
+			m_Letter.push_back(CLetter::Create({ (m_pos.x - (m_size.x) + (fSize)) + fPosX,m_pos.y + TextPosY + ((fSize * 2)*m_nCntLine), 0.0f },
+			{ fSize, fSize, 0.0f }, m_Text[m_nCntText][m_nCntLetter], 260, 500));
+
+			if (m_Text[m_nCntText].size() - 1 <= m_nCntLetter)
+			{
+				m_bEndStatement = true;
+			}
+			else
+			{
+				m_nCntChar++;
+			}
+			//一定の文字に達すると改行
+			if (m_nCntChar >= nTextLine)
+			{
+				m_nCntChar = 0;
+				m_nCntLine++;
+			}
+		}
+
+	}
 	//終了判定がオンなら
 	if (m_bEnd)
 	{
@@ -145,37 +182,37 @@ CSkillSelectBottom *CSkillSelectBottom::Create(const D3DXVECTOR3& pos, const D3D
 			break;
 		case CPlayer::Heal:
 			nTex = CTexture::Heal;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/Heal.txt");
 
 			break;
 		case CPlayer::OverHeal:
 			nTex = CTexture::OverHeal;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/OverHeal.txt");
 
 			break;
 		case CPlayer::Sheild:
 			nTex = CTexture::Sheild;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/Sheild.txt");
 
 			break;
 		case CPlayer::Beam:
 			nTex = CTexture::Beam;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/Beam.txt");
 
 			break;
 		case CPlayer::BlackHole:
 			nTex = CTexture::BlackHole;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/BlackHole.txt");
 
 			break;
 		case CPlayer::Rocket:
 			nTex = CTexture::Rocket;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/Rocket.txt");
 
 			break;
 		case CPlayer::RushAttack:
 			nTex = CTexture::RushAttack;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
+			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/RushAttack.txt");
 
 			break;
 		}
@@ -216,6 +253,7 @@ void CSkillSelectBottom::PopSelectBottom()
 		else
 		{
 			m_bPopSelectBottom = false;
+			m_bPopText = true;
 		}
 	}
 	if (pSkillIcon)
@@ -356,29 +394,6 @@ void CSkillSelectBottom::TextLoad(const char * sFileName)
 			else if (strcmp(&aFile[0], "END") == 0) //ENDの文字列を見つけたら
 			{
 				break;
-			}
-		}
-		//スキル説明の文章の生成
-
-		int nSize = m_Text[m_nCntText].size();
-		for (m_nCntLetter = 0; m_nCntLetter < nSize; m_nCntLetter++)
-		{
-			m_Letter.push_back(CLetter::Create({ (m_pos.x - TextPosX) + (30.0f * m_nCntChar),m_pos.y + TextPosY + ((TextSize*2)*m_nCntLine), 0.0f },
-			{ TextSize, TextSize, 0.0f }, m_Text[m_nCntText][m_nCntLetter], 260, 500));
-
-			if (m_Text[m_nCntText].size() - 1 <= m_nCntLetter)
-			{
-				m_bEndStatement = true;
-			}
-			else
-			{
-				m_nCntChar++;
-			}
-			//一定の文字に達すると改行
-			if (m_nCntChar >= TextLinefeed)
-			{
-				m_nCntChar = 0;
-				m_nCntLine++;
 			}
 		}
 	}

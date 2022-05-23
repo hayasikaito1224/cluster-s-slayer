@@ -118,10 +118,10 @@ HRESULT CLetter::Init(void)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// í∏ì_èÓïÒÇê›íË
-	pVtx[0].pos = D3DXVECTOR3(m_Pos.x - m_Size.x, m_Pos.y - m_Size.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_Pos.x + m_Size.x, m_Pos.y - m_Size.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_Pos.x - m_Size.x, m_Pos.y + m_Size.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_Pos.x + m_Size.x, m_Pos.y + m_Size.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(m_Pos.x - (fontWidth / m_Size.x), m_Pos.y - (fontHeight/m_Size.y), 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_Pos.x + (fontWidth / m_Size.x), m_Pos.y - (fontHeight/m_Size.y), 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(m_Pos.x - (fontWidth / m_Size.x), m_Pos.y + (fontHeight/m_Size.y), 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_Pos.x + (fontWidth / m_Size.x), m_Pos.y + (fontHeight/m_Size.y), 0.0f);
 
 	pVtx[0].rhw = 1.0f;
 	pVtx[1].rhw = 1.0f;
