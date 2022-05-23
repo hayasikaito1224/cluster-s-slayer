@@ -37,7 +37,7 @@ HRESULT CMissile_Bullet::Init(void)
 {
 	if (!m_pMissileModel)
 	{
-		m_pMissileModel = CModel::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f }, 4, CModel::TYPE_OBJECT);
+		m_pMissileModel = CModel::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f }, 7, CModel::TYPE_OBJECT);
 		m_pMissileModel->SetCanObjParent(false);
 	}
 	return S_OK;

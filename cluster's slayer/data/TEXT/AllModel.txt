@@ -42,5 +42,6 @@ OBJECTMODEL_FILENAME = data/MODEL/FireBoll.x		# [3]” 
 OBJECTMODEL_FILENAME = data/MODEL/crystal.x		# [4]” 
 OBJECTMODEL_FILENAME = data/MODEL/assistcrystal_center000.x		# [5]” 
 OBJECTMODEL_FILENAME = data/MODEL/assistcrystal_frame000.x		# [6]” 
+OBJECTMODEL_FILENAME = data/MODEL/missile000.x		# [7]” 
 
 END_SCRIPT

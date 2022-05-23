@@ -45,7 +45,7 @@ static const float MaxExp = 2.0f;
 static const int RushStartTime = 30;
 static const int BlackHoleShotTime= 200;
 static const int GuardMax = 20;
-static const int MissileCntMax = 200;
+static const int MissileCntMax = 100;
 
 static bool s_bCursor = true;
 
