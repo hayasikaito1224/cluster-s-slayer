@@ -119,7 +119,6 @@ void CMissile::Update()
 			m_fIntervalTimer = 0.0f;
 			//ミサイルを発射
 			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,200.0f,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
-			CPresetEffect::SetEffect3D(11,m_pEnemyPos[m_nCntSearch], {});
 
 			//次の敵の位置に移す
 			m_nCntSearch++;
@@ -162,7 +161,9 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 	{
 		//敵の位置を保存
 		m_pEnemyPos[m_nCntSearch] = EnemyPos;
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
 		m_nCntSearch++;
+
 	}
 	else
 	{
@@ -172,7 +173,9 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 		std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
 
 		m_pEnemyPos[m_nCntSearch] = { cosf(randAng(mt))* SearchRange ,0.0f,sinf(randAng(mt))* SearchRange };
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
 		m_nCntSearch++;
+
 	}
 }
 //=============================================================================

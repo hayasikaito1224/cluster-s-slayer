@@ -62,7 +62,7 @@ void CBlackHole::Update(void)
 	{
 		m_nDeleteTimer = 0;
 		m_bHoleExpansion = true;
-		CPresetEffect::SetEffect3D(0, m_pos, {});
+		CPresetEffect::SetEffect3D(0, m_pos, {}, {});
 	}
 	else if (m_nDeleteTimer >= DeleteTime && m_bHoleExpansion)
 	{

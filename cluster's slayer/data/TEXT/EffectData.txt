@@ -273,13 +273,13 @@ EFFECTSTATE3D
 	PATTERN = 3				//動きのパターン
 	ROTATE = 0.00						//回転
 	MOVE = 1.0						//移動
-	SIZE = 60.0						//大きさ
+	SIZE = 0.0						//大きさ
 	ADDSIZE = 120.0					//大きさ変動
 	DENSITY = 1						//粒密度
 	PARTICLESIZE = 0.0						//粒サイズ
 	PARTICLETIME = 1						//粒発生間隔
 	DISTANCE = 1.0						//粒の発生距離
-	ACTIVE = 30						//稼働時間
+	ACTIVE = 100						//稼働時間
 	PARTICLEADDSIZE = 0.0						//粒サイズ変更
 	MAXSIZE = 60.0						//フィールド最大サイズ
 	SECONDCOLOR = 255 255 255 255			//パーティクルカラー
