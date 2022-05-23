@@ -24,6 +24,7 @@
 #include "directinput.h"
 #include "gamemenu.h"
 #include "stage_preset_data.h"
+#include "letter.h"
 //エフェクト
 #include "LoadEffect.h"
 #define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
@@ -110,6 +111,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	}
 	CStage_Preset_Data::StagePresetLoad("data/TEXT/PresetFileName.txt");
 
+	//テキストフォントの読み込み
+	CLetter::Load();
 	// サウンドの生成
 	if (m_pSound == NULL)
 	{

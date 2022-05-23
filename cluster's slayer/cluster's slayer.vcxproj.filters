@@ -16,9 +16,6 @@
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp">
       <Filter>NewFilter1</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\camera.cpp">
       <Filter>NewFilter1</Filter>
     </ClCompile>
@@ -232,6 +229,18 @@
     <ClCompile Include="..\cluster%27s slayer\player.cpp">
       <Filter>NewFilter1\プレイヤー</Filter>
     </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\missile.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\letter.cpp">
+      <Filter>NewFilter1\テキスト関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\guard.h">
@@ -247,9 +256,6 @@
       <Filter>NewFilter1</Filter>
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\billeffect.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
       <Filter>NewFilter1</Filter>
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\camera.h">
@@ -465,6 +471,18 @@
     <ClInclude Include="..\cluster%27s slayer\player.h">
       <Filter>NewFilter1\プレイヤー</Filter>
     </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\missile.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\missile_bullet.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\letter.h">
+      <Filter>NewFilter1\テキスト関係</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NewFilter1">
@@ -475,6 +493,9 @@
     </Filter>
     <Filter Include="NewFilter1\プレイヤー">
       <UniqueIdentifier>{e215286d-6512-45ed-9c36-be8a10ca45b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1\テキスト関係">
+      <UniqueIdentifier>{22b66cff-d25b-4144-8598-c20ccbd80791}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

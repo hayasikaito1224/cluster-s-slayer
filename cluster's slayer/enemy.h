@@ -70,6 +70,8 @@ public:
 	void SetGravity(float fGravity) {m_fGravity = fGravity;}
 	void SetbKnockback(bool bKnockBack) { m_bKnockback = bKnockBack; }
 	static int GetMaxEnemy() { return m_nMaxEnemy; }
+	static void SetMaxEnemy(int nMaxEnemy) { m_nMaxEnemy = nMaxEnemy; }
+
 private:
 	static int m_nMaxEnemy;
 protected:

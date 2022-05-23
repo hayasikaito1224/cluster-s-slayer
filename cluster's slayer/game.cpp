@@ -214,6 +214,7 @@ void CGame::Uninit(void)
 		delete m_pEnemySpawnManager;
 		m_pEnemySpawnManager = nullptr;
 	}
+	CEnemy::SetMaxEnemy(0);
 }
 //--------------------------------------------
 //XV

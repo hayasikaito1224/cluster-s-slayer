@@ -180,12 +180,15 @@
     <ClInclude Include="..\cluster%27s slayer\item.h" />
     <ClInclude Include="..\cluster%27s slayer\keyboard.h" />
     <ClInclude Include="..\cluster%27s slayer\layer_structure.h" />
+    <ClInclude Include="..\cluster%27s slayer\letter.h" />
     <ClInclude Include="..\cluster%27s slayer\light.h" />
     <ClInclude Include="..\cluster%27s slayer\LoadEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\main.h" />
     <ClInclude Include="..\cluster%27s slayer\manager.h" />
     <ClInclude Include="..\cluster%27s slayer\map_polygon.h" />
     <ClInclude Include="..\cluster%27s slayer\meshsphere.h" />
+    <ClInclude Include="..\cluster%27s slayer\missile.h" />
+    <ClInclude Include="..\cluster%27s slayer\missile_bullet.h" />
     <ClInclude Include="..\cluster%27s slayer\model.h" />
     <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
@@ -240,6 +243,9 @@
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\guard.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\letter.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\missile.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp" />
     <ClCompile Include="3Dpolygon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Sphere.cpp" />
     <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp" />

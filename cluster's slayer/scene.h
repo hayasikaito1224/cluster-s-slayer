@@ -35,6 +35,7 @@ public:
 		OBJTYPE_POLYGON,
 		OBJTYPE_MAP_UI,				//マップに表示するUI
 		OBJTYPE_UI,					//UI
+		OBJTYPE_TEXT,					//UI
 		OBJTYPE_PAUSE,				//PAUSE
 		OBJTYPE_FADE,				//フェード
 		OBJTYPE_MAX

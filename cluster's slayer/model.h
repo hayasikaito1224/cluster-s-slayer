@@ -56,6 +56,8 @@ public:
 	D3DXVECTOR3 GetMinPos() { return m_pModelDataX.m_vtxMax; }
 	void SetDraw(bool bDraw) { m_bDraw = bDraw; }
 	void SetSword(bool bSword) {m_bSwordEffect = bSword;}
+	void SetCanObjParent(bool bCanObjParent) { m_bCanObjParent = bCanObjParent; }
+	void SetParentMtx(D3DXMATRIX mtx) { m_mtxParent = mtx; }
 private:
 	CXload::ModelData		m_pModelDataX;
 	D3DXVECTOR3				m_pos,m_layerpos,m_scale;				//モデルの位置（オフセット）
@@ -63,6 +65,8 @@ private:
 	CXload::ModelVtx		m_vtx[MAX_MODEL_VTX];			//各頂点の情報格納構造体
 	
 	D3DXMATRIX				m_mtxWorld;						//ワールドマトリックス
+	D3DXMATRIX				m_mtxParent;						//ワールドマトリックス
+
 	D3DXMATERIAL			*m_pMat;						//マテリアルへのポインタ
 	D3DMATERIAL9			m_SaveMat;					//マテリアルへのポインタのセーブ
 	float m_fAlpha;
@@ -73,6 +77,7 @@ private:
 	char					m_sFailName[256];
 	bool					m_bDraw;						//描画するか
 	bool					m_bSwordEffect;
+	bool					m_bCanObjParent;
 	int						m_nModelType;
 	int						m_nCreateType;
 };
