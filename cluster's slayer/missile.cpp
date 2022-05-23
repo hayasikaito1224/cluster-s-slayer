@@ -16,6 +16,8 @@
 #include "PresetSetEffect.h"
 
 static const float SearchRange = 100.0f;
+static const float RandomRange = 150.0f;
+
 static const float IntervalTime = 100.0f;
 static const float IntervalShotTime = 20.0f;
 static const float MissileSize = 50.0f;
@@ -92,22 +94,7 @@ void CMissile::Update()
 						SearchEnemy(EnemyPos, fRadius);
 					}
 				}
-				else
-				{
-					if (m_nCntSearch < m_nCntSearchMax)
-					{
-						//ヒットエフェクト
-						std::random_device random;	// 非決定的な乱数生成器
-						std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
-						std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
 
-						m_pEnemyPos[m_nCntSearch] = { cosf(randAng(mt))* SearchRange ,0.0f,sinf(randAng(mt))* SearchRange };
-						CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {});
-
-						m_nCntSearch++;
-					}
-
-				}
 			}
 			pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 		}
@@ -134,11 +121,8 @@ void CMissile::Update()
 		{
 			m_fIntervalTimer = 0.0f;
 			//ミサイルを発射
-<<<<<<< HEAD
+
 			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,MissilePopPosY,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
-=======
-			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,200.0f,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
->>>>>>> 6d5bc155473f02295313716d83e9b204d3e259ed
 
 			//次の敵の位置に移す
 			m_nCntSearch++;
@@ -181,13 +165,8 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 	{
 		//敵の位置を保存
 		m_pEnemyPos[m_nCntSearch] = EnemyPos;
-<<<<<<< HEAD
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {});
-
-=======
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(MissileSize, 10.0f, MissileSize));
 		m_nCntSearch++;
-
 	}
 	else
 	{
@@ -196,14 +175,11 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 		std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
 		std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
 
-		m_pEnemyPos[m_nCntSearch] = { cosf(randAng(mt))* SearchRange ,0.0f,sinf(randAng(mt))* SearchRange };
-		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(60.0f, 10.0f, 60.0f));
->>>>>>> 6d5bc155473f02295313716d83e9b204d3e259ed
+		m_pEnemyPos[m_nCntSearch] = { pPlayer->GetPos().x+cosf(randAng(mt))* RandomRange ,0.0f,pPlayer->GetPos().z+sinf(randAng(mt))* RandomRange };
+		CPresetEffect::SetEffect3D(11, m_pEnemyPos[m_nCntSearch], {}, D3DXVECTOR3(MissileSize, 10.0f, MissileSize));
 		m_nCntSearch++;
 
 	}
-
-
 }
 //=============================================================================
 //クリエイト
