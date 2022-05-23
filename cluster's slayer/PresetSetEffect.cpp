@@ -527,7 +527,7 @@ void CPresetEffect::SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 				m_EffectState3D[nPattern].ParticleTime,
 				m_EffectState3D[nPattern].m_nSecondTime,
 				m_EffectState3D[nPattern].m_MaxSize,
-				(CRotate3D::POS_PATTERN)m_EffectState3D[nPattern].m_SecondType);
+				(CRotate3D::POS_PATTERN)m_EffectState3D[nPattern].m_nType);
 		}
 		break;
 	case(6):

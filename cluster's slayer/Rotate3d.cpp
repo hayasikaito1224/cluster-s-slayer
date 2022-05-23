@@ -71,6 +71,7 @@ HRESULT CRotate3D::Init(D3DXVECTOR3 SetSize,
 	m_ParticleLife = nParticleLife;
 	m_nBuckTime = nBuckTime;
 	m_fActive = fActive;
+	m_PosPattern = PosPattern;
 
 	m_fRandAngle = CIRCLE2;
 	m_fRandAngle2 = CIRCLE2;
@@ -124,7 +125,6 @@ void CRotate3D::Update()
 	}
 
 	m_fAngle += m_fAddAngle;
-
 	switch (m_PosPattern)
 	{
 	case(DEFULT):
