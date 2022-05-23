@@ -31,7 +31,9 @@ public:
 		float fAddSize, int Vtx,
 		SPHERE_TYPE SphereType,
 		D3DXVECTOR2 TexMove,
-		float TexNum);
+		float TexNum,
+		int nAnimCounter,
+		D3DXVECTOR2 nSplit);
 
 	void Uninit();
 	void Update();
@@ -47,7 +49,9 @@ public:
 		float fAddSize, int Vtx,
 		SPHERE_TYPE SphereType,
 		D3DXVECTOR2 TexMove,
-		float TexNum);
+		float TexNum,
+		int nAnimCounter,
+		D3DXVECTOR2 nSplit);
 
 
 

@@ -48,7 +48,8 @@ HRESULT CRotate3D::Init(D3DXVECTOR3 SetSize,
 	int nLife,
 	int nParticleLife,
 	int nBuckTime,
-	float fActive)
+	float fActive,
+	POS_PATTERN PosPattern)
 {
 	CPlane::Init(0, nTex);
 	CScene::SetObjType(OBJTYPE::OBJTYPE_EFFECT);
@@ -124,10 +125,25 @@ void CRotate3D::Update()
 
 	m_fAngle += m_fAddAngle;
 
-	m_pos = D3DXVECTOR3(
-		PlayerPos.x + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * cosf(m_fRandAngle2 + m_fAngle),
-		pos.y + m_nDistanse * cosf(m_fRandAngle + m_fAngle),
-		PlayerPos.z + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * sinf(m_fRandAngle2 + m_fAngle));
+	switch (m_PosPattern)
+	{
+	case(DEFULT):
+		m_pos = D3DXVECTOR3(
+			m_nDistanse * sinf(m_fRandAngle + m_fAngle) * cosf(m_fRandAngle2 + m_fAngle) + pos.x,
+			m_nDistanse * cosf(m_fRandAngle + m_fAngle) + pos.y,
+			m_nDistanse * sinf(m_fRandAngle + m_fAngle) * sinf(m_fRandAngle2 + m_fAngle) + pos.z);
+		break;
+	case(PLAYERTARGET):
+		m_pos = D3DXVECTOR3(
+			PlayerPos.x + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * cosf(m_fRandAngle2 + m_fAngle),
+			pos.y + m_nDistanse * cosf(m_fRandAngle + m_fAngle),
+			PlayerPos.z + m_nDistanse * sinf(m_fRandAngle + m_fAngle) * sinf(m_fRandAngle2 + m_fAngle));
+		break;
+	case(ATHERTARGET):
+		break;
+	default:
+		break;
+	}
 
 
 	if (m_nDistanse < 0)
@@ -142,7 +158,12 @@ void CRotate3D::Update()
 		m_Color,
 		m_MinColor,
 		m_nTex, m_ParticleLife,
-		CStraight3D::STRAIGHT, {}, m_nSynthetic);
+		CStraight3D::STRAIGHT, {}, m_nSynthetic,
+		0.0f,
+		(CStraight3D::RAND_PATTEN)0,
+		(CStraight3D::POS_PATTERN)3,
+		D3DXVECTOR2(0.0f, 0.0f),
+		1.0f);
 
 	m_nLife--;
 
@@ -178,7 +199,8 @@ CRotate3D *CRotate3D::Create(D3DXVECTOR3 SetSize,
 	int nLife,
 	int nParticleLife,
 	int nBuckTime,
-	float fActive)
+	float fActive,
+	POS_PATTERN PosPattern)
 {
 	CRotate3D * pRotate3D = NULL;
 	pRotate3D = new CRotate3D(OBJTYPE::OBJTYPE_EFFECT);
@@ -197,7 +219,8 @@ CRotate3D *CRotate3D::Create(D3DXVECTOR3 SetSize,
 			nTex, Synthetic, nLife,
 			nParticleLife,
 			nBuckTime,
-			fActive);
+			fActive,
+			PosPattern);
 	}
 	return pRotate3D;
 }

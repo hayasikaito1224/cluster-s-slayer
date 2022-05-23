@@ -18,6 +18,13 @@ public:
 		MAX,
 	} EFFECT_TIME;
 
+	typedef enum
+	{
+		DEFULT,
+		PLAYERTARGET,
+		ATHERTARGET,
+		PATTERN_MAX,
+	} POS_PATTERN;
 
 	CRotate3D(int nPriority);
 	~CRotate3D();
@@ -38,7 +45,8 @@ public:
 		int nLife,
 		int nParticleLife,
 		int nBuckTime,
-		float fActive);
+		float fActive,
+		POS_PATTERN PosPattern);
 
 	void Uninit();
 	void Update();
@@ -59,9 +67,11 @@ public:
 		int nLife,
 		int nParticleLife,
 		int nBuckTime,
-		float m_fActive);
+		float m_fActive,
+		POS_PATTERN PosPattern);
 
 private:
+	POS_PATTERN m_PosPattern;
 	EFFECT_TIME m_EffectTime;
 
 	bool m_bUninit;

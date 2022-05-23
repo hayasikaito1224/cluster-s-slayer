@@ -35,7 +35,9 @@ HRESULT CSphereEffect::Init(
 	float fAddSize, int Vtx,
 	SPHERE_TYPE SphereType,
 	D3DXVECTOR2 TexMove,
-	float TexNum)
+	float TexNum,
+	int nAnimCounter,
+	D3DXVECTOR2 nSplit)
 {
 	if (SphereType == SPHERE)
 	{
@@ -57,6 +59,11 @@ HRESULT CSphereEffect::Init(
 	m_fSize = fSize;
 	m_fAddSize = fAddSize;
 	m_nLife = nLife;
+	m_MaxSplit = nSplit;
+	m_PatternSize = D3DXVECTOR2(1.0f / m_MaxSplit.x, 1.0f / m_MaxSplit.y);
+	m_nAnimCount = nAnimCounter;
+	m_nSetAnimCnt = nAnimCounter;
+
 	SetPos(pos, {});
 
 	return S_OK;
@@ -152,13 +159,22 @@ CSphereEffect *CSphereEffect::Create(
 	float fAddSize, int Vtx,
 	SPHERE_TYPE SphereType,
 	D3DXVECTOR2 TexMove,
-	float TexNum)
+	float TexNum,
+	int nAnimCounter,
+	D3DXVECTOR2 nSplit)
 {
 	CSphereEffect *pSphereEffect = new CSphereEffect(OBJTYPE::OBJTYPE_EFFECT);
 
 	if (pSphereEffect != NULL)
 	{
-		pSphereEffect->Init(pos, rot, fSize, nTex, Color, AddColor, nLife, nSynthetic, fAddSize, Vtx, SphereType, TexMove, TexNum);
+		pSphereEffect->Init(pos, rot, fSize,
+			nTex, Color, AddColor,
+			nLife, nSynthetic,
+			fAddSize, Vtx,
+			SphereType,
+			TexMove, TexNum,
+			nAnimCounter,
+			nSplit);
 	}
 
 	return pSphereEffect;

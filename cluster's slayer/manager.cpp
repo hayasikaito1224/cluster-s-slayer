@@ -27,8 +27,7 @@
 #include "letter.h"
 //エフェクト
 #include "LoadEffect.h"
-#define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
-
+#define EFFECT_STATE_TEXT3D ("data/TEXT/EffectData.txt")	//3Dエフェクトデータテキスト名
 
 #include <random>
 //静的メンバ変数宣言

@@ -90,10 +90,23 @@ void CTexture::Init(void)
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/hiteffect000.jpg",//エフェクト
 		&m_pTexture[HitEffect]);
+
+	//============================================================
+	//エフェクトテクスチャ
+	//============================================================
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/CycleEffect00.png",//わっかエフェクト
 		&m_pTexture[CycleEffect]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/Target0.png",//ミサイル着弾予定地エフェクト
+		&m_pTexture[TrgetLock]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/Explosion.png",//爆発ドームエフェクト
+		&m_pTexture[Explosion]);
+
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
