@@ -152,7 +152,7 @@ bool CMissile_Bullet::IsCollision(const D3DXVECTOR3 & Hitpos, const float & fRad
 
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ğ‹‚ß‚é
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
-	float fCollisionRadius = m_fRadiusSize + fRadius;
+	float fCollisionRadius = (m_fRadiusSize*2) + fRadius;
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ª©•ª‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³‚æ‚è¬‚³‚­‚È‚Á‚½‚ç
 	if (fLength <= fCollisionRadius)
 	{
