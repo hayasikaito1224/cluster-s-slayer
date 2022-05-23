@@ -26,10 +26,17 @@ public:
 	void Rotate(float Rotate);
 
 	void SetTexUV(D3DXVECTOR2 TexUV);
+	void SetAnimTexUV(D3DXVECTOR2 TexPattern);
 
 protected:
 	bool m_bUninit;	//抹消フラグ
 	int m_nLife;	//寿命
+
+	D3DXVECTOR2 m_PatternSize;
+	int m_nAnimCount;
+	int m_nSetAnimCnt;
+	D3DXVECTOR2 m_nSplit;
+	D3DXVECTOR2 m_MaxSplit;
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = NULL;	//頂点バッファへのポインタ
@@ -39,6 +46,8 @@ private:
 	D3DXVECTOR3 m_Pos;	//位置
 	D3DXVECTOR2 m_TexUV;	//テクスチャ座標
 	D3DXVECTOR2 m_TexMoveUV;	//テクスチャ座標の移動
+
+	D3DXVECTOR2 m_PatternUV;
 
 	float m_Rot;	//回転
 	float m_Rot2;	//回転

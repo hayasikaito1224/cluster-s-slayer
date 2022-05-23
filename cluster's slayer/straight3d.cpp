@@ -37,11 +37,15 @@ HRESULT CStraight3D::Init(D3DXVECTOR3 pos,
 	int nLife,
 	CStraight3D::MOVE_PATTERN Pattrn,
 	D3DXVECTOR3 Target,
-	int Synsetic)
+	int Synsetic,
+	float Destance,
+	CStraight3D::RAND_PATTEN RandPattern,
+	CStraight3D::POS_PATTERN PosPattern,
+	D3DXVECTOR2 TexMove,
+	float TexNum)
 {
-	m_move = move;
 
-	CBillEffect::Init(Size, MinSize, color, Mincolor, nType, nLife);
+	CBillEffect::Init(Size, MinSize, color, Mincolor, nType, nLife, TexNum);
 	m_nSynthenic = Synsetic;
 	m_pCamera = CManager::GetRenderer()->GetCamera();
 	m_Pattern = Pattrn;
@@ -49,7 +53,127 @@ HRESULT CStraight3D::Init(D3DXVECTOR3 pos,
 	m_MinSize = MinSize;
 	m_Size = Size;
 
-	SetPos(pos,m_size);
+	float fRandAngle = CIRCLE2;
+	float fRandAngle2 = CIRCLE2;
+
+	//ˆÚ“®
+	switch (RandPattern)
+	{
+	case(RANDNONE):
+		m_move = move;
+		break;
+	case(RANDPLUS):
+		if (move.x <= 0.0f)
+		{
+			move.x = 1.0f;
+		}
+		if (move.y <= 0.0f)
+		{
+			move.y = 1.0f;
+		}
+		if (move.z <= 0.0f)
+		{
+			move.z = 1.0f;
+		}
+
+		m_move.x = (float(rand() % (int)move.x))/* - (float(rand() % (int)Randmove.x))*/;
+		m_move.y = (float(rand() % (int)move.y))/* - (float(rand() % (int)Randmove.y))*/;
+		m_move.z = (float(rand() % (int)move.z))/* - (float(rand() % (int)Randmove.z))*/;
+		break;
+	case(RANDMIN):
+		if (move.x <= 0.0f)
+		{
+			move.x = 1.0f;
+		}
+		if (move.y <= 0.0f)
+		{
+			move.y = 1.0f;
+		}
+		if (move.z <= 0.0f)
+		{
+			move.z = 1.0f;
+		}
+
+		m_move.x = 0.0f - (float(rand() % (int)move.x));
+		m_move.y = 0.0f - (float(rand() % (int)move.y));
+		m_move.z = 0.0f - (float(rand() % (int)move.z));
+		break;
+	case(RANDBOTH):
+		if (move.x <= 0.0f)
+		{
+			move.x = 1.0f;
+		}
+		if (move.y <= 0.0f)
+		{
+			move.y = 1.0f;
+		}
+		if (move.z <= 0.0f)
+		{
+			move.z = 1.0f;
+		}
+
+		m_move.x = (float(rand() % (int)move.x)) - (float(rand() % (int)move.x));
+		m_move.y = (float(rand() % (int)move.y)) - (float(rand() % (int)move.y));
+		m_move.z = (float(rand() % (int)move.z)) - (float(rand() % (int)move.z));
+		break;
+	case(RANDSMOKE):
+		if (move.x <= 0.0f)
+		{
+			move.x = 1.0f;
+		}
+		if (move.y <= 0.0f)
+		{
+			move.y = 1.0f;
+		}
+		if (move.z <= 0.0f)
+		{
+			move.z = 1.0f;
+		}
+
+		m_move.x = (float(rand() % (int)move.x)) - (float(rand() % (int)move.x));
+		m_move.z /= 10;
+		m_move.y = (float(rand() % (int)move.y));
+		m_move.z = (float(rand() % (int)move.z)) - (float(rand() % (int)move.z));
+		m_move.z /= 10;
+		break;
+	}
+
+	//oŒ»ˆÊ’u
+	switch (PosPattern)
+	{
+	case(FIELD):
+		m_pos = D3DXVECTOR3(
+			pos.x + Destance * sinf(fRandAngle) * cosf(fRandAngle2),
+			pos.y,
+			pos.z + Destance * sinf(fRandAngle) * sinf(fRandAngle2));
+		break;
+	case(WALL):
+		//******************************
+		//‰¼
+		m_pos = D3DXVECTOR3(
+			pos.x + Destance * sinf(fRandAngle) * cosf(fRandAngle2),
+			pos.y,
+			pos.z + Destance * sinf(fRandAngle) * sinf(fRandAngle2));
+		//******************************
+		break;
+	case(SPHERE):
+		m_pos = D3DXVECTOR3(
+			pos.x + Destance * sinf(fRandAngle) * cosf(fRandAngle2),
+			pos.y + Destance * cosf(fRandAngle),
+			pos.z + Destance * sinf(fRandAngle) * sinf(fRandAngle2));
+		break;
+	case(OTHERS):
+		m_pos = pos;
+		break;
+	default:
+		m_pos = pos;
+		break;
+	}
+
+	m_TexMove = TexMove;
+	m_fTexNum = TexNum;
+
+	SetPos(m_pos, m_Size);
 
 	return S_OK;
 }
@@ -67,7 +191,6 @@ void CStraight3D::Uninit()
 //=============================================================================
 void CStraight3D::Update()
 {
-	D3DXVECTOR3 pos = GetPos();
 	D3DXVECTOR3 v;	//ŒvŽZ
 	float r;	//’¼ü‹——£
 
@@ -81,16 +204,16 @@ void CStraight3D::Update()
 
 	if (m_Pattern == STRAIGHT)
 	{
-		pos += m_move;
+		m_pos += m_move;
 	}
 	else if(m_Pattern == TARGET)
 	{
-		v = pos - m_Target;
+		v = m_pos - m_Target;
 		r = sqrtf(v.x * v.x + v.z * v.z);
 		m_XZr = (float)atan2(v.x, v.z);		//Šp“x‚˜‚š
 		m_Yr = (float)atan2(v.x, v.y);		//Šp“x‚™
 
-		pos += D3DXVECTOR3(
+		m_pos += D3DXVECTOR3(
 			sinf(m_XZr) * -m_move.x,	//X
 			-m_move.x * sinf(m_Yr + D3DX_PI / 2),	//‚š(‚™)
 			cosf(m_XZr) * -m_move.x);	//z
@@ -101,7 +224,7 @@ void CStraight3D::Update()
 		}
 	}
 
-	SetPos(pos, m_Size);
+	SetPos(m_pos, m_Size);
 	ChangeSize(m_Size);
 
 	CBillEffect::Update();
@@ -128,13 +251,24 @@ CStraight3D *CStraight3D::Create(D3DXVECTOR3 pos,
 	int nLife,
 	CStraight3D::MOVE_PATTERN Pattrn,
 	D3DXVECTOR3 Target,
-	int Synsetic)
+	int Synsetic,
+	float Destance,
+	CStraight3D::RAND_PATTEN RandPattern,
+	CStraight3D::POS_PATTERN PosPattern,
+	D3DXVECTOR2 TexMove,
+	float TexNum)
 {
 	CStraight3D *pStraight3D = new CStraight3D(OBJTYPE::OBJTYPE_EFFECT);
 
 	if (pStraight3D != NULL)
 	{
-		pStraight3D->Init(pos, Size, MinSize, move, color, Mincolor, nType, nLife, Pattrn, Target,Synsetic);
+		pStraight3D->Init(pos, Size, MinSize, move, color,
+			Mincolor, nType,
+			nLife, Pattrn,
+			Target, Synsetic,
+			Destance, RandPattern,
+			PosPattern, TexMove,
+			TexNum);
 	}
 
 	return pStraight3D;

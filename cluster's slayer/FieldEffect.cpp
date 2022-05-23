@@ -184,7 +184,12 @@ void CFieldEffect::Update()
 					m_nParticleLife,
 					CStraight3D::TARGET,
 					m_pos,
-					m_nParticleSynthetic);
+					m_nParticleSynthetic,
+					0,
+					(CStraight3D::RAND_PATTEN)0,
+					(CStraight3D::POS_PATTERN)0,
+					D3DXVECTOR2(0.0f, 0.0f),
+					1.0f);
 			}
 
 		}
@@ -222,7 +227,12 @@ void CFieldEffect::Update()
 					m_nParticleLife,
 					CStraight3D::TARGET,
 					m_pos,
-					m_nParticleSynthetic);
+					m_nParticleSynthetic,
+					m_fDistance,
+					(CStraight3D::RAND_PATTEN)0,
+					(CStraight3D::POS_PATTERN)2,
+					D3DXVECTOR2(0.0f, 0.0f),
+					1.0f);
 
 				Time = (int)(rand() % nParticleTime) + 1;
 			}
@@ -271,7 +281,12 @@ void CFieldEffect::Update()
 					Life,
 					CStraight3D::TARGET,
 					m_pos,
-					m_nParticleSynthetic);
+					m_nParticleSynthetic,
+					m_fDistance,
+					(CStraight3D::RAND_PATTEN)0,
+					(CStraight3D::POS_PATTERN)2,
+					D3DXVECTOR2(0.0f, 0.0f),
+					1.0f);
 			}
 
 		}

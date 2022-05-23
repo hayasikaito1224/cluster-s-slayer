@@ -14,7 +14,7 @@ public:
 	CBillEffect(int nPriority);
 	virtual ~CBillEffect();
 
-	virtual HRESULT Init(D3DXVECTOR3 Size, D3DXVECTOR3 MinSize, D3DCOLORVALUE color, D3DCOLORVALUE Mincolor, int nTex, int nLife);
+	virtual HRESULT Init(D3DXVECTOR3 Size, D3DXVECTOR3 MinSize, D3DCOLORVALUE color, D3DCOLORVALUE Mincolor, int nTex, int nLife, float TexNum);
 	virtual void Uninit();
 	virtual void Update();
 	virtual void Draw();
@@ -27,6 +27,8 @@ protected:
 	D3DXVECTOR3 m_MinSize;		//大きさ変動値
 	D3DXVECTOR3 m_Size;			//サイズ
 
+	D3DXVECTOR2 m_TexMove;
+	float m_fTexNum;
 private:
 
 	//カラー

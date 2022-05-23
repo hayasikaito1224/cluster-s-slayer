@@ -33,7 +33,7 @@ CBillEffect::~CBillEffect()
 //=============================================================================
 // èâä˙âª
 //=============================================================================
-HRESULT CBillEffect::Init(D3DXVECTOR3 Size, D3DXVECTOR3 MinSize, D3DCOLORVALUE color, D3DCOLORVALUE Mincolor, int nTex, int nLife)
+HRESULT CBillEffect::Init(D3DXVECTOR3 Size, D3DXVECTOR3 MinSize, D3DCOLORVALUE color, D3DCOLORVALUE Mincolor, int nTex, int nLife, float TexNum)
 {
 	CPlane::Init(1, (CTexture::Type)nTex);
 	//SetTexture(nTex);

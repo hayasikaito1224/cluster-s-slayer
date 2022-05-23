@@ -12,6 +12,9 @@
 #include "player.h"
 #include "enemy.h"
 #include "missile_bullet.h"
+
+#include "PresetSetEffect.h"
+
 static const float SearchRange = 100.0f;
 static const float IntervalTime = 100.0f;
 static const float IntervalShotTime = 20.0f;
@@ -116,6 +119,8 @@ void CMissile::Update()
 			m_fIntervalTimer = 0.0f;
 			//ミサイルを発射
 			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,200.0f,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
+			CPresetEffect::SetEffect3D(11,m_pEnemyPos[m_nCntSearch], {});
+
 			//次の敵の位置に移す
 			m_nCntSearch++;
 		}

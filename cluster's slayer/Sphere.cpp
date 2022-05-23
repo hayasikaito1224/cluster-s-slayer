@@ -336,7 +336,39 @@ void CSphere::SetTexUV(D3DXVECTOR2 TexUV)
 		for (int Line = 0; Line < m_nLine + 1; Line++, nCntVtx++)
 		{
 			//テクスチャ座標
-			pVtx[nCntVtx].tex = D3DXVECTOR2((m_TexUV.x / m_nLine * Line) + m_TexMoveUV.x, (m_TexUV.y / m_nVertical * Vertical) + m_TexMoveUV.y);
+			pVtx[nCntVtx].tex = D3DXVECTOR2((m_TexUV.x / m_nLine * Line) + m_TexMoveUV.x,
+				(m_TexUV.y / m_nVertical * Vertical) + m_TexMoveUV.y);
+		}
+	}
+	//頂点バッファをアンロックする
+	m_pVtxBuff->Unlock();
+
+}
+
+//=============================================================================
+// テクスチャUV座標セット
+//=============================================================================
+void CSphere::SetAnimTexUV(D3DXVECTOR2 TexPattern)
+{
+	VERTEX_3D *pVtx; //頂点情報へのポインタ
+
+	m_PatternUV = TexPattern;
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void **)&pVtx, 0);
+
+	int nCntVtx = 0;	//頂点カウント
+
+						//縦の頂点の座標設定
+	for (int Vertical = 0; Vertical < m_nVertical + 1; Vertical++)
+	{
+		//横の頂点の座標設定
+		for (int Line = 0; Line < m_nLine + 1; Line++, nCntVtx++)
+		{
+			//テクスチャ座標
+			pVtx[nCntVtx].tex = D3DXVECTOR2(
+				(m_TexUV.x / m_nLine * Line) + m_PatternUV.x + m_TexMoveUV.x,
+				(m_TexUV.y / m_nVertical * Vertical) + m_PatternUV.y + m_TexMoveUV.y);
 		}
 	}
 	//頂点バッファをアンロックする
