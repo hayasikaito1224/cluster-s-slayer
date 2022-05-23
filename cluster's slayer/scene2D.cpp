@@ -283,3 +283,46 @@ void CScene2D::SetCol(D3DXCOLOR col)
 	m_pVtxBuff->Unlock();
 
 }
+
+//=============================================================================
+// ポリゴン情報セット(カラー)
+//=============================================================================
+void CScene2D::ColorChange(D3DCOLORVALUE color)
+{
+	VERTEX_2D*pVtx;//頂点情報へのポインタ
+
+				   //頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点の色
+	pVtx[0].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[1].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[2].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+	pVtx[3].col = D3DCOLOR_RGBA((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+
+}
+
+//=============================================================================
+// ポリゴン情報セット(回転)
+//=============================================================================
+void CScene2D::SetRotate(D3DXVECTOR3 pos, float Rotate, float Rotate2, float Vectol)
+{
+	VERTEX_2D*pVtx;//頂点情報へのポインタ
+
+	m_pos = pos;
+
+	//頂点バッファをロックし、頂点データへのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点の座標
+	pVtx[0].pos = D3DXVECTOR3(pos.x - (sinf(Rotate2)) * Vectol, pos.y - (cosf(Rotate2))* Vectol, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(pos.x + (cosf(Rotate)) * Vectol, pos.y + (sinf(Rotate))* Vectol, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(pos.x - (cosf(Rotate)) * Vectol, pos.y - (sinf(Rotate))* Vectol, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(pos.x + (sinf(Rotate2)) * Vectol, pos.y + (cosf(Rotate2))* Vectol, 0.0f);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}

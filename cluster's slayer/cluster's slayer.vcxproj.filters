@@ -241,6 +241,18 @@
     <ClCompile Include="..\cluster%27s slayer\straight3d.cpp">
       <Filter>NewFilter1\エフェクト\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\effect2d.cpp">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\MouseTracking.cpp">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\Movement.cpp">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\Rotate.cpp">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\guard.h">
@@ -482,6 +494,18 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\straight3d.h">
       <Filter>NewFilter1\エフェクト\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\effect2d.h">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\MouseTracking.h">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\Movement.h">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\Rotate.h">
+      <Filter>NewFilter1\エフェクト\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

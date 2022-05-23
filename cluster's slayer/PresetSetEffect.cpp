@@ -7,9 +7,9 @@
 //***************************************************************************** 
 #include "PresetSetEffect.h"
 
-//#include "MouseTracking.h"
-//#include "Movement.h"
-//#include "Rotate.h"
+#include "MouseTracking.h"
+#include "Movement.h"
+#include "Rotate.h"
 //
 //#include "Trajectory.h"
 #include "straight3d.h"
@@ -62,8 +62,8 @@ CPresetEffect::~CPresetEffect()
 void CPresetEffect::SetEffectState2D(int nPattern,
 	D3DXVECTOR3 pos,
 	float fRotate,
-	D3DXVECTOR2 move,
-	D3DXVECTOR2 Addmove,
+	D3DXVECTOR3 move,
+	D3DXVECTOR3 Addmove,
 	int Diffusion,
 	int Destroyvec,
 	float fSize,
@@ -200,146 +200,146 @@ void CPresetEffect::SetEffectState3D(
 //=============================================================================
 // 呼ばれた物を呼び出すやつ2D
 //=============================================================================
-//void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
-//{
-//	switch (m_EffectState2D[nPattern].m_nPattern)
-//	{
-//	case(1):
-//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-//		{
-//			//各色のランダム化
-//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-//			}
-//
-//
-//			//出現位置が自分の位置か
-//			if (m_EffectState2D[nPattern].m_bMousePos == true)
-//			{
-//				m_EffectState2D[nPattern].m_pos = pos;
-//			}
-//
-//			CMovement::Create(m_EffectState2D[nPattern].m_pos,
-//				m_EffectState2D[nPattern].m_move,
-//				m_EffectState2D[nPattern].m_Col,
-//				m_EffectState2D[nPattern].m_Changecolor,
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-//				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
-//				m_EffectState2D[nPattern].m_Addmove,
-//				m_EffectState2D[nPattern].Synthetic);
-//		}
-//		break;
-//	case(2):
-//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-//		{
-//			//出現位置が自分の位置か
-//			if (m_EffectState2D[nPattern].m_bMousePos == true)
-//			{
-//				m_EffectState2D[nPattern].m_pos = pos;
-//			}
-//			//各色のランダム化
-//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-//			}
-//
-//			CMouseTracking::Create(pos,
-//				m_EffectState2D[nPattern].m_move,
-//				m_EffectState2D[nPattern].m_Col,
-//				m_EffectState2D[nPattern].m_Changecolor,
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-//				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
-//				Endpos, m_EffectState2D[nPattern].m_nDiffusion,
-//				m_EffectState2D[nPattern].m_nDestroyvec,
-//				m_EffectState2D[nPattern].Synthetic);
-//		}
-//		break;
-//	case(3):
-//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-//		{
-//
-//			//各色のランダム化
-//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-//			}
-//
-//			CRotate::Create(pos,
-//				m_EffectState2D[nPattern].m_move,
-//				m_EffectState2D[nPattern].m_Col,
-//				m_EffectState2D[nPattern].m_Changecolor,
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-//				m_EffectState2D[nPattern].m_nLife,
-//				m_EffectState2D[nPattern].nTexture,
-//				m_EffectState2D[nPattern].m_fRotate,
-//				m_EffectState2D[nPattern].Synthetic);
-//		}
-//		break;
-//	case(4):
-//		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
-//		{
-//
-//			//各色のランダム化
-//			if (m_EffectState2D[nPattern].m_bColorRandR == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandG == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
-//			}
-//			if (m_EffectState2D[nPattern].m_bColorRandB == true)
-//			{
-//				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
-//			}
-//
-//			CRotate::Create(pos,
-//				m_EffectState2D[nPattern].m_move,
-//				m_EffectState2D[nPattern].m_Col,
-//				m_EffectState2D[nPattern].m_Changecolor,
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
-//				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
-//				m_EffectState2D[nPattern].m_nLife,
-//				m_EffectState2D[nPattern].nTexture,
-//				m_EffectState2D[nPattern].m_fRotate,
-//				m_EffectState2D[nPattern].Synthetic);
-//		}
-//		break;
-//
-//	default:
-//		assert(false);
-//		break;
-//	}
-//}
-//
+void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
+{
+	switch (m_EffectState2D[nPattern].m_nPattern)
+	{
+	case(1):
+		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+		{
+			//各色のランダム化
+			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+			{
+				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+			{
+				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+			{
+				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+			}
+
+
+			//出現位置が自分の位置か
+			if (m_EffectState2D[nPattern].m_bMousePos == true)
+			{
+				m_EffectState2D[nPattern].m_pos = pos;
+			}
+
+			CMovement::Create(m_EffectState2D[nPattern].m_pos,
+				m_EffectState2D[nPattern].m_move,
+				m_EffectState2D[nPattern].m_Col,
+				m_EffectState2D[nPattern].m_Changecolor,
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
+				m_EffectState2D[nPattern].m_Addmove,
+				m_EffectState2D[nPattern].Synthetic);
+		}
+		break;
+	case(2):
+		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+		{
+			//出現位置が自分の位置か
+			if (m_EffectState2D[nPattern].m_bMousePos == true)
+			{
+				m_EffectState2D[nPattern].m_pos = pos;
+			}
+			//各色のランダム化
+			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+			{
+				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+			{
+				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+			{
+				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+			}
+
+			CMouseTracking::Create(pos,
+				m_EffectState2D[nPattern].m_move,
+				m_EffectState2D[nPattern].m_Col,
+				m_EffectState2D[nPattern].m_Changecolor,
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
+				Endpos, m_EffectState2D[nPattern].m_nDiffusion,
+				m_EffectState2D[nPattern].m_nDestroyvec,
+				m_EffectState2D[nPattern].Synthetic);
+		}
+		break;
+	case(3):
+		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+		{
+
+			//各色のランダム化
+			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+			{
+				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+			{
+				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+			{
+				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+			}
+
+			CRotate::Create(pos,
+				m_EffectState2D[nPattern].m_move,
+				m_EffectState2D[nPattern].m_Col,
+				m_EffectState2D[nPattern].m_Changecolor,
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+				m_EffectState2D[nPattern].m_nLife,
+				m_EffectState2D[nPattern].nTexture,
+				m_EffectState2D[nPattern].m_fRotate,
+				m_EffectState2D[nPattern].Synthetic);
+		}
+		break;
+	case(4):
+		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
+		{
+
+			//各色のランダム化
+			if (m_EffectState2D[nPattern].m_bColorRandR == true)
+			{
+				m_EffectState2D[nPattern].m_Col.r = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandG == true)
+			{
+				m_EffectState2D[nPattern].m_Col.g = RAND_COLOR;
+			}
+			if (m_EffectState2D[nPattern].m_bColorRandB == true)
+			{
+				m_EffectState2D[nPattern].m_Col.b = RAND_COLOR;
+			}
+
+			CRotate::Create(pos,
+				m_EffectState2D[nPattern].m_move,
+				m_EffectState2D[nPattern].m_Col,
+				m_EffectState2D[nPattern].m_Changecolor,
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fSize, m_EffectState2D[nPattern].m_fSize),
+				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
+				m_EffectState2D[nPattern].m_nLife,
+				m_EffectState2D[nPattern].nTexture,
+				m_EffectState2D[nPattern].m_fRotate,
+				m_EffectState2D[nPattern].Synthetic);
+		}
+		break;
+
+	default:
+		assert(false);
+		break;
+	}
+}
+
 //=============================================================================
 // 呼ばれた物を呼び出すやつ3D
 //=============================================================================

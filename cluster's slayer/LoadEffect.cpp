@@ -50,8 +50,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 
 	int nPattern = 0;
 	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR2 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR2 Addmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 Addmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	int Diffusion = 1;
 	int Destroyvec = 0;
 	float fSize = 0;
