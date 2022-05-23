@@ -1,0 +1,5 @@
+SET_TEXT
+	TEXT = 敵からの攻撃を防ぐダメージガードを展開する
+END_SETTEXT
+
+END

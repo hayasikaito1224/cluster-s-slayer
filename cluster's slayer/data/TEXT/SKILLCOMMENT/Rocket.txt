@@ -1,0 +1,5 @@
+SET_TEXT
+	TEXT = 一定時間経過後、周囲に数発ミサイルを放つ
+END_SETTEXT
+
+END

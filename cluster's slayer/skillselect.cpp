@@ -10,8 +10,10 @@
 #include "player.h"
 #include "game.h"
 static const D3DXVECTOR3 SelectWindowSize = { 500.0f,300.f,0.0f };
-static const D3DXVECTOR3 SelectBottomSize = { 100.0f,150.f,0.0f };
+static const D3DXVECTOR3 SelectBottomSize = { 150.0f,250.f,0.0f };
 static const D3DXVECTOR3 SelectBottomPos = { 300.0f,300.f,0.0f };
+static const float SelectBottomPosInterval = 200.0f;//アクションスキルの乱数の最小値
+
 static const int ActionSkillMin = 6;//アクションスキルの乱数の最小値
 static const int ActionSkillMax = 9;//アクションスキルの乱数の最大値
 static const int PassiveSkillMin = 0;//パッシブスキルの乱数の最小値
@@ -53,7 +55,7 @@ HRESULT CSkillSelect::Init(void)
 	if (!pSelectWindow)
 	{
 		//スキル選択画面画像の生成
-		pSelectWindow = CPolygon::Create({ SCREEN_WIDTH / 2.0f,320.0f,0.0f }, SelectWindowSize, CTexture::FADE, {1.0,1.0,1.0,0.5}, OBJTYPE_TIME);
+		pSelectWindow = CPolygon::Create({ SCREEN_WIDTH / 2.0f,320.0f,0.0f }, SelectWindowSize, CTexture::FADE, {1.0,1.0,1.0,0.0}, OBJTYPE_TIME);
 	}
 	ShowCursor(true);
 
@@ -192,20 +194,20 @@ void CSkillSelect::PopSelectWindow()
 			if (!pSkillBottom[0])
 			{
 				pSkillBottom[0] = CSkillSelectBottom::Create(
-				{ SelectBottomPos.x + ((SelectBottomSize.x*3.5f)*0),SelectBottomPos.y,0.0f },
-					SelectBottomSize, CTexture::Text, nPassive01);
+				{ SelectBottomPos.x + ((SelectBottomSize.x+ SelectBottomPosInterval)*0),SelectBottomPos.y,0.0f },
+					SelectBottomSize, CTexture::FADE, nPassive01);
 			}
 			if (!pSkillBottom[1])
 			{
 				pSkillBottom[1] = CSkillSelectBottom::Create(
-				{ SelectBottomPos.x + ((SelectBottomSize.x*3.5f) * 1),SelectBottomPos.y,0.0f },
-					SelectBottomSize, CTexture::Text, nPassive02);
+				{ SelectBottomPos.x + ((SelectBottomSize.x + SelectBottomPosInterval) * 1),SelectBottomPos.y,0.0f },
+					SelectBottomSize, CTexture::FADE, nPassive02);
 			}
 			if (!pSkillBottom[2])
 			{
 				pSkillBottom[2] = CSkillSelectBottom::Create(
-				{ SelectBottomPos.x + ((SelectBottomSize.x*3.5f) * 2),SelectBottomPos.y,0.0f },
-					SelectBottomSize, CTexture::Text, nAction);
+				{ SelectBottomPos.x + ((SelectBottomSize.x + SelectBottomPosInterval) * 2),SelectBottomPos.y,0.0f },
+					SelectBottomSize, CTexture::FADE, nAction);
 			}
 			m_bPopSelectWindow = false;
 		}

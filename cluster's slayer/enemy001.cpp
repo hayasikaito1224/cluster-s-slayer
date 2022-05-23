@@ -196,19 +196,7 @@ void CEnemy001::Attack()
 				bHit = m_pDamageCollision->IsCollision(pos, fRadius);
 				if (bHit)
 				{
-					//ƒvƒŒƒCƒ„[‚Ì‘Ì—Í‚ðŒ¸‚ç‚·
-					CGauge *pGauge = CManager::GetGame()->GetHPGauge();
-					float fSecondHP = pGauge->GetGaugeBer(1)->GetGaugeValue();
-					if (fSecondHP > 0)
-					{
-						pGauge->SetGauge(Power, 1);
-					}
-					else
-					{
-						pGauge->SetGauge(Power, 0);
-					}
-					CSmallScore::Create({ pos.x,pPlayer->GetParts(2)->GetMaxPos().y + 30.0f,pos.z }, { 10.0f,20.0f,0.0f }, { 1.0f, 0.6f, 0.6f, 0.0f }, Power);
-
+					pPlayer->HitDamege(Power);
 					m_fAttackCollisionTime = 0.0f;
 					m_bOnAttackCollision = false;
 				}

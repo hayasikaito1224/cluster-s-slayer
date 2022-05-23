@@ -25,8 +25,8 @@ public:
 		OBJTYPE_ENEMY,				//敵
 		OBJTYPE_ENEMY_BAUM,				//敵
 		OBJTYPE_MAGIC,				//魔法
-		OBJTYPE_EFFECT,				//エフェクト
 		OBJTYPE_SHADOW,				//エフェクト
+		OBJTYPE_EFFECT,				//エフェクト
 		OBJTYPE_ITEM,					//UI
 		OBJTYPE_GAUGEFRAME,
 		OBJTYPE_GAUGE,
@@ -35,6 +35,7 @@ public:
 		OBJTYPE_POLYGON,
 		OBJTYPE_MAP_UI,				//マップに表示するUI
 		OBJTYPE_UI,					//UI
+		OBJTYPE_TEXT,					//UI
 		OBJTYPE_PAUSE,				//PAUSE
 		OBJTYPE_FADE,				//フェード
 		OBJTYPE_MAX

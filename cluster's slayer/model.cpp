@@ -17,6 +17,7 @@ CModel::CModel()
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);					//向き
 	m_bDraw = true;
 	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_bCanObjParent = true;
 }
 
 //=============================================================================
@@ -109,21 +110,25 @@ void CModel::Draw(void)
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTransModel);
 	pDevice->GetMaterial(&Matdef);
 
-	//書くパーツの親のマトリックスを設定
-	if (m_pParent != nullptr)
+	if (m_bCanObjParent)
 	{
-		mtxParent = m_pParent->GetMatrix();
-	}
-	else
-	{
-		//最新のマトリックスを取得
-		pDevice->GetTransform(D3DTS_WORLD, &mtxParent);
+		//書くパーツの親のマトリックスを設定
+		if (m_pParent != nullptr)
+		{
+			m_mtxParent = m_pParent->GetMatrix();
+		}
+		else
+		{
+			//最新のマトリックスを取得
+			pDevice->GetTransform(D3DTS_WORLD, &m_mtxParent);
+		}
+
 	}
 
 	//算出した各パーツのワールドマトリックスと親のマトリックスを掛け合わせる
 	D3DXMatrixMultiply(&m_mtxWorld,
 		&m_mtxWorld,
-		&mtxParent);
+		&m_mtxParent);
 
 	if (m_bDraw == true)
 	{

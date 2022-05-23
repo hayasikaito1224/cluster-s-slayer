@@ -24,6 +24,7 @@
 #include "directinput.h"
 #include "gamemenu.h"
 #include "stage_preset_data.h"
+#include "letter.h"
 //エフェクト
 #include "LoadEffect.h"
 #define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
@@ -43,7 +44,11 @@ CResult			*CManager::m_pResult = NULL;
 CGameMenu		*CManager::m_pGameMenu = NULL;
 CFade			*CManager::m_Fade = NULL;
 CXInput			*CManager::m_XInput = NULL;
+<<<<<<< HEAD
 CManager::MODE	 CManager::m_Mode = MODE_MENU;		// 初期モード
+=======
+CManager::MODE	 CManager::m_Mode = MODE_GAME;		// 初期モード
+>>>>>>> 8c1100fda1db604f3c3605b626df0bcb100fe915
 CMouse			*CManager::m_Mouse = NULL;
 CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;
@@ -110,6 +115,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	}
 	CStage_Preset_Data::StagePresetLoad("data/TEXT/PresetFileName.txt");
 
+	//テキストフォントの読み込み
+	CLetter::Load();
 	// サウンドの生成
 	if (m_pSound == NULL)
 	{
