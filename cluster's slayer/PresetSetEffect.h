@@ -11,7 +11,7 @@
 // マクロ
 //*****************************************************************************
 #define MAX_EFFECTPATTERN_2D (8)
-#define MAX_EFFECTPATTERN_3D (16)
+#define MAX_EFFECTPATTERN_3D (24)
 
 
 #define MAX_ORDER_3D (8)
@@ -26,8 +26,8 @@ public:
 		D3DXVECTOR3 m_pos;		//位置
 		float m_fRotate;		//回転
 		D3DXVECTOR3 m_Endpos;	//向かうべき位置
-		D3DXVECTOR2 m_move;		//移動量
-		D3DXVECTOR2 m_Addmove;	//移動量加算
+		D3DXVECTOR3 m_move;		//移動量
+		D3DXVECTOR3 m_Addmove;	//移動量加算
 		int m_nDiffusion;		//拡散率
 		int m_nDestroyvec;		//消えるベクトル
 		float m_fSize;			//サイズ
@@ -100,12 +100,12 @@ public:
 	static void SetEffectState2D(int nPattern,
 		D3DXVECTOR3 pos,
 		float fRotate,
-		D3DXVECTOR2 move,
-		D3DXVECTOR2 Addmove,
+		D3DXVECTOR3 move,
+		D3DXVECTOR3 Addmove,
 		int Diffusion,
 		int Destroyvec,
 		float fSize,
-		float m_fAddSize,
+		float fAddSize,
 		D3DCOLORVALUE col,
 		D3DCOLORVALUE Changecolor,
 		int nLife,
@@ -184,6 +184,8 @@ public:
 	static CPresetEffect *CreateOrderMenu(int nDeley, int nPresetNum, int nOrder[MAX_ORDER_3D]);
 
 	static void ResetPattern() { m_nEffectPattern = 0; }
+	static void ResetPattern2d() { m_nEffectPattern2d = 0; }
+
 	static void ResetOrder() { m_nMaxOrderCount = 0; }
 
 	HRESULT Init();
@@ -198,6 +200,7 @@ private:
 	static ORDER_PRESET m_Order3D[MAX_ORDER_3D][MAX_ORDER_3D];
 
 	static int m_nEffectPattern;	//複数のやつ読み込めるようにするやつ
+	static int m_nEffectPattern2d;	//複数のやつ読み込めるようにするやつ
 
 	static int m_nMaxOrderCount;	//呼び出す最大数カウント
 

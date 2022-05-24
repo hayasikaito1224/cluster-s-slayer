@@ -1040,6 +1040,7 @@ void CPlayer::EachSkillManager()
 				CManager::GetGame()->GetHPGauge()->SetGauge(-m_fAutoHeel, 0);
 			}
 		}
+		CPresetEffect::SetEffect3D(16, m_pos, {}, {}, {});	//リジェネ
 
 	}
 	//ブラックホール
