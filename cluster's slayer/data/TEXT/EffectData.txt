@@ -14,8 +14,8 @@ EFFECTSTATE2D
 	POS = 640.0 360.0				//座標
 	MOVE = 0.0 0.0					//動き
 	ADDMOVE = 0.0 0.0				//動き加算値
-	SIZE = 10.0						//大きさ
-	ADDSIZE = 6.0					//大きさ変動
+	SIZE = 5.0						//大きさ
+	ADDSIZE = 3.0					//大きさ変動
 	COLOR = 255 255 255 250			//カラー
 	CHANGECOLOR = 0 0 0 -10			//カラー変動値
 	LIFE = 18						//ライフ
@@ -26,7 +26,7 @@ EFFECTSTATE2D
 	MOVERANDX = 0						//移動ランダムX 1だと有効
 	MOVERANDY = 0						//移動ランダムY 1だと有効
 	MOUSEPOS = 1						//マウス追従ON 1だと有効
-	TEXTURE = 51						//テクスチャ
+	TEXTURE = 49						//テクスチャ
 	SYNTHETIC = 0						//合成
 END_EFFECTSTATE2D
 
