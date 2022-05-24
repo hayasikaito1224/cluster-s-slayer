@@ -25,6 +25,7 @@
 #include "PresetSetEffect.h"
 #include "smallscore.h"
 #include "missile.h"
+#include "assistcrystal.h"
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -51,6 +52,7 @@ static bool s_bCursor = true;
 
 CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 {
+	memset(m_pAssistCrystal, NULL, sizeof(m_pAssistCrystal));
 	m_nMovePush = false;
 	m_bNearEnemy = false;
 	m_IsCharacterDraw = true;
@@ -79,6 +81,8 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_nMissileCnt = MissileCntMax;
 	m_bCanMissile = false;
 	m_pMissile = nullptr;
+	m_bCanAssistCrystal = false;
+
 }
 
 CPlayer::~CPlayer()
@@ -113,6 +117,8 @@ HRESULT CPlayer::Init()
 	//武器の生成
 	WeaponSet("data/TEXT/PlayerParts000.txt");
 
+
+
 	return S_OK;
 }
 //-----------------------------------------------
@@ -125,6 +131,16 @@ void CPlayer::Uninit()
 		m_pMissile->Uninit();
 		m_pMissile = nullptr;
 	}
+	for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+	{
+		if (m_pAssistCrystal[nCnt])
+		{
+			m_pAssistCrystal[nCnt]->Uninit();
+			m_pAssistCrystal[nCnt] = nullptr;
+		}
+	}
+
+
 	CCharacter::Uninit();
 
 }
@@ -266,6 +282,16 @@ void CPlayer::Draw()
 		for (int nCntParts = 0; nCntParts < nSize; nCntParts++)
 		{
 			m_pParts[nCntParts]->Draw();
+		}
+	}
+	if (m_bCanAssistCrystal)
+	{
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt]->Draw();
+			}
 		}
 	}
 
@@ -722,6 +748,15 @@ void CPlayer::LevelUp(int nType)
 		}
 		break;
 	case Beam:
+		m_bCanAssistCrystal = true;
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (!m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this);
+			}
+		}
+
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
@@ -790,6 +825,20 @@ void CPlayer::HitDamege(int nPower)
 		}
 
 	}
+}
+D3DXVECTOR3 CPlayer::GetNearEnemyPos()
+{
+	if (m_pNearEnemy)
+	{
+		int nSize = m_pNearEnemy->GetParts().size();
+		if (nSize != 0)
+		{
+			return m_pNearEnemy->GetPos();
+		}
+
+	}
+	return{ 0.0f,0.0f,0.0f };
+
 }
 //-----------------------------------------------
 //今敵の近くかを算出
@@ -973,13 +1022,6 @@ bool CPlayer::FixedTimeInterval(float fMaxTime)
 	return bStop;
 }
 //-----------------------------------------------
-//追撃処理
-//-----------------------------------------------
-void CPlayer::PlayerRushAttack()
-{
-
-}
-//-----------------------------------------------
 //各スキルの処理のまとめ
 //-----------------------------------------------
 void CPlayer::EachSkillManager()
@@ -1027,6 +1069,17 @@ void CPlayer::EachSkillManager()
 			m_nMissileCnt = 0;
 			CMissile::Create();
 
+		}
+	}
+	//アシスト攻撃
+	if (m_bCanAssistCrystal)
+	{
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt]->Update();
+			}
 		}
 	}
 }
