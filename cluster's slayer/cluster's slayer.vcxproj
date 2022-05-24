@@ -151,10 +151,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\2Dnumber.h" />
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal.h" />
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal_model.h" />
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
     <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
+    <ClInclude Include="..\cluster%27s slayer\bullet.h" />
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
@@ -237,10 +240,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal_model.cpp" />
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\bullet.cpp" />
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />

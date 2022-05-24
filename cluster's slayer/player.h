@@ -4,10 +4,14 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 #include "character.h"
+#define MAX_ASSISTCRYSTAL (2)
 class CEnemy;
 class CSword;
 class CGuard;
 class CMissile;
+class CAssistCrystal;
+class CAssistCrystal_Model;
+
 class CPlayer : public CCharacter
 {
 public:
@@ -74,7 +78,7 @@ public:
 	void HitDamege(int nPower);
 	int GetLevel() { return m_nLevel; }
 	float GetMaxExp() { return m_fMaxExp; }
-
+	D3DXVECTOR3 GetNearEnemyPos();
 	bool IsNearEnemyState();//今何の敵が近くにいるかを算出
 	D3DXVECTOR3 GetPos(void) { return m_pos; }
 	bool GetCanRushAttack() { return m_bCanRushAttack; }
@@ -90,6 +94,8 @@ private:
 	CSword *m_pSword;//剣
 	CGuard *m_pDamegeGuard;
 	CMissile *m_pMissile;
+	CAssistCrystal *m_pAssistCrystal[MAX_ASSISTCRYSTAL];
+
 	POINT m_Cursol;
 	void AttackMove(float fMoveVolume);
 	CEnemy *m_pNearEnemy;//プレイヤーから近い敵の情報
@@ -105,6 +111,7 @@ private:
 	bool m_bCanRushAttack;//追撃可能か
 	bool m_bCanBlackHole;
 	bool m_bCanDamegeGuard;
+	bool m_bCanAssistCrystal;
 	bool m_bCanDamege;
 	bool m_bCanMissile;
 

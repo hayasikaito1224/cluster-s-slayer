@@ -238,6 +238,16 @@
     <ClCompile Include="..\cluster%27s slayer\straight3d.cpp">
       <Filter>NewFilter1\エフェクト\3D</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal_model.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\bullet.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+=======
     <ClCompile Include="..\cluster%27s slayer\effect2d.cpp">
       <Filter>NewFilter1\エフェクト\2D</Filter>
     </ClCompile>
@@ -249,6 +259,7 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\Rotate.cpp">
       <Filter>NewFilter1\エフェクト\2D</Filter>
+>>>>>>> f78d6fca7cc2f59aefab4311b111580783d980fd
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
       <Filter>NewFilter1\エフェクト\3D</Filter>
@@ -492,6 +503,16 @@
     <ClInclude Include="..\cluster%27s slayer\straight3d.h">
       <Filter>NewFilter1\エフェクト\3D</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal_model.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\bullet.h">
+      <Filter>NewFilter1\スキル</Filter>
+=======
     <ClInclude Include="..\cluster%27s slayer\effect2d.h">
       <Filter>NewFilter1\エフェクト\2D</Filter>
     </ClInclude>
@@ -503,6 +524,7 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\Rotate.h">
       <Filter>NewFilter1\エフェクト\2D</Filter>
+>>>>>>> f78d6fca7cc2f59aefab4311b111580783d980fd
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
       <Filter>NewFilter1\エフェクト\3D</Filter>
