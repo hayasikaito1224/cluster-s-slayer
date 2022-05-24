@@ -55,9 +55,6 @@
     <ClCompile Include="..\cluster%27s slayer\field.cpp">
       <Filter>NewFilter1</Filter>
     </ClCompile>
-    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\frame.cpp">
       <Filter>NewFilter1</Filter>
     </ClCompile>
@@ -253,6 +250,9 @@
     <ClCompile Include="..\cluster%27s slayer\Rotate.cpp">
       <Filter>NewFilter1\エフェクト\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
+      <Filter>NewFilter1\エフェクト\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\guard.h">
@@ -307,9 +307,6 @@
       <Filter>NewFilter1</Filter>
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\field.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
       <Filter>NewFilter1</Filter>
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\frame.h">
@@ -506,6 +503,9 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\Rotate.h">
       <Filter>NewFilter1\エフェクト\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
+      <Filter>NewFilter1\エフェクト\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

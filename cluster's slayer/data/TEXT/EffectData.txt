@@ -14,8 +14,8 @@ EFFECTSTATE2D
 	POS = 640.0 360.0				//座標
 	MOVE = 0.0 0.0					//動き
 	ADDMOVE = 0.0 0.0				//動き加算値
-	SIZE = 10.0						//大きさ
-	ADDSIZE = 6.0					//大きさ変動
+	SIZE = 5.0						//大きさ
+	ADDSIZE = 3.0					//大きさ変動
 	COLOR = 255 255 255 250			//カラー
 	CHANGECOLOR = 0 0 0 -10			//カラー変動値
 	LIFE = 18						//ライフ
@@ -26,7 +26,7 @@ EFFECTSTATE2D
 	MOVERANDX = 0						//移動ランダムX 1だと有効
 	MOVERANDY = 0						//移動ランダムY 1だと有効
 	MOUSEPOS = 1						//マウス追従ON 1だと有効
-	TEXTURE = 51						//テクスチャ
+	TEXTURE = 49						//テクスチャ
 	SYNTHETIC = 0						//合成
 END_EFFECTSTATE2D
 
@@ -345,8 +345,8 @@ EFFECTSTATE3D
 	TYPE = 1					//球(0)or半球(1)
 	POS = 0.0 0.0 0.0			//出現位置
 	COLOR = 255 60 0 255			//カラー
-	CHANGECOLOR = 0 0 0 0			//カラー変動値
-	LIFE = 8						//ライフ
+	CHANGECOLOR = 0 0 0 -20			//カラー変動値
+	LIFE = 20						//ライフ
 	TEXTURE = 50						//テクスチャ
 	SYNTHETIC = 0						//合成
 	TEXMOVE = 0.011 0.011					//テクスチャ移動
@@ -456,4 +456,51 @@ EFFECTSTATE3D
 	TEXANIMCOUNT = -1					//テクスチャアニメーションカウント
 	TEXSPLIT = 1 1					//テクスチャ分割数
 END_EFFECTSTATE3D
+
+#========================================================================
+#エフェクトパターン Bホールボール 17
+#メモ：(このエフェクトの使い道等、書いてください)
+#========================================================================
+EFFECTSTATE3D
+	PATTERN = 6				//動きのパターン
+	SIZE = 0						//大きさ
+	ADDSIZE = 0.5					//大きさ変動
+	ROTATE = 0.00						//回転
+	VTX = 10						//頂点数
+	TYPE = 0					//球(0)or半球(1)
+	POS = 0.0 0.0 0.0			//出現位置
+	COLOR = 85 255 85 85			//カラー
+	CHANGECOLOR = 0 0 0 0			//カラー変動値
+	LIFE = 200						//ライフ
+	TEXTURE = -1						//テクスチャ
+	SYNTHETIC = 1						//合成
+	TEXMOVE = -0.000 0.000					//テクスチャ移動
+	TEXNUM = 1.0 					//テクスチャ枚数
+	TEXANIMCOUNT = -1					//テクスチャアニメーションカウント
+	TEXSPLIT = 1 1					//テクスチャ分割数
+END_EFFECTSTATE3D
+
+#========================================================================
+#エフェクトパターン Bホールサンダー 18
+#メモ：(このエフェクトの使い道等、書いてください)
+#========================================================================
+EFFECTSTATE3D
+	PATTERN = 6				//動きのパターン
+	SIZE = 3						//大きさ
+	ADDSIZE = 0.5					//大きさ変動
+	ROTATE = 0.00						//回転
+	VTX = 10						//頂点数
+	TYPE = 0					//球(0)or半球(1)
+	POS = 0.0 0.0 0.0			//出現位置
+	COLOR = 255 255 255 255			//カラー
+	CHANGECOLOR = 0 0 0 0			//カラー変動値
+	LIFE = 200						//ライフ
+	TEXTURE = 51						//テクスチャ
+	SYNTHETIC = 1						//合成
+	TEXMOVE = 0.005 -0.003					//テクスチャ移動
+	TEXNUM = 1.0 					//テクスチャ枚数
+	TEXANIMCOUNT = -1					//テクスチャアニメーションカウント
+	TEXSPLIT = 1 1					//テクスチャ分割数
+END_EFFECTSTATE3D
+
 END_SCRIPT

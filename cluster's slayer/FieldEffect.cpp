@@ -243,7 +243,7 @@ void CFieldEffect::Update()
 			m_FieldTimedelta++;
 			if (m_FieldTimedelta >= m_FieldTime)
 			{
-				CPresetEffect::SetEffect3D(m_CreatePreset, m_pos, {}, {}, false);
+				CPresetEffect::SetEffect3D(m_CreatePreset, m_pos, {}, D3DXVECTOR3(170.0f, 0.0f, 170.0f), false);
 				m_FieldTimedelta = 0;
 			}
 		}
