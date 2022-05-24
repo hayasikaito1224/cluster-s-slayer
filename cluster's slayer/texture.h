@@ -74,7 +74,7 @@ public:
 		CycleEffect,	//わっかエフェクト
 		TrgetLock,	//ミサイル着弾地点エフェクト
 		Explosion,	//爆発ドーム
-		ClickEffect,	//クリック
+		Thunder,	//サンダー
 		Max,			// テクスチャの最大数
 	} Type;
 

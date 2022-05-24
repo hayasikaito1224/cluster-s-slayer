@@ -108,8 +108,8 @@ void CTexture::Init(void)
 		&m_pTexture[Explosion]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/CycleEffect01.png",//クリック
-		&m_pTexture[ClickEffect]);
+		"data/TEXTURE/Thunder3.png",//サンダー
+		&m_pTexture[Thunder]);
 
 
 	//テクスチャの読み込み
