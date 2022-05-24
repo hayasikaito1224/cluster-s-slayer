@@ -12,6 +12,9 @@
 #include "player.h"
 #include "Renderer.h"
 #include "letter.h"
+
+#include "PresetSetEffect.h"
+
 static const float IconSize = 50.0f;//アイコンの大きさ
 static const float TextSize = 15.0f;//アイコンの大きさ
 static const float TextInterval = 17.0f;//アイコンの大きさ
@@ -308,6 +311,7 @@ void CSkillSelectBottom::SelectBottom()
 		//選択している状態で左クリックをすると決定状態にする
 		if (pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
 		{
+			CPresetEffect::SetEffect2D(0, D3DXVECTOR3(MousePos_X, MousePos_Y, 0.0f), {});
 			m_bIsDecision = true;
 		}
 	}

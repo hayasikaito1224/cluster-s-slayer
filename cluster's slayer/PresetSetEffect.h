@@ -11,7 +11,7 @@
 // マクロ
 //*****************************************************************************
 #define MAX_EFFECTPATTERN_2D (8)
-#define MAX_EFFECTPATTERN_3D (16)
+#define MAX_EFFECTPATTERN_3D (24)
 
 
 #define MAX_ORDER_3D (8)
@@ -184,6 +184,8 @@ public:
 	static CPresetEffect *CreateOrderMenu(int nDeley, int nPresetNum, int nOrder[MAX_ORDER_3D]);
 
 	static void ResetPattern() { m_nEffectPattern = 0; }
+	static void ResetPattern2d() { m_nEffectPattern2d = 0; }
+
 	static void ResetOrder() { m_nMaxOrderCount = 0; }
 
 	HRESULT Init();
@@ -198,6 +200,7 @@ private:
 	static ORDER_PRESET m_Order3D[MAX_ORDER_3D][MAX_ORDER_3D];
 
 	static int m_nEffectPattern;	//複数のやつ読み込めるようにするやつ
+	static int m_nEffectPattern2d;	//複数のやつ読み込めるようにするやつ
 
 	static int m_nMaxOrderCount;	//呼び出す最大数カウント
 

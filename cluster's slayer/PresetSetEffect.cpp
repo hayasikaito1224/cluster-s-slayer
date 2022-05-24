@@ -30,6 +30,8 @@
 // 静的
 //***************************************************************************** 
 int CPresetEffect::m_nEffectPattern = 0;
+int CPresetEffect::m_nEffectPattern2d = 0;
+
 int CPresetEffect::m_nMaxOrderCount = 0;	//呼び出す最大数カウント
 
 CPresetEffect::EFFECT_STATE2D CPresetEffect::m_EffectState2D[MAX_EFFECTPATTERN_2D] = {};
@@ -79,27 +81,27 @@ void CPresetEffect::SetEffectState2D(int nPattern,
 	int Synthetic,
 	int Texture)
 {
-	m_EffectState2D[m_nEffectPattern].m_nPattern = nPattern;
-	m_EffectState2D[m_nEffectPattern].m_pos = pos;
-	m_EffectState2D[m_nEffectPattern].m_fRotate = fRotate;
-	m_EffectState2D[m_nEffectPattern].m_move = move;
-	m_EffectState2D[m_nEffectPattern].m_Addmove = Addmove;
-	m_EffectState2D[m_nEffectPattern].m_nDiffusion = Diffusion;
-	m_EffectState2D[m_nEffectPattern].m_nDestroyvec = Destroyvec;
-	m_EffectState2D[m_nEffectPattern].m_fSize = fSize;
-	m_EffectState2D[m_nEffectPattern].m_fAddSize = fAddSize;
-	m_EffectState2D[m_nEffectPattern].m_Col = col;
-	m_EffectState2D[m_nEffectPattern].m_Changecolor = Changecolor;
-	m_EffectState2D[m_nEffectPattern].m_nLife = nLife;
-	m_EffectState2D[m_nEffectPattern].m_nDensity = nDensity;
-	m_EffectState2D[m_nEffectPattern].m_bColorRandR = bColorRandR;
-	m_EffectState2D[m_nEffectPattern].m_bColorRandG = bColorRandG;
-	m_EffectState2D[m_nEffectPattern].m_bColorRandB = bColorRandB;
-	m_EffectState2D[m_nEffectPattern].m_bMousePos = bMousePos;
-	m_EffectState2D[m_nEffectPattern].Synthetic = Synthetic;
-	m_EffectState2D[m_nEffectPattern].nTexture = Texture;
+	m_EffectState2D[m_nEffectPattern2d].m_nPattern = nPattern;
+	m_EffectState2D[m_nEffectPattern2d].m_pos = pos;
+	m_EffectState2D[m_nEffectPattern2d].m_fRotate = fRotate;
+	m_EffectState2D[m_nEffectPattern2d].m_move = move;
+	m_EffectState2D[m_nEffectPattern2d].m_Addmove = Addmove;
+	m_EffectState2D[m_nEffectPattern2d].m_nDiffusion = Diffusion;
+	m_EffectState2D[m_nEffectPattern2d].m_nDestroyvec = Destroyvec;
+	m_EffectState2D[m_nEffectPattern2d].m_fSize = fSize;
+	m_EffectState2D[m_nEffectPattern2d].m_fAddSize = fAddSize;
+	m_EffectState2D[m_nEffectPattern2d].m_Col = col;
+	m_EffectState2D[m_nEffectPattern2d].m_Changecolor = Changecolor;
+	m_EffectState2D[m_nEffectPattern2d].m_nLife = nLife;
+	m_EffectState2D[m_nEffectPattern2d].m_nDensity = nDensity;
+	m_EffectState2D[m_nEffectPattern2d].m_bColorRandR = bColorRandR;
+	m_EffectState2D[m_nEffectPattern2d].m_bColorRandG = bColorRandG;
+	m_EffectState2D[m_nEffectPattern2d].m_bColorRandB = bColorRandB;
+	m_EffectState2D[m_nEffectPattern2d].m_bMousePos = bMousePos;
+	m_EffectState2D[m_nEffectPattern2d].Synthetic = Synthetic;
+	m_EffectState2D[m_nEffectPattern2d].nTexture = Texture;
 
-	m_nEffectPattern++;
+	m_nEffectPattern2d++;
 }
 
 //=============================================================================
@@ -204,7 +206,7 @@ void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 {
 	switch (m_EffectState2D[nPattern].m_nPattern)
 	{
-	case(1):
+	case(0):
 		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
 		{
 			//各色のランダム化
@@ -239,7 +241,7 @@ void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 				m_EffectState2D[nPattern].Synthetic);
 		}
 		break;
-	case(2):
+	case(1):
 		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
 		{
 			//出現位置が自分の位置か
@@ -273,7 +275,7 @@ void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 				m_EffectState2D[nPattern].Synthetic);
 		}
 		break;
-	case(3):
+	case(2):
 		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
 		{
 
@@ -303,7 +305,7 @@ void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 				m_EffectState2D[nPattern].Synthetic);
 		}
 		break;
-	case(4):
+	case(3):
 		for (int nCnt = 0; nCnt < m_EffectState2D[nPattern].m_nDensity; nCnt++)
 		{
 

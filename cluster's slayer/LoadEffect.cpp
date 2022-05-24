@@ -463,6 +463,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	}
 	fclose(pFile);
 	CPresetEffect::ResetPattern();
+	CPresetEffect::ResetPattern2d();
+
 }
 
 

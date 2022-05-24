@@ -63,6 +63,8 @@ void CMovement::Update()
 
 	pos += D3DXVECTOR3(m_move.x, m_move.y, 0.0f);
 
+	m_Size += m_MinSize;
+
 	//“K‰ž
 	CScene2D::SetPos(pos, D3DXVECTOR3(m_Size.x, m_Size.y, 0.0f));
 

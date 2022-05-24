@@ -6,6 +6,7 @@
 #include "Effect2d.h"
 #include "manager.h"
 #include "Renderer.h"
+#include "texture.h"
 
 //*****************************************************************************
 //コンストラクタ
@@ -30,7 +31,7 @@ CEffect2d::~CEffect2d()
 HRESULT CEffect2d::Init(D3DXVECTOR3 pos, D3DCOLORVALUE color, D3DCOLORVALUE Mincolor, D3DXVECTOR2 Size, D3DXVECTOR2 MinSize, int nLife, int nType,int Synthetic)
 {
 	CScene2D::Init();
-	CScene2D::BindTexture(CTexture::Effect);		//テクスチャ貼り付け
+	CScene2D::BindTexture((CTexture::Type)nType);		//テクスチャ貼り付け
 
 	m_Color = color;
 	m_MinColor = Mincolor;
@@ -81,7 +82,6 @@ void CEffect2d::Update()
 	{
 		m_bUninit = true;
 	}
-
 
 	//高さか幅が0になったら
 	if (m_Size.x < 0 || m_Size.y < 0)
@@ -135,7 +135,7 @@ void CEffect2d::Update()
 	{
 		m_Color.a = 255;
 	}
-	SetCol(m_Color);
+	ColorChange(m_Color);
 
 	//破棄
 	if (m_bUninit == true)

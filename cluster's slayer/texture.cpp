@@ -106,6 +106,10 @@ void CTexture::Init(void)
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/Explosion.png",//爆発ドームエフェクト
 		&m_pTexture[Explosion]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/CycleEffect01.png",//クリック
+		&m_pTexture[ClickEffect]);
 
 
 	//テクスチャの読み込み
