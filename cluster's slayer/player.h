@@ -82,6 +82,7 @@ public:
 	bool IsNearEnemyState();//今何の敵が近くにいるかを算出
 	D3DXVECTOR3 GetPos(void) { return m_pos; }
 	bool GetCanRushAttack() { return m_bCanRushAttack; }
+	int GetSkillLevel(int nSkillType);
 private:
 	void WeaponSet(const char *pcFileName);//武器のセット
 	void FollowingPlayerCamera();//カメラがプレイヤーに追従する処理
@@ -125,6 +126,7 @@ private:
 	float m_fAutoHeel;//オートヒール量
 	float m_fMaxExpDiameter;//最大経験値の倍率
 	float m_fMaxExp;//最大経験値
+	int m_BlackHoleLevel;
 	int m_nMissileCnt;
 	int m_nRushStartCnt;//追撃開始までのカウント
 	int m_nBlackHoleCnt;

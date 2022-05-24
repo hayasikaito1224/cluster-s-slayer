@@ -35,7 +35,8 @@ public:
 		D3DXVECTOR2 MinSize,
 		int nLife, int nType,
 		D3DXVECTOR3 AddMovement,
-		int Synthetic);
+		int Synthetic,
+		const int& nPriorty = OBJTYPE_EFFECT);
 private:
 	D3DXVECTOR3 m_move;			//à⁄ìÆ
 	D3DXVECTOR3 m_Addpos;		//äµê´

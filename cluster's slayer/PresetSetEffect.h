@@ -172,7 +172,7 @@ public:
 	} ORDER_PRESET;
 
 
-	static void SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos);
+	static void SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos,const int& nPriorty = OBJTYPE_EFFECT);
 	static void SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, D3DXVECTOR3 Size, bool bPosTaget);
 
 	void SetOrderPreset(int nDeley, int nPresetNum);

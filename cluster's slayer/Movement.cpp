@@ -90,10 +90,11 @@ CMovement *CMovement::Create(D3DXVECTOR3 pos,
 	D3DXVECTOR2 MinSize,
 	int nLife, int nType,
 	D3DXVECTOR3 AddMovement,
-	int Synthetic)
+	int Synthetic,
+	const int& nPriorty)
 {
 	CMovement *pMovement = NULL;
-	pMovement = new CMovement(CScene::OBJTYPE_EFFECT);		//メモリ確保
+	pMovement = new CMovement((CScene::OBJTYPE)nPriorty);		//メモリ確保
 
 	//NULLチェック
 	if (pMovement != NULL)

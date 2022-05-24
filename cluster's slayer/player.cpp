@@ -82,7 +82,7 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_bCanMissile = false;
 	m_pMissile = nullptr;
 	m_bCanAssistCrystal = false;
-
+	m_BlackHoleLevel = -1;
 }
 
 CPlayer::~CPlayer()
@@ -336,9 +336,15 @@ void CPlayer::KeyboardMove()
 
 
 	}
+	//テストキー
 	if (Key->GetTrigger(DIK_R) == true)
 	{
-		m_bCanMissile = true;
+		m_bCanBlackHole = true;
+		m_BlackHoleLevel++;
+		if (m_BlackHoleLevel >= CBlackHole::Level_MAX)
+		{
+			m_BlackHoleLevel = CBlackHole::Level_MAX;
+		}
 	}
 	//前に進む
 	if (Key->GetPress(DIK_A) == true)
@@ -760,6 +766,11 @@ void CPlayer::LevelUp(int nType)
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
+		m_BlackHoleLevel++;
+		if (m_BlackHoleLevel >= CBlackHole::Level_MAX)
+		{
+			m_BlackHoleLevel = CBlackHole::Level_MAX;
+		}
 		break;
 	case Rocket:
 		m_bCanMissile = true;
@@ -1031,6 +1042,10 @@ void CPlayer::EachSkillManager()
 	{
 		m_nTimer++;
 
+		if (m_nTimer % 8 == 0)
+		{
+			CPresetEffect::SetEffect3D(16, m_pos, {}, {}, {});	//リジェネ
+		}
 		if (m_nTimer >= 60)
 		{
 			m_nTimer = 0;
@@ -1039,8 +1054,8 @@ void CPlayer::EachSkillManager()
 			{
 				CManager::GetGame()->GetHPGauge()->SetGauge(-m_fAutoHeel, 0);
 			}
+
 		}
-		CPresetEffect::SetEffect3D(16, m_pos, {}, {}, {});	//リジェネ
 
 	}
 	//ブラックホール
@@ -1050,7 +1065,7 @@ void CPlayer::EachSkillManager()
 		if (m_nBlackHoleCnt >= BlackHoleShotTime)
 		{
 			m_nBlackHoleCnt = 0;
-			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy);
+			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy, m_BlackHoleLevel);
 		}
 
 	}
@@ -1091,6 +1106,36 @@ void CPlayer::AttackMove(float fMoveVolume)
 {
 	m_pos.x -= sinf(m_rot.y)*fMoveVolume;
 	m_pos.z -= cosf(m_rot.y)*fMoveVolume;
+}
+int CPlayer::GetSkillLevel(int nSkillType)
+{
+	switch (nSkillType)
+	{
+	case CPlayer::ATKup:
+		break;
+	case CPlayer::Eye:
+		break;
+	case CPlayer::Heal:
+		break;
+	case CPlayer::OverHeal:
+		break;
+	case CPlayer::Sheild:
+		break;
+	case CPlayer::Beam:
+		break;
+	case CPlayer::BlackHole:
+		return m_BlackHoleLevel;
+		break;
+	case CPlayer::Rocket:
+		break;
+	case CPlayer::RushAttack:
+		break;
+	case CPlayer::Skill_Max:
+		break;
+
+	}
+	return 0;
+
 }
 //-----------------------------------------------
 //武器のセット

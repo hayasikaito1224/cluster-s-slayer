@@ -202,7 +202,7 @@ void CPresetEffect::SetEffectState3D(
 //=============================================================================
 // åƒÇŒÇÍÇΩï®ÇåƒÇ—èoÇ∑Ç‚Ç¬2D
 //=============================================================================
-void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos)
+void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, const int& nPriorty)
 {
 	switch (m_EffectState2D[nPattern].m_nPattern)
 	{
@@ -238,7 +238,8 @@ void CPresetEffect::SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpo
 				D3DXVECTOR2(m_EffectState2D[nPattern].m_fAddSize, m_EffectState2D[nPattern].m_fAddSize),
 				m_EffectState2D[nPattern].m_nLife, m_EffectState2D[nPattern].nTexture,
 				m_EffectState2D[nPattern].m_Addmove,
-				m_EffectState2D[nPattern].Synthetic);
+				m_EffectState2D[nPattern].Synthetic,
+				nPriorty);
 		}
 		break;
 	case(1):

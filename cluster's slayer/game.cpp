@@ -35,6 +35,7 @@
 #include "stage_preset_data.h"
 #include <time.h>
 #include "gametimer.h"
+#include "skill_leveldata.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -147,6 +148,8 @@ HRESULT CGame::Init(void)
 	{
 		m_pEnemySpawnManager = CEnemySpawnManager::Create();
 	}
+	//スキルのステータスの読み込み
+	CSkill_LevelData::Create();
 	////目的表示
 	//CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 40.0f, 0.0f),
 	//	D3DXVECTOR3(210.0f, 20.0f, 0.0f), CTexture::TargetText);

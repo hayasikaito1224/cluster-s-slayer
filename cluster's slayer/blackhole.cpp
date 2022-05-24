@@ -7,6 +7,7 @@
 #include "Particle.h"
 #include "enemy.h"
 #include "PresetSetEffect.h"
+#include "skill_leveldata.h"
 static const float MoveSpeedMax = 4.0f;
 static const float MoveSpeedMin = 2.0f;
 static const float HoleSpeed = 1.5f;
@@ -34,6 +35,8 @@ CBlackHole::~CBlackHole()
 //--------------------------------------------
 HRESULT CBlackHole::Init(void)
 {
+	m_State.m_fArea = CSkill_LevelData::GetStateBlackHole(m_nLevel).m_fArea;
+	m_State.m_HoleExpansionTime = CSkill_LevelData::GetStateBlackHole(m_nLevel).m_HoleExpansionTime;
 	return S_OK;
 }
 //--------------------------------------------
@@ -62,12 +65,13 @@ void CBlackHole::Update(void)
 	{
 		m_nDeleteTimer = 0;
 		m_bHoleExpansion = true;
-		CPresetEffect::SetEffect3D(0, m_pos, {}, D3DXVECTOR3(20.0f, 0.0f, 20.0f), false);
-		CPresetEffect::SetEffect3D(17, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(20.0f, 0.0f, 20.0f), false);
-		CPresetEffect::SetEffect3D(18, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(20.0f, 0.0f, 20.0f), false);
+		float fSize = m_State.m_fArea;
+		CPresetEffect::SetEffect3D(0, m_pos, {}, D3DXVECTOR3(fSize, 0.0f, fSize), false);
+		CPresetEffect::SetEffect3D(17, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(fSize, 0.0f, fSize), false);
+		CPresetEffect::SetEffect3D(18, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(fSize, 0.0f, fSize), false);
 
 	}
-	else if (m_nDeleteTimer >= DeleteTime && m_bHoleExpansion)
+	if (m_nDeleteTimer >= m_State.m_HoleExpansionTime && m_bHoleExpansion)
 	{
 		m_bUninit = true;
 	}
@@ -129,7 +133,7 @@ void CBlackHole::Suction()
 			int nSize = pEnemy->GetParts().size();
 			if (nSize != 0)
 			{
-				pEnemy->HoleAlign(m_pos, HoleArea, HoleSpeed);
+				pEnemy->HoleAlign(m_pos, m_State.m_fArea, HoleSpeed);
 			}
 
 		}
@@ -166,7 +170,7 @@ void CBlackHole::Head()
 //--------------------------------------------
 //•`‰æ
 //--------------------------------------------
-CBlackHole * CBlackHole::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CEnemy *pEnemy)
+CBlackHole * CBlackHole::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CEnemy *pEnemy, const int& nLevel)
 {
 	CBlackHole *pRushAttack = NULL;
 	pRushAttack = new CBlackHole(OBJTYPE_EFFECT);
@@ -179,6 +183,7 @@ CBlackHole * CBlackHole::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CEnemy *pEnemy
 	pRushAttack->m_fMoveSpeed = randpeed(mt);
 	pRushAttack->m_rot = rot;
 	pRushAttack->m_pEnemyData = pEnemy;
+	pRushAttack->m_nLevel = nLevel;
 	pRushAttack->Init();
 
 	return pRushAttack;
