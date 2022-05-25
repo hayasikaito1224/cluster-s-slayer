@@ -10,17 +10,12 @@
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\effect2d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\letter.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\MouseTracking.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\Movement.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Rotate.cpp" />
     <ClCompile Include="3Dpolygon.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\Sphere.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp" />
     <ClCompile Include="damage_collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\directinput.cpp" />
     <ClCompile Include="..\cluster%27s slayer\effect.cpp" />
@@ -31,7 +26,6 @@
     <ClCompile Include="..\cluster%27s slayer\exp_ball.cpp" />
     <ClCompile Include="..\cluster%27s slayer\fade.cpp" />
     <ClCompile Include="..\cluster%27s slayer\field.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\frame.cpp" />
     <ClCompile Include="..\cluster%27s slayer\game.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gauge.cpp" />
@@ -41,7 +35,6 @@
     <ClCompile Include="..\cluster%27s slayer\keyboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\layer_structure.cpp" />
     <ClCompile Include="..\cluster%27s slayer\light.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\main.cpp" />
     <ClCompile Include="..\cluster%27s slayer\manager.cpp" />
     <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp" />
@@ -55,7 +48,6 @@
     <ClCompile Include="..\cluster%27s slayer\plane.cpp" />
     <ClCompile Include="..\cluster%27s slayer\player.cpp" />
     <ClCompile Include="..\cluster%27s slayer\polygon.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\result.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Rotate3d.cpp" />
@@ -85,6 +77,7 @@
     <ClCompile Include="..\cluster%27s slayer\skill_leveldata.cpp">
       <Filter>NewFilter1</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp">
       <Filter>NewFilter1\スキル</Filter>
     </ClCompile>
@@ -102,6 +95,31 @@
     </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
       <Filter>NewFilter1\スキル</Filter>
+=======
+    <ClCompile Include="..\cluster%27s slayer\LoadEffect.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\effect2d.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\FieldEffect.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\MouseTracking.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\Movement.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\Sphere.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\PresetSetEffect.cpp">
+      <Filter>Effect</Filter>
+>>>>>>> ce0eb35540f0dfe04447981a7701207575c4660a
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +135,6 @@
     <ClInclude Include="..\cluster%27s slayer\damage_collision.h" />
     <ClInclude Include="..\cluster%27s slayer\directinput.h" />
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
-    <ClInclude Include="..\cluster%27s slayer\effect2d.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy_goblin.h" />
@@ -125,7 +142,6 @@
     <ClInclude Include="..\cluster%27s slayer\exp_ball.h" />
     <ClInclude Include="..\cluster%27s slayer\fade.h" />
     <ClInclude Include="..\cluster%27s slayer\field.h" />
-    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\frame.h" />
     <ClInclude Include="..\cluster%27s slayer\game.h" />
     <ClInclude Include="..\cluster%27s slayer\gametimer.h" />
@@ -137,7 +153,6 @@
     <ClInclude Include="..\cluster%27s slayer\layer_structure.h" />
     <ClInclude Include="..\cluster%27s slayer\letter.h" />
     <ClInclude Include="..\cluster%27s slayer\light.h" />
-    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\main.h" />
     <ClInclude Include="..\cluster%27s slayer\manager.h" />
     <ClInclude Include="..\cluster%27s slayer\map_polygon.h" />
@@ -147,8 +162,6 @@
     <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
-    <ClInclude Include="..\cluster%27s slayer\MouseTracking.h" />
-    <ClInclude Include="..\cluster%27s slayer\Movement.h" />
     <ClInclude Include="..\cluster%27s slayer\Rotate.h" />
     <ClInclude Include="3Dpolygon.h" />
     <ClInclude Include="..\cluster%27s slayer\number.h" />
@@ -157,7 +170,6 @@
     <ClInclude Include="..\cluster%27s slayer\plane.h" />
     <ClInclude Include="..\cluster%27s slayer\player.h" />
     <ClInclude Include="..\cluster%27s slayer\Polygon.h" />
-    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
     <ClInclude Include="..\cluster%27s slayer\result.h" />
     <ClInclude Include="..\cluster%27s slayer\Rotate3d.h" />
@@ -170,8 +182,6 @@
     <ClInclude Include="..\cluster%27s slayer\skillselect.h" />
     <ClInclude Include="..\cluster%27s slayer\smallscore.h" />
     <ClInclude Include="..\cluster%27s slayer\sound.h" />
-    <ClInclude Include="..\cluster%27s slayer\Sphere.h" />
-    <ClInclude Include="..\cluster%27s slayer\SphereEffect.h" />
     <ClInclude Include="..\cluster%27s slayer\stage.h" />
     <ClInclude Include="..\cluster%27s slayer\stage_preset.h" />
     <ClInclude Include="..\cluster%27s slayer\stage_preset_data.h" />
@@ -189,6 +199,7 @@
     <ClInclude Include="..\cluster%27s slayer\skill_leveldata.h">
       <Filter>NewFilter1</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\cluster%27s slayer\assistcrystal.h">
       <Filter>NewFilter1\スキル</Filter>
     </ClInclude>
@@ -206,14 +217,44 @@
     </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\rushattack.h">
       <Filter>NewFilter1\スキル</Filter>
+=======
+    <ClInclude Include="..\cluster%27s slayer\LoadEffect.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\effect2d.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\FieldEffect.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\MouseTracking.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\Movement.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\Sphere.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\SphereEffect.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\PresetSetEffect.h">
+      <Filter>Effect</Filter>
+>>>>>>> ce0eb35540f0dfe04447981a7701207575c4660a
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NewFilter1">
       <UniqueIdentifier>{a9b12d67-4b22-414b-a895-f0114576b679}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="NewFilter1\スキル">
       <UniqueIdentifier>{fa17c135-1773-46bc-81f6-21c1116e415b}</UniqueIdentifier>
+=======
+    <Filter Include="Effect">
+      <UniqueIdentifier>{62fbd191-673a-437f-93b4-af6f11d02b67}</UniqueIdentifier>
+>>>>>>> ce0eb35540f0dfe04447981a7701207575c4660a
     </Filter>
   </ItemGroup>
 </Project>
