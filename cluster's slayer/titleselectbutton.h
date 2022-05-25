@@ -8,7 +8,7 @@
 class CPolygon;
 class CFrame;
 
-class CTitleSelectButton : public CScene2D
+class CTitleSelectButton : public CScene
 {
 public:
 	CTitleSelectButton(OBJTYPE nPriority = OBJTYPE_UI);
@@ -17,10 +17,12 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	static CTitleSelectButton *Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, const int& tex);
+	static CTitleSelectButton *Create(const D3DXVECTOR3& pos, 
+		const D3DXVECTOR3& size, const int& tex,const bool& bAlphaDown = false);
 	void PopSelectBottom();
+	void AlphaDowntBottom();
+
 	void SelectBottom();
-	void SetCol(D3DXCOLOR col);
 	void SetEnd(bool bEnd) { m_bEnd = bEnd; }
 	//ëIëèÛë‘ê›íË
 	void SetSelect(bool bSelect) { m_bIsSelect = bSelect; }
@@ -36,6 +38,7 @@ private:
 	bool m_bIsSelect;//åªç›ëIëÇµÇƒÇ¢ÇÈÇ©
 	bool m_bIsDecision;//åªç›åàíËÇµÇƒÇ¢ÇÈÇ©
 	bool m_bPopSelectBottom;
+	bool m_bCanAlphaDown;
 	bool m_bEnd;//èIóπîªíË
 };
 

@@ -16,12 +16,13 @@ static const D3DXVECTOR3 IconPos = { 10.0f,-50.0f,0.0f };//アイコンの位置
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
-CTitleSelectButton::CTitleSelectButton(OBJTYPE nPriority) :CScene2D(nPriority)
+CTitleSelectButton::CTitleSelectButton(OBJTYPE nPriority) :CScene(nPriority)
 {
 	pSelectBottom = nullptr;
 	m_bPopSelectBottom = true;
 	m_bIsSelect = false;
 	pFrame = nullptr;
+	m_bCanAlphaDown = false;
 }
 //--------------------------------------------
 //デストラクタ
@@ -67,6 +68,11 @@ void CTitleSelectButton::Update(void)
 	{
 		SelectBottom();
 	}
+	if (m_bCanAlphaDown)
+	{
+		AlphaDowntBottom();
+	}
+
 	//終了判定がオンなら
 	if (m_bEnd)
 	{
@@ -85,7 +91,8 @@ void CTitleSelectButton::Draw()
 //-----------------------------------------------
 //インスタンス生成
 //---------------------------------------------
-CTitleSelectButton *CTitleSelectButton::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, const int& tex)
+CTitleSelectButton *CTitleSelectButton::Create(const D3DXVECTOR3& pos,
+	const D3DXVECTOR3& size, const int& tex, const bool& bAlphaDown)
 {
 	CTitleSelectButton *pSkillSelect = new CTitleSelectButton(OBJTYPE_UI);
 	if (pSkillSelect)
@@ -95,7 +102,11 @@ CTitleSelectButton *CTitleSelectButton::Create(const D3DXVECTOR3& pos, const D3D
 			//スキル選択画面画像の生成
 			pSkillSelect->pSelectBottom = CPolygon::Create(pos, size, (CTexture::Type)tex, { 1.0,1.0,1.0,1.0f });
 		}
-
+		pSkillSelect->m_bCanAlphaDown = bAlphaDown;
+		if (pSkillSelect->m_bCanAlphaDown)
+		{
+			pSkillSelect->m_bPopSelectBottom = false;
+		}
 		pSkillSelect->Init();
 	}
 
@@ -122,6 +133,31 @@ void CTitleSelectButton::PopSelectBottom()
 			m_bPopSelectBottom = false;
 		}
 	}
+}
+//-----------------------------------------------
+//ボタンのカラー値を下げる
+//---------------------------------------------
+void CTitleSelectButton::AlphaDowntBottom()
+{
+
+	if (pSelectBottom)
+	{
+		D3DXCOLOR col = pSelectBottom->GetColor();
+		D3DXVECTOR3 pos = pSelectBottom->GetPos();
+		//不透明から半透明になる処理
+		if (col.r >= 0.25f)
+		{
+			col.r -= 0.05f;
+			col.g -= 0.05f;
+			col.b -= 0.05f;
+			pSelectBottom->SetCol(col);
+		}
+		else
+		{
+			m_bCanAlphaDown = false;
+		}
+	}
+
 }
 //-----------------------------------------------
 //スキル選択ボタンの選択処理
@@ -176,14 +212,3 @@ void CTitleSelectButton::SelectBottom()
 		}
 	}
 }
-//-----------------------------------------------
-//色の設定
-//---------------------------------------------
-void CTitleSelectButton::SetCol(D3DXCOLOR col)
-{
-	if (pSelectBottom)
-	{
-		pSelectBottom->SetCol(col);
-	}
-}
-

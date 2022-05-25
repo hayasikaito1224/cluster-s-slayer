@@ -23,6 +23,8 @@ CGameMenu::CGameMenu()
 	{
 		pButton[nCnt] = nullptr;
 	}
+
+	pTextWindow = nullptr;
 }
 //--------------------------------------------
 //デストラクタ
@@ -44,12 +46,13 @@ HRESULT CGameMenu::Init(void)
 	CBg::Create(CTexture::GAUGEBER, CScene::OBJTYPE_BG, false);	//背景
 
 	int line = 0;
-	D3DXVECTOR3 SkillPos = D3DXVECTOR3(115.0f, SCREEN_HEIGHT / 2 - 150, 0.0f);
+	D3DXVECTOR3 SkillPos = D3DXVECTOR3(115.0f, SCREEN_HEIGHT / 2 - 200.0f, 0.0f);
 	D3DXVECTOR3 SkillSize = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
 
 	for (int nCnt = 0; nCnt < MENUBUTTON_MAX; nCnt++)
 	{
 		line++;
+		bool bHaveSkill = false;
 
 		switch (nCnt)
 		{
@@ -62,13 +65,19 @@ HRESULT CGameMenu::Init(void)
 		case CPlayer::BlackHole:
 		case CPlayer::Rocket:
 		case CPlayer::RushAttack:
-			pButton[nCnt] = CTitleSelectButton::Create(SkillPos, SkillSize, CTexture::ATKup + nCnt);
+
+			if (!CSaveData::GetHaveSkill(nCnt))
+			{
+				bHaveSkill = true;
+			}
+
+			pButton[nCnt] = CTitleSelectButton::Create(SkillPos, SkillSize, CTexture::ATKup + nCnt, !bHaveSkill);
 
 			break;
 
 		case MENUBUTTON_GAME_START:
 			pButton[nCnt] = CTitleSelectButton::Create(
-				D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 250, SCREEN_HEIGHT / 2.0f, 0.0f),
+				D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 250, SCREEN_HEIGHT / 2.0f - 75.0f, 0.0f),
 				D3DXVECTOR3(SCREEN_WIDTH / 5.0f, SCREEN_HEIGHT / 5.0f, 0.0f),
 				CTexture::Text);
 
@@ -76,8 +85,8 @@ HRESULT CGameMenu::Init(void)
 
 		case MENUBUTTON_RETURN_TO_TITLE:
 			pButton[nCnt] = CTitleSelectButton::Create(
-				D3DXVECTOR3(SCREEN_WIDTH - (SCREEN_WIDTH / 4.0f), SCREEN_HEIGHT - (SCREEN_HEIGHT / 8.0f), 0.0f),
-				D3DXVECTOR3(SCREEN_WIDTH / 8.0f, SCREEN_HEIGHT / 16.0f, 0.0f),
+				D3DXVECTOR3(SCREEN_WIDTH - 200.0f, SCREEN_HEIGHT - (SCREEN_HEIGHT / 8.0f), 0.0f),
+				D3DXVECTOR3(SCREEN_WIDTH / 10.0f, SCREEN_HEIGHT / 20.0f, 0.0f),
 				CTexture::Text);
 
 			break;
@@ -85,6 +94,8 @@ HRESULT CGameMenu::Init(void)
 		default:
 			break;
 		}
+
+		pTextWindow = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f - 180.0f, SCREEN_HEIGHT - (SCREEN_HEIGHT / 6.0f), 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8.0f, 0.0f), CTexture::Text);
 
 		SkillPos.x += 115.0f;
 

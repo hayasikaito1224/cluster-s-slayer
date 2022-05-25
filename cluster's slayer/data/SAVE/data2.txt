@@ -1,0 +1,7 @@
+ClearPercent=0
+HaveMoney=0
+Skill=0
+Skill=3
+Skill=5
+Skill=6
+

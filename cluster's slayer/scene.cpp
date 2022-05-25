@@ -112,8 +112,8 @@ void CScene::UpdateAll(void)
 						{
 							m_pUpdate->Update();
 						}
-							m_pUpdate = m_pUpdate->m_pNext;
 
+						m_pUpdate = m_pUpdate->m_pNext;
 					}
 				}
 			}
@@ -130,6 +130,7 @@ void CScene::UpdateAll(void)
 		{
 			//次のデータが消えないように保存
 			m_pDeleteUpdate = m_pUpdate->m_pNext;
+
 			//死亡フラグが立っていたら
 			if (m_pUpdate->m_bDath == true)
 			{
