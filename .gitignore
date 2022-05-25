@@ -5,4 +5,8 @@ cluster's slayer.VC.db
 /cluster's slayer/cluster's slayer.VC.db
 /cluster's slayer/.vs
 /ステージ配置ツール/3dStageEditor.VC.db
+<<<<<<< HEAD
 /cluster's slayer/cluster's slayer.vcxproj.filters
+=======
+/cluster's slayer/*.filters
+>>>>>>> 1f8eca1dee993be7bd48b470c79a37eb7736bd42
