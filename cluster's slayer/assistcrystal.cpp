@@ -10,6 +10,7 @@
 #include "assistcrystal_model.h"
 #include "player.h"
 #include "character.h"
+#include "skill_leveldata.h"
 static const float MoveSpeedMax = 4.0f;
 static const float MoveSpeedMin = 2.0f;
 static const float HoleSpeed = 1.5f;
@@ -33,6 +34,7 @@ CAssistCrystal::CAssistCrystal()
 //--------------------------------------------
 CAssistCrystal::~CAssistCrystal()
 {
+
 }
 
 //--------------------------------------------
@@ -40,9 +42,10 @@ CAssistCrystal::~CAssistCrystal()
 //--------------------------------------------
 HRESULT CAssistCrystal::Init(void)
 {
+	CAssistCrystal::State LevelState = CSkill_LevelData::GetStateAssistCrystal(m_nLevel);
 	if (!m_CrystalModel)
 	{
-		m_CrystalModel = CAssistCrystal_Model::Create({ 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f });
+		m_CrystalModel = CAssistCrystal_Model::Create({ 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f }, LevelState.m_fMoveSpeed, LevelState.m_nPower, LevelState.m_nLaunchInterval);
 	}
 	return S_OK;
 }
@@ -119,13 +122,14 @@ void CAssistCrystal::Draw()
 //--------------------------------------------
 //•`‰æ
 //--------------------------------------------
-CAssistCrystal * CAssistCrystal::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer)
+CAssistCrystal * CAssistCrystal::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer, const int& nLevel)
 {
 	CAssistCrystal *pRushAttack = NULL;
 	pRushAttack = new CAssistCrystal();
 	pRushAttack->m_pos = pos;
 	pRushAttack->m_fInstallationAngle = rot.y;
 	pRushAttack->m_pPlayer = pPlayer;
+	pRushAttack->m_nLevel = nLevel;
 	pRushAttack->Init();
 
 	return pRushAttack;

@@ -67,8 +67,8 @@ void CBullet::Update(void)
 	{
 		m_bUninit = true;
 	}
-	m_pos.x += sinf(m_rot.y)*MoveSpeed;
-	m_pos.z += cosf(m_rot.y)*MoveSpeed;
+	m_pos.x += sinf(m_rot.y)*m_fMoveSpeed;
+	m_pos.z += cosf(m_rot.y)*m_fMoveSpeed;
 
 	if (m_pBullet)
 	{
@@ -96,7 +96,7 @@ void CBullet::Update(void)
 				{
 					//“G‚É“–‚½‚Á‚½”»’è‚ð“n‚·
 					pEnemy->SetbDamage(true);
-					pEnemy->AddLife(-Power);
+					pEnemy->AddLife(-m_nPower);
 					m_bUninit = true;
 				}
 
@@ -153,12 +153,15 @@ void CBullet::Draw()
 //--------------------------------------------
 //•`‰æ
 //--------------------------------------------
-CBullet * CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CBullet * CBullet::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const float& fMoveSpeed, const int& nPower)
 {
 	CBullet *pRushAttack = NULL;
 	pRushAttack = new CBullet();
 	pRushAttack->m_pos = pos;
 	pRushAttack->m_rot = rot;
+	pRushAttack->m_fMoveSpeed = fMoveSpeed;
+	pRushAttack->m_nPower = nPower;
+
 	pRushAttack->Init();
 
 	return pRushAttack;

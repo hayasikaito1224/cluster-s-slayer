@@ -2,8 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\assistcrystal_model.cpp" />
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
@@ -14,7 +12,6 @@
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
     <ClCompile Include="..\cluster%27s slayer\effect2d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\guard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\letter.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp" />
@@ -49,7 +46,6 @@
     <ClCompile Include="..\cluster%27s slayer\manager.cpp" />
     <ClCompile Include="..\cluster%27s slayer\map_polygon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\meshsphere.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\model.cpp" />
     <ClCompile Include="..\cluster%27s slayer\model_spawner.cpp" />
     <ClCompile Include="..\cluster%27s slayer\motion.cpp" />
     <ClCompile Include="..\cluster%27s slayer\mouse.cpp" />
@@ -63,7 +59,6 @@
     <ClCompile Include="..\cluster%27s slayer\Renderer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\result.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Rotate3d.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\rushattack.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene.cpp" />
     <ClCompile Include="..\cluster%27s slayer\scene2D.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Scene3D.cpp" />
@@ -87,17 +82,30 @@
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="savedata.cpp" />
     <ClCompile Include="titleselectbutton.cpp" />
-    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
     <ClCompile Include="..\cluster%27s slayer\skill_leveldata.cpp">
       <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal_model.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\blackhole.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\guard.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\model.cpp">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster%27s slayer\rushattack.cpp">
+      <Filter>NewFilter1\スキル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\2Dnumber.h" />
-    <ClInclude Include="..\cluster%27s slayer\assistcrystal.h" />
-    <ClInclude Include="..\cluster%27s slayer\assistcrystal_model.h" />
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
@@ -123,7 +131,6 @@
     <ClInclude Include="..\cluster%27s slayer\gametimer.h" />
     <ClInclude Include="..\cluster%27s slayer\gauge.h" />
     <ClInclude Include="..\cluster%27s slayer\gaugeber.h" />
-    <ClInclude Include="..\cluster%27s slayer\guard.h" />
     <ClInclude Include="..\cluster%27s slayer\input.h" />
     <ClInclude Include="..\cluster%27s slayer\item.h" />
     <ClInclude Include="..\cluster%27s slayer\keyboard.h" />
@@ -137,7 +144,6 @@
     <ClInclude Include="..\cluster%27s slayer\meshsphere.h" />
     <ClInclude Include="..\cluster%27s slayer\missile.h" />
     <ClInclude Include="..\cluster%27s slayer\missile_bullet.h" />
-    <ClInclude Include="..\cluster%27s slayer\model.h" />
     <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
@@ -155,7 +161,6 @@
     <ClInclude Include="..\cluster%27s slayer\Renderer.h" />
     <ClInclude Include="..\cluster%27s slayer\result.h" />
     <ClInclude Include="..\cluster%27s slayer\Rotate3d.h" />
-    <ClInclude Include="..\cluster%27s slayer\rushattack.h" />
     <ClInclude Include="..\cluster%27s slayer\scene.h" />
     <ClInclude Include="..\cluster%27s slayer\scene2D.h" />
     <ClInclude Include="..\cluster%27s slayer\Scene3D.h" />
@@ -181,16 +186,34 @@
     <ClInclude Include="gamemenu.h" />
     <ClInclude Include="savedata.h" />
     <ClInclude Include="titleselectbutton.h" />
-    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
     <ClInclude Include="..\cluster%27s slayer\skill_leveldata.h">
       <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal_model.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\blackhole.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\guard.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\model.h">
+      <Filter>NewFilter1\スキル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cluster%27s slayer\rushattack.h">
+      <Filter>NewFilter1\スキル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NewFilter1">
       <UniqueIdentifier>{a9b12d67-4b22-414b-a895-f0114576b679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1\スキル">
+      <UniqueIdentifier>{fa17c135-1773-46bc-81f6-21c1116e415b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

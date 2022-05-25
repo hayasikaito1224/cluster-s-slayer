@@ -10,6 +10,7 @@
 #include "bullet.h"
 #include "game.h"	
 #include "player.h"
+
 const float MinPos = 10.0f;
 const float MaxPos = 13.0f;
 const float MoveSpeed = 0.05f;
@@ -28,6 +29,7 @@ CAssistCrystal_Model::CAssistCrystal_Model()
 	m_rot = { 0.0f,0.0f,0.0f };
 	m_bMoveDirection = true;
 	m_nBulletTimer = 0;
+	m_nLaunchInterval = TimerMax;
 }
 
 //--------------------------------------------
@@ -137,14 +139,14 @@ void CAssistCrystal_Model::Update(void)
 		m_BottomFrame->SetPos(pos);
 	}
 	m_nBulletTimer++;
-	if (m_nBulletTimer >= TimerMax)
+	if (m_nBulletTimer >= m_nLaunchInterval)
 	{
 		m_nBulletTimer = 0;
 		D3DXVECTOR3 Enemypos = CManager::GetGame()->GetPlayer()->GetNearEnemyPos();
 		D3DXVECTOR3 pos = { m_mtxWorld._41,m_mtxWorld._42 ,m_mtxWorld._43 };
 		D3DXVECTOR3 Vec = Enemypos - pos;
 		float rot = atan2f(Vec.x, Vec.z);
-		CBullet::Create({ m_mtxWorld._41,m_mtxWorld._42 ,m_mtxWorld._43 }, { 0.0,rot ,0.0 });
+		CBullet::Create({ m_mtxWorld._41,m_mtxWorld._42 ,m_mtxWorld._43 }, { 0.0,rot ,0.0 },m_fMoveSpeed,m_nPower);
 	}
 	if (m_bUninit)
 	{
@@ -203,12 +205,16 @@ void CAssistCrystal_Model::Draw()
 //--------------------------------------------
 //•`‰æ
 //--------------------------------------------
-CAssistCrystal_Model * CAssistCrystal_Model::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CAssistCrystal_Model * CAssistCrystal_Model::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot,
+	const float& fMoveSpeed, const int& nPower, const int& m_nInterval)
 {
 	CAssistCrystal_Model *pRushAttack = NULL;
 	pRushAttack = new CAssistCrystal_Model();
 	pRushAttack->m_pos = pos;
 	pRushAttack->m_rot = rot;
+	pRushAttack->m_fMoveSpeed = fMoveSpeed;
+	pRushAttack->m_nPower = nPower;
+	pRushAttack->m_nLaunchInterval = m_nInterval;
 	pRushAttack->Init();
 
 	return pRushAttack;

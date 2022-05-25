@@ -768,11 +768,12 @@ void CPlayer::LevelUp(int nType)
 		break;
 	case Beam:
 		m_bCanAssistCrystal = true;
+		m_BeamLevel++;
 		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
 		{
 			if (!m_pAssistCrystal[nCnt])
 			{
-				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this);
+				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this, m_BeamLevel);
 			}
 		}
 

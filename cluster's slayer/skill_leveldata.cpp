@@ -5,6 +5,7 @@
 #include "skill_leveldata.h"
 
 CBlackHole::State CSkill_LevelData::m_BlackHoleState[CBlackHole::Level_MAX] = {};
+CAssistCrystal::State CSkill_LevelData::m_AssistCrystalState[CAssistCrystal::Level_MAX] = {};
 
 //--------------------------------------------
 //コンストラクタ
@@ -26,6 +27,7 @@ HRESULT CSkill_LevelData::Init(void)
 {
 	//ファイル読み込み
 	BlackHoleLoad("data/TEXT/SKILL_LEVEL/BlackHole.txt");
+	AssistCrystalLoad("data/TEXT/SKILL_LEVEL/Beam.txt");
 
 	return S_OK;
 }
@@ -170,6 +172,75 @@ void CSkill_LevelData::BlackHoleLoad(const char * sFileName)
 				}
 				if (strcmp(sString[1], "END_BLACKHOLE_LEVELMAX") == 0)
 				{
+					break;
+				}
+			}
+
+			if (strcmp(sString[0], "END_SCRIPT") == 0)
+			{
+				break;
+			}
+
+		}
+	}
+
+}
+//----------------------------------------------
+//ロード
+//----------------------------------------------
+void CSkill_LevelData::AssistCrystalLoad(const char * sFileName)
+{
+	char sString[6][255];	// 読み込み用の変数
+	char sStrLevel[255];
+	char sEndStrLevel[255];
+
+	int nLevel = 0;
+	// ファイル読み込み
+	FILE *pFile = fopen(sFileName, "r");
+	// NULLチェック
+	if (pFile != NULL)
+	{
+		// END_SCRIPTが呼ばれるまでループする
+		while (1)
+		{
+			// １単語を読み込む
+			fscanf(pFile, "%s", &sString[0]);
+			if (nLevel < CAssistCrystal::Level_MAX)
+			{
+				wsprintf(&sStrLevel[0], "ASSISTCRYSTAL_LEVEL%d", nLevel+1);
+				wsprintf(&sEndStrLevel[0], "END_ASSISTCRYSTAL_LEVEL%d", nLevel+1);
+			}
+			else
+			{
+				wsprintf(&sStrLevel[0], "ASSISTCRYSTAL_LEVELMAX");
+				wsprintf(&sEndStrLevel[0], "END_ASSISTCRYSTAL_LEVELMAX");
+			}
+			//壁の読み込み
+			while (strcmp(sString[0], &sStrLevel[0]) == 0)
+			{
+				// １単語を読み込む
+				fscanf(pFile, "%s", &sString[1]);
+				if (strcmp(sString[1], "POWER") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%d", &m_AssistCrystalState[nLevel].m_nPower);
+				}
+				if (strcmp(sString[1], "INTERVAL") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%d", &m_AssistCrystalState[nLevel].m_nLaunchInterval);
+				}
+				if (strcmp(sString[1], "MOVESPEED") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%f", &m_AssistCrystalState[nLevel].m_fMoveSpeed);
+				}
+				if (strcmp(sString[1], &sEndStrLevel[0]) == 0)
+				{
+					nLevel++;
 					break;
 				}
 			}
