@@ -9,6 +9,7 @@
 #include "scene3D.h"
 #include "model.h"
 #include "3Dpolygon.h"
+#include "skill_leveldata.h"
 static const float WidthLenght = 50.0f;
 static const float HeightGuard = 100.0f;
 static const D3DXVECTOR3 GuardSize = { 20.0f,20.0f,0.0f };
@@ -36,7 +37,9 @@ CGuard::~CGuard()
 //=============================================================================
 HRESULT CGuard::Init()
 {
-	SetGuardQuantity(m_nMaxGuard);
+	m_State = CSkill_LevelData::GetStateGuard(m_nLevel);
+
+	SetGuardQuantity(m_State.m_nMaxGuard);
 	return S_OK;
 
 }
@@ -160,14 +163,14 @@ void CGuard::SetParent(CModel * pParent)
 //=============================================================================
 //クリエイト
 //=============================================================================
-CGuard * CGuard::Create(const D3DXVECTOR3 & pos, const float& fHeight, const int& nMaxGuard)
+CGuard * CGuard::Create(const D3DXVECTOR3 & pos, const float& fHeight, const int& nLevel)
 {
 	CGuard *pGuard = new CGuard;
 	if (pGuard)
 	{
 		pGuard->m_pos = pos;
 		pGuard->m_fHeight = fHeight;
-		pGuard->m_nMaxGuard = nMaxGuard;
+		pGuard->m_nLevel = nLevel;
 
 		pGuard->Init();
 	}

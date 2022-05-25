@@ -10,6 +10,7 @@
 #include "manager.h"
 #include "enemy.h"
 #include "effect.h"
+#include "skill_leveldata.h"
 static const int StartTime = 20;
 static const int EndTime = 30;
 static const float MaxPosY = -10.0f;
@@ -28,6 +29,7 @@ CRushAttack::CRushAttack(OBJTYPE nPriority): CScene(nPriority)
 	m_bCanAttackStart = false;
 	m_nEndTimer = 0;
 	m_scale = { 1.0f,1.0f,1.0f };
+	m_State.m_fSizeDiameter = 1.0f;
 }
 //--------------------------------------------
 //デストラクタ
@@ -40,11 +42,13 @@ CRushAttack::~CRushAttack()
 //--------------------------------------------
 HRESULT CRushAttack::Init(void)
 {
+	CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
+	//現在のレベルのステータスにする
+	m_State = CSkill_LevelData::GetStateRushAttack(pPlayer->GetSkillLevel(CPlayer::RushAttack));
 	if (!m_pRushSword)
 	{
 		m_pRushSword = CModel::Create({0.0f,0.0f,0.0f}, m_rot, 15, CModel::TYPE_PLAYER);
-		m_pRushSword->SetScale({ 6.0f,1.8f,2.5f });
-
+		m_pRushSword->SetScale({ 6.0f*m_State.m_fSizeDiameter,1.8f*m_State.m_fSizeDiameter,2.5f*m_State.m_fSizeDiameter });
 	}
 	//剣の位置を調整
 	m_pos.y = -m_pRushSword->GetMaxPos().y*1.8f;
@@ -123,7 +127,7 @@ void CRushAttack::Update(void)
 						if (IsCollision(EnemyPos, fRadius) && bHitRushAttack)
 						{
 							pEnemy->SetCanHitRushAttack(false);
-							pEnemy->AddLifeSkill(-Power);
+							pEnemy->AddLifeSkill(-m_State.m_nPower);
 							pEnemy->SetGravity(12.0f);
 							//ヒットエフェクト
 							std::random_device random;	// 非決定的な乱数生成器
@@ -248,7 +252,7 @@ bool CRushAttack::IsCollision(const D3DXVECTOR3 & Hitpos, const float & fRadius)
 	float fLength = 0.0f;
 	//相手と自分の距離を求める
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
-	float fHitSize = m_pRushSword->GetMaxPos().x*6.0f;
+	float fHitSize = (m_pRushSword->GetMaxPos().x*6.0f)*m_State.m_fSizeDiameter;
 	float fCollisionRadius = fHitSize + fRadius;
 	//相手と自分の距離が自分の当たり判定の大きさより小さくなったら
 	if (fLength <= fCollisionRadius)

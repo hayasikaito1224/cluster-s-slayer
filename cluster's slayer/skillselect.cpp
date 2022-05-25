@@ -228,7 +228,7 @@ void CSkillSelect::PopSelectWindow()
 			{
 				pSkillBottom[2] = CSkillSelectBottom::Create(
 				{ SelectBottomPos.x + ((SelectBottomSize.x + SelectBottomPosInterval) * 2),SelectBottomPos.y,0.0f },
-					SelectBottomSize, CTexture::FADE, 5);
+					SelectBottomSize, CTexture::FADE, nAction);
 			}
 			m_bPopSelectWindow = false;
 		}
