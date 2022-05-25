@@ -33,6 +33,7 @@ static const int MaxEXPNum = 5;//経験値を落とす数
 static const float AttackSize = 100.0f;//攻撃範囲
 static const float AttackCollisionStartTime = 15.0f;//攻撃判定開始までの時間
 static const float AttackCollisionEndTime = 20.0f;//攻撃判定開始までの時間
+static const D3DXCOLOR AttackEffect = {1.0,0.2f,0.6f,1.0f};//攻撃判定開始までの時間
 
 CEnemy001::CEnemy001(OBJTYPE nPriority) : CEnemy(nPriority)
 {
@@ -199,6 +200,36 @@ void CEnemy001::Attack()
 					pPlayer->HitDamege(Power);
 					m_fAttackCollisionTime = 0.0f;
 					m_bOnAttackCollision = false;
+					//ヒットエフェクト
+					std::random_device random;	// 非決定的な乱数生成器
+					std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
+					std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
+					D3DXVECTOR3 PlayerVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					float fHitHeight = 0.0f;
+					if (m_pParts[0])
+					{
+						fHitHeight = m_pParts[0]->GetMtxWorld()._42 + m_pParts[0]->GetMaxPos().y;
+					}
+					PlayerVec = pos - m_pos;			//敵と弾のベクトル
+
+					float fEnemyAng = atan2(PlayerVec.x, PlayerVec.z) + D3DX_PI;
+					D3DXVECTOR3 Addmove = D3DXVECTOR3(
+						sinf(fEnemyAng)*fRadius,
+						fHitHeight,
+						cosf(fEnemyAng)*fRadius);
+
+					float fAng = randAng(mt);
+
+					CEffect::Create(Addmove + pos, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,0.0f },
+					{ 1.0,AttackEffect.g,AttackEffect.b,0.5f }, false, 0.0f, 0.01f, true, CTexture::HitEffect, fAng, true);
+					CEffect::Create(Addmove + pos, { 0.0f,0.0f,0.0f }, { 0.4f,0.2f,0.0f },
+					{ 1.0,AttackEffect.g,AttackEffect.b,0.7f }, false, 0.0f, 0.015f, true, CTexture::HitEffect, fAng, true);
+
+					CEffect::Create(Addmove + pos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
+					{ 1.0f,AttackEffect.g,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
+					CEffect::Create(Addmove + pos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
+					{ 1.0f,AttackEffect.g,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
+
 				}
 			}
 

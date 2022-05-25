@@ -9,6 +9,20 @@ class CAssistCrystal_Model;
 class CAssistCrystal 
 {
 public:
+	enum Level
+	{
+		Level_1 = 0,
+		Level_2,
+		Level_3,
+		Level_4,
+		Level_MAX
+	};
+	struct State
+	{
+		int m_nPower;
+		int m_nLaunchInterval;//弾の発射間隔
+		float m_fMoveSpeed;
+	};
 	CAssistCrystal();
 	~CAssistCrystal();
 	HRESULT Init();
@@ -16,7 +30,7 @@ public:
 	void Update();
 	void Draw();
 	//静的メンバー関数
-	static CAssistCrystal *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer);
+	static CAssistCrystal *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer,const int& nLevel);
 	void PlayerFollowing();
 private:
 	D3DXVECTOR3 m_pos;//位置
@@ -28,7 +42,7 @@ private:
 	D3DXMATRIX	m_mtxParent;						//ワールドマトリックス
 	float m_fInstallationAngle;//アシストクリスタルの設置場所
 	int m_nDeleteTimer;
-	float m_fMoveSpeed;
+	int m_nLevel;
 	bool m_bUninit;
 };
 

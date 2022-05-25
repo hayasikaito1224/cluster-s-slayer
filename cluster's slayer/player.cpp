@@ -752,27 +752,29 @@ void CPlayer::LevelUp(int nType)
 																								//ダメージガード生成
 		m_bCanDamegeGuard = true;
 		m_bCanDamege = false;
-
+		m_SheildLevel++;
+		if (m_pDamegeGuard)
+		{
+			m_pDamegeGuard->Uninit();
+			m_pDamegeGuard = nullptr;
+		}
 		if (!m_pDamegeGuard)
 		{
 			//ダメージガードの生成
-			m_pDamegeGuard = CGuard::Create(m_pos, m_pParts[0]->GetPos().y, GuardMax);
+			m_pDamegeGuard = CGuard::Create(m_pos, m_pParts[0]->GetPos().y, m_SheildLevel);
 			//現在のダメージガードの個数をマックス地にする
-			m_nNumGuard = GuardMax;
+			m_nNumGuard = m_pDamegeGuard->GetMaxGuard();
 		}
-		else
-		{
-			m_nNumGuard++;
-			m_pDamegeGuard->SetGuardQuantity(m_nNumGuard);
-		}
+
 		break;
 	case Beam:
 		m_bCanAssistCrystal = true;
+		m_BeamLevel++;
 		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
 		{
 			if (!m_pAssistCrystal[nCnt])
 			{
-				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this);
+				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this, m_BeamLevel);
 			}
 		}
 
@@ -791,6 +793,7 @@ void CPlayer::LevelUp(int nType)
 		break;
 	case RushAttack:
 		m_bCanRushAttack = true;
+		m_RushAttackLevel++;
 		break;
 	}
 }

@@ -19,7 +19,7 @@ public:
 	void Update();
 	void Draw();
 	//静的メンバー関数
-	static CBullet *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static CBullet *Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const float& fMoveSpeed, const int& nPower);
 	bool IsCollision(const D3DXVECTOR3& Hitpos, const float& fRadius);
 
 private:
@@ -30,6 +30,7 @@ private:
 	D3DXMATRIX	m_mtxParent;						//ワールドマトリックス
 	C3DPolygon *m_pBullet;
 	int m_nTimer;
+	int m_nPower;
 	float m_fMoveSpeed;
 	bool m_bMoveDirection;
 	bool m_bUninit;

@@ -1,5 +1,20 @@
 SET_TEXT
-	TEXT = 攻撃力がアップする
+	TEXT = 支援攻撃するユニットを２つ展開する
 END_SETTEXT
-
+[レベル２]
+SET_TEXT
+	TEXT = 弾の発射間隔が短くなる
+END_SETTEXT
+[レベル３]
+SET_TEXT
+	TEXT = 弾の攻撃力が上昇する
+END_SETTEXT
+[レベル４]
+SET_TEXT
+	TEXT = 弾の発射速度が上昇する
+END_SETTEXT
+[レベル５]
+SET_TEXT
+	TEXT = 弾の発射間隔が短くなる
+END_SETTEXT
 END

@@ -11,7 +11,20 @@ class CEnemy;
 class CRushAttack:public CScene
 {
 public:
+	enum Level
+	{
+		Level_1 = 0,
+		Level_2,
+		Level_3,
+		Level_4,
+		Level_MAX
+	};
 
+	struct State
+	{
+		float m_fSizeDiameter;
+		int m_nPower;
+	};
 	CRushAttack(OBJTYPE nPriority);
 	~CRushAttack();
 	HRESULT Init();
@@ -30,9 +43,9 @@ private:
 	D3DXVECTOR3 m_rot;//向き
 	D3DXVECTOR3 m_scale;//大きさ
 	D3DXMATRIX m_mtxWorld;//ワールドマトリックス
+	State m_State;
 	int m_nStartTimer;//追撃が始まるまでのカウンター
 	int m_nEndTimer;//追撃が終わるまでのカウンター
-
 	bool m_bCanAttackStart;//スキルの発動可能か
 	bool m_bIsDeath;
 };
