@@ -38,6 +38,7 @@ CSkillSelectBottom::CSkillSelectBottom(OBJTYPE nPriority) :CScene(nPriority)
 	m_Letter.clear();
 	m_Text.clear();
 	m_bPopText = false;
+	m_nLevel = 0;
 }
 //--------------------------------------------
 //デストラクタ
@@ -51,7 +52,9 @@ CSkillSelectBottom::~CSkillSelectBottom()
 HRESULT CSkillSelectBottom::Init(void)
 {
 	CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
-	m_nLevel = pPlayer->GetSkillLevel(m_nSkillNo);
+	int nLevel = pPlayer->GetSkillLevel(m_nSkillNo);
+	m_nLevel = nLevel + 1;//初期状態はー１のレベルなので１プラスする
+
 	
 	return S_OK;
 }

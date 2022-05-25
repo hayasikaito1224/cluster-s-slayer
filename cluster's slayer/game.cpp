@@ -36,6 +36,7 @@
 #include <time.h>
 #include "gametimer.h"
 #include "skill_leveldata.h"
+#include "savedata.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -60,7 +61,7 @@ static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-static int ClearTime = 10;
+static int ClearTime = 1;
 
 //--------------------------------------------
 //コンストラクタ
@@ -262,6 +263,8 @@ void CGame::Update(void)
 			//クリア判定が有効ならクリア画面を表示させる
 			if (m_bIsClear)
 			{
+				CSaveData::SaveFile();
+
 				m_bNextMode = true;
 				// タイトルシーンへ行く
 				CFade::SetFade(CManager::MODE_TITLE);

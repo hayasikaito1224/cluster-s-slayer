@@ -191,7 +191,10 @@ void CTitle::Update(void)
 					if (m_nDecisionType < PORYGON_FILEDELETE)
 					{
 						// データ読み込み
-
+						string FileName = "data\\SAVE\\data";
+						FileName += to_string(nCnt + 1);
+						FileName += ".txt";
+						CSaveData::LoadFile(FileName);
 						// 音声を再生
 						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
 						CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
@@ -200,6 +203,8 @@ void CTitle::Update(void)
 
 						// メニューシーンへ行く
 						CFade::SetFade(CManager::MODE_MENU);
+
+						break;
 					}
 
 					else

@@ -26,6 +26,8 @@
 #include "smallscore.h"
 #include "missile.h"
 #include "assistcrystal.h"
+#include "savedata.h"
+
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -83,6 +85,14 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_pMissile = nullptr;
 	m_bCanAssistCrystal = false;
 	m_BlackHoleLevel = -1;
+	m_ATKupLevel = -1;
+	m_HealLevel = -1;
+	m_OverHealLevel = -1;
+	m_SheildLevel = -1;
+	m_BeamLevel = -1;
+	m_RocketLevel = -1;
+	m_RushAttackLevel = -1;
+
 }
 
 CPlayer::~CPlayer()
@@ -693,6 +703,9 @@ void CPlayer::LevelUp(int nType)
 	m_fMaxExp = (m_fMaxExp + nEXP_B) / 2;
 	m_nLevel += 1;
 
+	//一度取得した判定にする
+	CSaveData::FetchSetHaveSkill(nType);
+
 	CManager::GetGame()->GetExpGauge()->GetGaugeBer(0)->SetGaugeValueMax(m_fMaxExp);
 	switch (nType)
 	{
@@ -771,6 +784,7 @@ void CPlayer::LevelUp(int nType)
 		{
 			m_BlackHoleLevel = CBlackHole::Level_MAX;
 		}
+
 		break;
 	case Rocket:
 		m_bCanMissile = true;
@@ -1112,29 +1126,31 @@ int CPlayer::GetSkillLevel(int nSkillType)
 	switch (nSkillType)
 	{
 	case CPlayer::ATKup:
-		break;
-	case CPlayer::Eye:
+		return m_ATKupLevel;
 		break;
 	case CPlayer::Heal:
+		return m_HealLevel;
 		break;
 	case CPlayer::OverHeal:
+		return m_OverHealLevel;
 		break;
 	case CPlayer::Sheild:
+		return m_SheildLevel;
 		break;
 	case CPlayer::Beam:
+		return m_BeamLevel;
 		break;
 	case CPlayer::BlackHole:
 		return m_BlackHoleLevel;
 		break;
 	case CPlayer::Rocket:
+		return m_RocketLevel;
 		break;
 	case CPlayer::RushAttack:
+		return m_RushAttackLevel;
 		break;
-	case CPlayer::Skill_Max:
-		break;
-
 	}
-	return 0;
+	return -1;
 
 }
 //-----------------------------------------------

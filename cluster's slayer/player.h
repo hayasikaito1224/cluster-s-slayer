@@ -127,6 +127,13 @@ private:
 	float m_fMaxExpDiameter;//最大経験値の倍率
 	float m_fMaxExp;//最大経験値
 	int m_BlackHoleLevel;
+	int m_ATKupLevel;
+	int m_HealLevel;
+	int m_OverHealLevel;
+	int m_SheildLevel;
+	int m_BeamLevel;
+	int m_RocketLevel;
+	int m_RushAttackLevel;
 	int m_nMissileCnt;
 	int m_nRushStartCnt;//追撃開始までのカウント
 	int m_nBlackHoleCnt;

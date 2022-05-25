@@ -80,21 +80,21 @@ HRESULT CSaveData::LoadFile(string FileName)
 		if (str.find("ClearPercent=") == 0)
 		{
 			// 次のブロックのmovexを変更
-			str.erase(0, sizeof("ClearPercent="));
+			str.erase(0, strlen("ClearPercent="));
 			m_nClearPercent = stoi(str);
 		}
 
 		else if (str.find("HaveMoney=") == 0)
 		{
 			// 次のブロックのmovexを変更
-			str.erase(0, sizeof("HaveMoney="));
+			str.erase(0, strlen("HaveMoney="));
 			m_nHaveMoney = stoi(str);
 		}
 
 		else if (str.find("Skill=") == 0)
 		{
 			// スキル番号に応じたスキルを取得
-			str.erase(0, sizeof("Skill="));
+			str.erase(0, strlen("Skill="));
 			m_bHaveSkill[stoi(str)] = true;
 		}
 	}
@@ -129,7 +129,7 @@ HRESULT CSaveData::SaveFile()
 	{
 		if (m_bHaveSkill[SkillNum])
 		{
-			File << "Skill=" << SkillNum << ",";		// 所持スキルセーブ
+			File << "Skill=" << SkillNum << "\n";		// 所持スキルセーブ
 		}
 	}
 

@@ -32,14 +32,23 @@ public:
 		LEVEL_HARD,
 		LEVEL_MAX
 	}LEVEL;
-
+	struct Achievement
+	{
+		bool bGetATKup;
+		bool bGetHeal;
+		bool bGetOverHeal;
+		bool bGetSheild;
+		bool bGetBeam;
+		bool bGetBlackHole;
+		bool bGetRocket;
+		bool bGetRushAttack;
+	};
 	CGame();
 	~CGame();
 	HRESULT Init();
 	void Uninit();
 	void Update();
 	void Draw();
-
 	static CPlayer *GetPlayer() { return m_Player; }
 	static CModel_Spawner	*GetModel() { return m_pModel; }
 	static CScore			*GetScore() { return m_pScore; }
@@ -49,7 +58,7 @@ public:
 	static CGauge		*GetHPGauge() { return m_pHPGauge; }
 	static CGauge		*GetExpGauge() { return m_pExpGauge; }
 	static CGametimer		*GetGameTimer() { return m_pGametimer; }
-
+	static Achievement GetAchievement() { return m_Achievement; }
 private:
 	static CEnemySpawnManager		*m_pEnemySpawnManager;
 	static CScore		*m_pScore;
@@ -65,8 +74,8 @@ private:
 	static CGauge	*m_pExpGauge;
 	static CGauge	*m_pHPGauge;
 	static CGametimer	*m_pGametimer;
-
 	static CParticle	*m_Particle;
+	static Achievement m_Achievement;
 	bool m_bPush;
 	bool m_bEnd;
 	int m_nCntDelay;//ディレイのカウンタ
