@@ -14,6 +14,10 @@
 #include "titleselectbutton.h"
 #include "savedata.h"
 
+#include "PresetSetEffect.h"
+#include "mouse.h"
+
+
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
@@ -151,6 +155,18 @@ void CGameMenu::Update(void)
 			}
 		}
 	}
+
+	//クリックエフェクト
+	POINT po;
+	GetCursorPos(&po);
+	HWND hWnd = GetForegroundWindow();
+	ScreenToClient(hWnd, &po);
+
+	if (CManager::GetMouse()->GetTrigger(CMouse::MOUSE_LEFT))
+	{
+		CPresetEffect::SetEffect2D(0, D3DXVECTOR3(po.x, po.y, 0.0f), {}, CScene::OBJTYPE_UI);
+	}
+
 }
 //--------------------------------------------
 //描画
