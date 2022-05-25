@@ -12,6 +12,9 @@
 #include "player.h"
 #include "Renderer.h"
 #include "letter.h"
+#include "skill_leveldata.h"
+#include "game.h"
+
 static const float IconSize = 50.0f;//アイコンの大きさ
 static const float TextSize = 15.0f;//アイコンの大きさ
 static const float TextInterval = 17.0f;//アイコンの大きさ
@@ -35,6 +38,7 @@ CSkillSelectBottom::CSkillSelectBottom(OBJTYPE nPriority) :CScene(nPriority)
 	m_Letter.clear();
 	m_Text.clear();
 	m_bPopText = false;
+	m_nLevel = 0;
 }
 //--------------------------------------------
 //デストラクタ
@@ -47,7 +51,11 @@ CSkillSelectBottom::~CSkillSelectBottom()
 //--------------------------------------------
 HRESULT CSkillSelectBottom::Init(void)
 {
+	CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
+	int nLevel = pPlayer->GetSkillLevel(m_nSkillNo);
+	m_nLevel = nLevel + 1;//初期状態はー１のレベルなので１プラスする
 
+	
 	return S_OK;
 }
 //--------------------------------------------
@@ -103,7 +111,7 @@ void CSkillSelectBottom::Update(void)
 		m_bPopText = false;
 		//スキル説明の文章の生成
 
-		int nSize = m_Text[m_nCntText].size();
+		int nSize = m_Text[m_nLevel].size();
 		int nTextLine = TextLinefeed;
 		if (nSize <= TextLinefeed)
 		{
@@ -115,12 +123,13 @@ void CSkillSelectBottom::Update(void)
 			float fSize = ((m_size.x) / nTextLine);
 
 			m_Letter.push_back(CLetter::Create({ (m_pos.x - (m_size.x) + (fSize)) + fPosX,m_pos.y + TextPosY + ((fSize * 2)*m_nCntLine), 0.0f },
-			{ fSize, fSize, 0.0f }, m_Text[m_nCntText][m_nCntLetter], 260, 500));
+			{ fSize, fSize, 0.0f }, m_Text[m_nLevel][m_nCntLetter], 260, 500));
 
-			if (m_Text[m_nCntText].size() - 1 <= m_nCntLetter)
+			if (m_Text[m_nLevel].size() - 1 <= m_nCntLetter)
 			{
 				m_bEndStatement = true;
 			}
+
 			else
 			{
 				m_nCntChar++;
@@ -169,6 +178,7 @@ CSkillSelectBottom *CSkillSelectBottom::Create(const D3DXVECTOR3& pos, const D3D
 		}
 		int nTex = 0;
 		pSkillSelect->m_nSkillNo = SkillType;
+
 		switch (SkillType)
 		{
 		case CPlayer::ATKup:
@@ -203,7 +213,6 @@ CSkillSelectBottom *CSkillSelectBottom::Create(const D3DXVECTOR3& pos, const D3D
 		case CPlayer::BlackHole:
 			nTex = CTexture::BlackHole;
 			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/BlackHole.txt");
-
 			break;
 		case CPlayer::Rocket:
 			nTex = CTexture::Rocket;

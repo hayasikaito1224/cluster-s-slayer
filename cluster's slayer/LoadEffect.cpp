@@ -12,6 +12,8 @@
 // 静的
 //=============================================================================
 int CLoadEffect::m_Total = 0;
+int CLoadEffect::m_OrderTotal = 0;
+int CLoadEffect::m_FullOrder = 0;
 
 
 //=============================================================================
@@ -39,6 +41,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	pFile = fopen(aFileName, "r");
 	char aFile[256];
 
+	//変数定義
+#if 1
 	m_Total = 0;
 
 	bool bEffectState2D = false;
@@ -46,8 +50,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 
 	int nPattern = 0;
 	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR2 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR2 Addmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 Addmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	int Diffusion = 1;
 	int Destroyvec = 0;
 	float fSize = 0;
@@ -88,10 +92,11 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	int nType = 0;
 	D3DXVECTOR2 TexMove = D3DXVECTOR2(0.0f, 0.0f);
 	float TexNum = 1.0f;
+	int nSecondType = 0;
+	D3DXVECTOR2 TexSplit = D3DXVECTOR2(1.0f, 1.0f);
+	int nAnimCont = -1;
 
-
-
-
+#endif
 
 	if (pFile != NULL)
 	{
@@ -401,6 +406,22 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 					fscanf(pFile, "%s", &aFile[0]);
 					fscanf(pFile, "%f", &TexNum);
 				}
+				if (strcmp(&aFile[0], "SECONDTYPE") == 0)	//頂点数
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%d", &nSecondType);
+				}
+				if (strcmp(&aFile[0], "TEXSPLIT") == 0)	//テクスチャ移動量
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%f %f", &TexSplit.x, &TexSplit.y);
+				}
+				if (strcmp(&aFile[0], "TEXANIMCOUNT") == 0)	//頂点数
+				{
+					fscanf(pFile, "%s", &aFile[0]);
+					fscanf(pFile, "%d", &nAnimCont);
+				}
+
 			}
 			//エフェクト情報セット
 			if (strcmp(&aFile[0], "EFFECTSTATE2D") == 0)
@@ -427,7 +448,8 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 					(bool)bRandColR, (bool)bRandColG, (bool)bRandColB,
 					nSynthetic, nTexture, Distance, ParticleTime, pos, fActiveAddSize,
 					FieldTime, (bool)FieldCreate, CreatePreset,
-					nSecondTime, nVtx, nType, TexMove, TexNum);
+					nSecondTime, nVtx, nType, TexMove, TexNum, nSecondType, TexSplit,
+					nAnimCont);
 
 				m_Total++;
 			}
@@ -441,39 +463,103 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	}
 	fclose(pFile);
 	CPresetEffect::ResetPattern();
+	CPresetEffect::ResetPattern2d();
+
 }
 
 
-////=============================================================================
-//// プリセットトータルの読み込み
-////=============================================================================
-//void CLoadEffect::PresetTotal(const char *aFileName)
-//{
-//	FILE *pFile;
-//	pFile = fopen(aFileName, "r");
-//	char aFile[256];
-//
-//
-//	if (pFile != NULL)
-//	{
-//		while (true)
-//		{
-//			fscanf(pFile, "%s", &aFile[0]); //fscanfを繰り返してファイルを読み取っていく
-//
-//			if (strcmp(&aFile[0], "TOTALPRESET") == 0)	//トータル
-//			{
-//				fscanf(pFile, "%s", &aFile[0]);
-//				fscanf(pFile, "%d", &m_Total);
-//			}
-//
-//			//終わり
-//			if (strcmp(&aFile[0], "END_SCRIPT") == 0)
-//			{
-//				break;
-//			}
-//
-//		}
-//	}
-//	fclose(pFile);
-//
-//}
+
+	//=============================================================================
+	// エフェクトオーダー
+	//=============================================================================
+void CLoadEffect::EffectOrder(const char *aFileName)	//エフェクトオーダー
+{
+	FILE *pFile;
+	pFile = fopen(aFileName, "r");
+	char aFile[256];
+
+	m_OrderTotal = 0;
+	m_FullOrder = 0;
+
+	int nDeley = {};
+	int nPatternNum = {};
+	int nOrder[MAX_ORDER_3D] = {};
+
+	for (int i2 = 0; i2 < MAX_ORDER_3D; i2++)
+	{
+		nOrder[i2] = -1;
+		nDeley = -1;
+		nPatternNum = -1;
+	}
+
+	bool bLodeOrder = false;
+	bool bLodeFull = false;
+
+	if (pFile != NULL)
+	{
+		while (true)
+		{
+			fscanf(pFile, "%s", &aFile[0]); //fscanfを繰り返してファイルを読み取っていく
+			if (bLodeFull == true)
+			{
+				if (bLodeOrder == true)
+				{
+					if (strcmp(&aFile[0], "DELEY") == 0)		//発生距離
+					{
+						fscanf(pFile, "%s", &aFile[0]);
+						fscanf(pFile, "%d", &nDeley);
+					}
+					if (strcmp(&aFile[0], "PRESETNUM") == 0)		//発生距離
+					{
+						fscanf(pFile, "%s", &aFile[0]);
+						fscanf(pFile, "%d", &nPatternNum);
+					}
+					if (strcmp(&aFile[0], "ORDER") == 0)		//発生距離
+					{
+						fscanf(pFile, "%s", &aFile[0]);
+						fscanf(pFile, "%d %d %d %d %d %d %d %d", &nOrder[0], &nOrder[1], &nOrder[2], &nOrder[3], &nOrder[4], &nOrder[5], &nOrder[6], &nOrder[7]);
+					}
+				}
+				//オーダー情報
+				if (strcmp(&aFile[0], "ORDERSET") == 0)
+				{
+					bLodeOrder = true;
+				}
+				if (strcmp(&aFile[0], "END_ORDERSET") == 0)
+				{
+					bLodeOrder = false;
+					CPresetEffect::CreateOrderMenu(nDeley, nPatternNum, nOrder);
+
+					m_OrderTotal++;
+				}
+			}
+			//オーダー情報
+			if (strcmp(&aFile[0], "ORDERMENU") == 0)
+			{
+				bLodeFull = true;
+			}
+
+			if (strcmp(&aFile[0], "END_ORDERMENU") == 0)
+			{
+				bLodeFull = false;
+
+
+				for (int i = 0; i < 8; i++)
+				{
+					nOrder[i] = -1;
+				}
+
+				m_FullOrder++;
+			}
+
+
+			//終わり
+			if (strcmp(&aFile[0], "END_SCRIPT") == 0)
+			{
+				break;
+			}
+		}
+	}
+	fclose(pFile);
+	CPresetEffect::ResetOrder();
+}

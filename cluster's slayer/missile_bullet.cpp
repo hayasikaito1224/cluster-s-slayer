@@ -37,7 +37,7 @@ HRESULT CMissile_Bullet::Init(void)
 {
 	if (!m_pMissileModel)
 	{
-		m_pMissileModel = CModel::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f }, 4, CModel::TYPE_OBJECT);
+		m_pMissileModel = CModel::Create({0.0f,0.0f,0.0f}, { 0.0f,0.0f,0.0f }, 7, CModel::TYPE_OBJECT);
 		m_pMissileModel->SetCanObjParent(false);
 	}
 	return S_OK;
@@ -96,6 +96,11 @@ void CMissile_Bullet::Update(void)
 	}
 	if (m_bUninit)
 	{
+		CPresetEffect::SetEffect3D(13, m_pos, {},{},{});
+		CPresetEffect::SetEffect3D(14, m_pos, {},{},{});
+		CPresetEffect::SetEffect3D(15, m_pos, {},{},{});
+		CPresetEffect::SetEffect3D(12, m_pos, {}, D3DXVECTOR3(100.0f, 0.0f, 100.0f),true);
+
 		Uninit();
 	}
 }
@@ -147,7 +152,7 @@ bool CMissile_Bullet::IsCollision(const D3DXVECTOR3 & Hitpos, const float & fRad
 
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ğ‹‚ß‚é
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
-	float fCollisionRadius = m_fRadiusSize + fRadius;
+	float fCollisionRadius = (m_fRadiusSize*2) + fRadius;
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ª©•ª‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³‚æ‚è¬‚³‚­‚È‚Á‚½‚ç
 	if (fLength <= fCollisionRadius)
 	{

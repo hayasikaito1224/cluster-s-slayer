@@ -45,7 +45,7 @@ private:
 	int m_nCntLetter;
 	int m_nCntChar;
 	int m_nCntLine;
-
+	int m_nLevel;
 	int m_nCntText;
 	bool m_bEndText = false;
 	bool m_bEndStatement = false;

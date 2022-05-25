@@ -27,8 +27,7 @@
 #include "letter.h"
 //エフェクト
 #include "LoadEffect.h"
-#define EFFECT_STATE_TEXT3D ("data/EffectData.txt")	//3Dエフェクトデータテキスト名
-
+#define EFFECT_STATE_TEXT3D ("data/TEXT/EffectData.txt")	//3Dエフェクトデータテキスト名
 
 #include <random>
 //静的メンバ変数宣言
@@ -44,7 +43,11 @@ CResult			*CManager::m_pResult = NULL;
 CGameMenu		*CManager::m_pGameMenu = NULL;
 CFade			*CManager::m_Fade = NULL;
 CXInput			*CManager::m_XInput = NULL;
+<<<<<<< HEAD
 CManager::MODE	 CManager::m_Mode = MODE_MENU;		// 初期モード
+=======
+CManager::MODE	 CManager::m_Mode = MODE_TITLE;		// 初期モード
+>>>>>>> 6af7c9ffbc8618dfbb6df362e0e68c4cec717838
 CMouse			*CManager::m_Mouse = NULL;
 CSound			*CManager::m_pSound = NULL;
 CPause			*CManager::m_pPause = NULL;
@@ -310,6 +313,7 @@ void CManager::Update(void)
 	case MODE_GAME:			//ゲーム画面
 		if (m_pGame != NULL)
 		{
+			
 			m_pGame->Update();
 			//ポーズ
 			//if (m_XInput->GetButtonTrigger(XINPUT_GAMEPAD_START) == true||

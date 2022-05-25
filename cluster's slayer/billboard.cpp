@@ -31,6 +31,7 @@ CBillboard *CBillboard::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, CTexture::Type
 	CBillboard *pBillboard = new CBillboard(OBJTYPE_ITEM);
 	pBillboard->m_pos = pos;
 	pBillboard->m_size = size;
+
 	if (pBillboard != NULL)
 	{
 		pBillboard->Init(type);

@@ -25,6 +25,9 @@
 #include "PresetSetEffect.h"
 #include "smallscore.h"
 #include "missile.h"
+#include "assistcrystal.h"
+#include "savedata.h"
+
 #define PLAYER_MOVE_SPEED (6.0f)//移動量
 #define PLAYER_ROCK_LENGTH (500.0f)//ロックオン可能範囲
 #define PLAYER_ATTACK_SPEED (15.0f)		//攻撃の移動速度
@@ -51,6 +54,7 @@ static bool s_bCursor = true;
 
 CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 {
+	memset(m_pAssistCrystal, NULL, sizeof(m_pAssistCrystal));
 	m_nMovePush = false;
 	m_bNearEnemy = false;
 	m_IsCharacterDraw = true;
@@ -79,6 +83,16 @@ CPlayer::CPlayer(OBJTYPE nPriority) :CCharacter(nPriority)
 	m_nMissileCnt = MissileCntMax;
 	m_bCanMissile = false;
 	m_pMissile = nullptr;
+	m_bCanAssistCrystal = false;
+	m_BlackHoleLevel = -1;
+	m_ATKupLevel = -1;
+	m_HealLevel = -1;
+	m_OverHealLevel = -1;
+	m_SheildLevel = -1;
+	m_BeamLevel = -1;
+	m_RocketLevel = -1;
+	m_RushAttackLevel = -1;
+
 }
 
 CPlayer::~CPlayer()
@@ -113,6 +127,8 @@ HRESULT CPlayer::Init()
 	//武器の生成
 	WeaponSet("data/TEXT/PlayerParts000.txt");
 
+
+
 	return S_OK;
 }
 //-----------------------------------------------
@@ -125,6 +141,16 @@ void CPlayer::Uninit()
 		m_pMissile->Uninit();
 		m_pMissile = nullptr;
 	}
+	for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+	{
+		if (m_pAssistCrystal[nCnt])
+		{
+			m_pAssistCrystal[nCnt]->Uninit();
+			m_pAssistCrystal[nCnt] = nullptr;
+		}
+	}
+
+
 	CCharacter::Uninit();
 
 }
@@ -268,6 +294,16 @@ void CPlayer::Draw()
 			m_pParts[nCntParts]->Draw();
 		}
 	}
+	if (m_bCanAssistCrystal)
+	{
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt]->Draw();
+			}
+		}
+	}
 
 	//武器の描画
 	if (m_pSword)
@@ -310,9 +346,15 @@ void CPlayer::KeyboardMove()
 
 
 	}
+	//テストキー
 	if (Key->GetTrigger(DIK_R) == true)
 	{
-		m_bCanMissile = true;
+		m_bCanBlackHole = true;
+		m_BlackHoleLevel++;
+		if (m_BlackHoleLevel >= CBlackHole::Level_MAX)
+		{
+			m_BlackHoleLevel = CBlackHole::Level_MAX;
+		}
 	}
 	//前に進む
 	if (Key->GetPress(DIK_A) == true)
@@ -661,6 +703,9 @@ void CPlayer::LevelUp(int nType)
 	m_fMaxExp = (m_fMaxExp + nEXP_B) / 2;
 	m_nLevel += 1;
 
+	//一度取得した判定にする
+	CSaveData::FetchSetHaveSkill(nType);
+
 	CManager::GetGame()->GetExpGauge()->GetGaugeBer(0)->SetGaugeValueMax(m_fMaxExp);
 	switch (nType)
 	{
@@ -675,9 +720,9 @@ void CPlayer::LevelUp(int nType)
 		}
 
 		//エフェクト
-		CPresetEffect::SetEffect3D(2, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
-		CPresetEffect::SetEffect3D(3, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
-		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(2, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//回るやつ
+		CPresetEffect::SetEffect3D(3, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//散らすやつ
+		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//大きくなるだけのやつ
 
 		break;
 	case Eye:
@@ -694,17 +739,16 @@ void CPlayer::LevelUp(int nType)
 
 
 		//エフェクト
-		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
-		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
-		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//回るやつ
+		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//散らすやつ
+		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {}, {}, {});	//大きくなるだけのやつ
 
 		break;
 	case Sheild:
 
-		//エフェクト(まだ処理ないけど勝手に追加しましたすまん)
-		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//回るやつ
-		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//散らすやつ
-		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {});	//大きくなるだけのやつ
+		CPresetEffect::SetEffect3D(5, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//回るやつ
+		CPresetEffect::SetEffect3D(6, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//散らすやつ
+		CPresetEffect::SetEffect3D(7, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{},{});	//大きくなるだけのやつ
 																								//ダメージガード生成
 		m_bCanDamegeGuard = true;
 		m_bCanDamege = false;
@@ -723,9 +767,24 @@ void CPlayer::LevelUp(int nType)
 		}
 		break;
 	case Beam:
+		m_bCanAssistCrystal = true;
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (!m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this);
+			}
+		}
+
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
+		m_BlackHoleLevel++;
+		if (m_BlackHoleLevel >= CBlackHole::Level_MAX)
+		{
+			m_BlackHoleLevel = CBlackHole::Level_MAX;
+		}
+
 		break;
 	case Rocket:
 		m_bCanMissile = true;
@@ -791,6 +850,20 @@ void CPlayer::HitDamege(int nPower)
 		}
 
 	}
+}
+D3DXVECTOR3 CPlayer::GetNearEnemyPos()
+{
+	if (m_pNearEnemy)
+	{
+		int nSize = m_pNearEnemy->GetParts().size();
+		if (nSize != 0)
+		{
+			return m_pNearEnemy->GetPos();
+		}
+
+	}
+	return{ 0.0f,0.0f,0.0f };
+
 }
 //-----------------------------------------------
 //今敵の近くかを算出
@@ -974,13 +1047,6 @@ bool CPlayer::FixedTimeInterval(float fMaxTime)
 	return bStop;
 }
 //-----------------------------------------------
-//追撃処理
-//-----------------------------------------------
-void CPlayer::PlayerRushAttack()
-{
-
-}
-//-----------------------------------------------
 //各スキルの処理のまとめ
 //-----------------------------------------------
 void CPlayer::EachSkillManager()
@@ -990,6 +1056,10 @@ void CPlayer::EachSkillManager()
 	{
 		m_nTimer++;
 
+		if (m_nTimer % 8 == 0)
+		{
+			CPresetEffect::SetEffect3D(16, m_pos, {}, {}, {});	//リジェネ
+		}
 		if (m_nTimer >= 60)
 		{
 			m_nTimer = 0;
@@ -998,6 +1068,7 @@ void CPlayer::EachSkillManager()
 			{
 				CManager::GetGame()->GetHPGauge()->SetGauge(-m_fAutoHeel, 0);
 			}
+
 		}
 
 	}
@@ -1008,7 +1079,7 @@ void CPlayer::EachSkillManager()
 		if (m_nBlackHoleCnt >= BlackHoleShotTime)
 		{
 			m_nBlackHoleCnt = 0;
-			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy);
+			CBlackHole::Create(m_pos, m_rot, m_pNearEnemy, m_BlackHoleLevel);
 		}
 
 	}
@@ -1030,6 +1101,17 @@ void CPlayer::EachSkillManager()
 
 		}
 	}
+	//アシスト攻撃
+	if (m_bCanAssistCrystal)
+	{
+		for (int nCnt = 0; nCnt < MAX_ASSISTCRYSTAL; nCnt++)
+		{
+			if (m_pAssistCrystal[nCnt])
+			{
+				m_pAssistCrystal[nCnt]->Update();
+			}
+		}
+	}
 }
 //-----------------------------------------------
 //攻撃したときの移動処理
@@ -1038,6 +1120,38 @@ void CPlayer::AttackMove(float fMoveVolume)
 {
 	m_pos.x -= sinf(m_rot.y)*fMoveVolume;
 	m_pos.z -= cosf(m_rot.y)*fMoveVolume;
+}
+int CPlayer::GetSkillLevel(int nSkillType)
+{
+	switch (nSkillType)
+	{
+	case CPlayer::ATKup:
+		return m_ATKupLevel;
+		break;
+	case CPlayer::Heal:
+		return m_HealLevel;
+		break;
+	case CPlayer::OverHeal:
+		return m_OverHealLevel;
+		break;
+	case CPlayer::Sheild:
+		return m_SheildLevel;
+		break;
+	case CPlayer::Beam:
+		return m_BeamLevel;
+		break;
+	case CPlayer::BlackHole:
+		return m_BlackHoleLevel;
+		break;
+	case CPlayer::Rocket:
+		return m_RocketLevel;
+		break;
+	case CPlayer::RushAttack:
+		return m_RushAttackLevel;
+		break;
+	}
+	return -1;
+
 }
 //-----------------------------------------------
 //武器のセット

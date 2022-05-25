@@ -44,6 +44,13 @@ public:
 	void SetTex(int nType, int nPattern, float fSize);
 	void SetCol(D3DXCOLOR col);						//テクスチャの設定
 
+	void SetHight(float Hight);		//大きさ更新
+	void SetWhidth(float Whidth);	//大きさ更新
+
+	void ColorChange(D3DCOLORVALUE color);	//カラー変更
+	void SetRotate(D3DXVECTOR3 pos, float Rotate, float Rotate2, float Vectol);			//回転
+
+
 private:
 
 protected:

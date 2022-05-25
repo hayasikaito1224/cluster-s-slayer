@@ -26,14 +26,14 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	bool IsCollision(D3DXVECTOR3 *pMyPos,const D3DXVECTOR3& Hitpos, const float& fRadius,const float& MoveSpeed);//当たり判定
+	bool IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, const float& fRadius, const float& MoveSpeed);//当たり判定
 	void HPChange(float fNum);//体力の増減
 	float GetLife() { return m_fHitPoint; }
 	void StateChange(state_type StateType);//状態の変化
 	void SetDeath(bool Uninit) { m_IsDeath = Uninit; }
 	bool GetDeath(void) { return m_IsDeath; }
-
-
+	D3DXMATRIX GetMtx() { return m_mtxWorld; }
+	D3DXVECTOR3 GetRot() { return m_rot; }
 	CModel *GetParts(int nPartsNum);//キャラクターのパーツ取得処理
 	std::vector <CModel*> GetParts() { return m_pParts; }
 protected:

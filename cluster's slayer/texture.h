@@ -72,6 +72,9 @@ public:
 		RockOn,//ロックオン用
 		SkillOk,//ロックオン用
 		CycleEffect,	//わっかエフェクト
+		TrgetLock,	//ミサイル着弾地点エフェクト
+		Explosion,	//爆発ドーム
+		Thunder,	//サンダー
 		Max,			// テクスチャの最大数
 	} Type;
 

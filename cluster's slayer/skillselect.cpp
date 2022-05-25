@@ -9,12 +9,15 @@
 #include "selectbottom.h"
 #include "player.h"
 #include "game.h"
+#include "mouse.h"
+#include "PresetSetEffect.h"
+
 static const D3DXVECTOR3 SelectWindowSize = { 500.0f,300.f,0.0f };
 static const D3DXVECTOR3 SelectBottomSize = { 150.0f,250.f,0.0f };
 static const D3DXVECTOR3 SelectBottomPos = { 300.0f,300.f,0.0f };
 static const float SelectBottomPosInterval = 200.0f;//アクションスキルの乱数の最小値
 
-static const int ActionSkillMin = 6;//アクションスキルの乱数の最小値
+static const int ActionSkillMin = 5;//アクションスキルの乱数の最小値
 static const int ActionSkillMax = 9;//アクションスキルの乱数の最大値
 static const int PassiveSkillMin = 0;//パッシブスキルの乱数の最小値
 static const int PassiveSkillMax = 5;//パッシブスキルの乱数の最大値
@@ -86,6 +89,23 @@ void CSkillSelect::Uninit(void)
 //--------------------------------------------
 void CSkillSelect::Update(void)
 {
+	POINT po;
+	//マウスのスクリーン座標の位置の取得
+	GetCursorPos(&po);
+	HWND hWnd = GetForegroundWindow();
+
+	//スクリーン座標からクライアント座標の変換
+	ScreenToClient(hWnd, &po);
+
+	//マウス情報の取得
+	CMouse *pMouse = CManager::GetMouse();
+
+	//選択している状態で左クリックをすると決定状態にする
+	if (pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)
+	{
+		CPresetEffect::SetEffect2D(0, D3DXVECTOR3(po.x, po.y, 0.0f), {},OBJTYPE_UI);
+	}
+
 	if (m_bPopSelectWindow)
 	{
 		//セレクトウィンドウの出現
@@ -93,6 +113,7 @@ void CSkillSelect::Update(void)
 	}
 	else
 	{
+
 		CInputKeyBoard *Key = CManager::GetInputKeyboard();
 		for (int nCnt = 0; nCnt < max_Bottom; nCnt++)
 		{

@@ -36,6 +36,8 @@ public:
 	static HRESULT LoadFile(string FileName);
 	static HRESULT SaveFile();
 	static HRESULT ResetFile(string FileName);
+	static bool GetHaveSkill(int nSkillType) { return m_bHaveSkill[nSkillType]; }
+	static void FetchSetHaveSkill(int nSkillType) { m_bHaveSkill[nSkillType] = true; }
 
 private:
 	static int m_nClearPercent;		// ÉNÉäÉAó¶

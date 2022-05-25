@@ -151,10 +151,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\cluster%27s slayer\2Dnumber.h" />
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal.h" />
+    <ClInclude Include="..\cluster%27s slayer\assistcrystal_model.h" />
     <ClInclude Include="..\cluster%27s slayer\bg.h" />
     <ClInclude Include="..\cluster%27s slayer\billboard.h" />
     <ClInclude Include="..\cluster%27s slayer\billeffect.h" />
     <ClInclude Include="..\cluster%27s slayer\blackhole.h" />
+    <ClInclude Include="..\cluster%27s slayer\bullet.h" />
     <ClInclude Include="..\cluster%27s slayer\camera.h" />
     <ClInclude Include="..\cluster%27s slayer\character.h" />
     <ClInclude Include="..\cluster%27s slayer\character_partsdata.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="..\cluster%27s slayer\damage_collision.h" />
     <ClInclude Include="..\cluster%27s slayer\directinput.h" />
     <ClInclude Include="..\cluster%27s slayer\effect.h" />
+    <ClInclude Include="..\cluster%27s slayer\effect2d.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy001.h" />
     <ClInclude Include="..\cluster%27s slayer\enemy_goblin.h" />
@@ -193,6 +197,10 @@
     <ClInclude Include="..\cluster%27s slayer\model_spawner.h" />
     <ClInclude Include="..\cluster%27s slayer\motion.h" />
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
+    <ClInclude Include="..\cluster%27s slayer\MouseTracking.h" />
+    <ClInclude Include="..\cluster%27s slayer\Movement.h" />
+    <ClInclude Include="..\cluster%27s slayer\Rotate.h" />
+    <ClInclude Include="..\cluster%27s slayer\skill_leveldata.h" />
     <ClInclude Include="3Dpolygon.h" />
     <ClInclude Include="..\cluster%27s slayer\number.h" />
     <ClInclude Include="..\cluster%27s slayer\Particle.h" />
@@ -233,19 +241,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cluster%27s slayer\2Dnumber.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\assistcrystal_model.cpp" />
     <ClCompile Include="..\cluster%27s slayer\bg.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billboard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\billeffect.cpp" />
     <ClCompile Include="..\cluster%27s slayer\blackhole.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\bullet.cpp" />
     <ClCompile Include="..\cluster%27s slayer\camera.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character.cpp" />
     <ClCompile Include="..\cluster%27s slayer\character_partsdata.cpp" />
     <ClCompile Include="..\cluster%27s slayer\collision.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\effect2d.cpp" />
     <ClCompile Include="..\cluster%27s slayer\gametimer.cpp" />
     <ClCompile Include="..\cluster%27s slayer\guard.cpp" />
     <ClCompile Include="..\cluster%27s slayer\letter.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile.cpp" />
     <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\MouseTracking.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Movement.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\Rotate.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\skill_leveldata.cpp" />
     <ClCompile Include="3Dpolygon.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Sphere.cpp" />
     <ClCompile Include="..\cluster%27s slayer\SphereEffect.cpp" />
