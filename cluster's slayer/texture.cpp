@@ -110,6 +110,11 @@ void CTexture::Init(void)
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/Thunder3.png",//サンダー
 		&m_pTexture[Thunder]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/Crater.png",//サンダー
+		&m_pTexture[Crater]);
+
 
 
 	//テクスチャの読み込み
