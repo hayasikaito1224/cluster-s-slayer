@@ -5,6 +5,7 @@
 #define _PLAYER_H_
 #include "character.h"
 #define MAX_ASSISTCRYSTAL (2)
+#define MAX_HEAL_LEVEL (5)
 class CEnemy;
 class CSword;
 class CGuard;
@@ -47,7 +48,6 @@ public:
 	enum SkillType
 	{
 		ATKup,
-		Eye,
 		Heal,
 		OverHeal,
 		Sheild,

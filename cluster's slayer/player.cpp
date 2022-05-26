@@ -725,12 +725,18 @@ void CPlayer::LevelUp(int nType)
 		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//大きくなるだけのやつ
 
 		break;
-	case Eye:
-		break;
 	case Heal:
 		//オートヒール設定をオンにする
 		m_bCanAutoHeel = true;
-		m_fAutoHeel += 10.0f;
+		m_HealLevel++;
+		if (m_HealLevel <= MAX_HEAL_LEVEL)
+		{
+			m_fAutoHeel += 10.0f;
+		}
+		else
+		{
+			m_HealLevel = MAX_HEAL_LEVEL;
+		}
 		break;
 	case OverHeal:
 		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP,0);

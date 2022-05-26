@@ -163,10 +163,6 @@ void CTexture::Init(void)
 		&m_pTexture[BlackHole]);
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data/TEXTURE/SKILL/Eye.png",//Aボタン
-		&m_pTexture[Eye]);
-	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/SKILL/Heal.png",//Aボタン
 		&m_pTexture[Heal]);
 	//テクスチャの読み込み

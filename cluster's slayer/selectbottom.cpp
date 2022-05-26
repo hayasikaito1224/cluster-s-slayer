@@ -185,11 +185,6 @@ CSkillSelectBottom *CSkillSelectBottom::Create(const D3DXVECTOR3& pos, const D3D
 			nTex = CTexture::ATKup;
 			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
 			break;
-		case CPlayer::Eye:
-			nTex = CTexture::Eye;
-			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/ATKUp.txt");
-
-			break;
 		case CPlayer::Heal:
 			nTex = CTexture::Heal;
 			wsprintf(&sFileName[0], "data/TEXT/SKILLCOMMENT/Heal.txt");

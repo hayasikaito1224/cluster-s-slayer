@@ -25,7 +25,6 @@ public:
 	static void AssistCrystalLoad(const char * sFileName);//パーツの設定
 	static void BlackHoleLoad(const char * sFileName);//パーツの設定
 	static void GuardLoad(const char * sFileName);//パーツの設定
-
 	static CBlackHole::State GetStateBlackHole(int nLevel) { return m_BlackHoleState[nLevel]; }
 	static CAssistCrystal::State GetStateAssistCrystal(int nLevel) { return m_AssistCrystalState[nLevel]; }
 	static CRushAttack::State GetStateRushAttack(int nLevel) { return m_RushAttackState[nLevel]; }
