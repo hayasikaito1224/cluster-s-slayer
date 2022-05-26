@@ -8,6 +8,7 @@ CBlackHole::State CSkill_LevelData::m_BlackHoleState[CBlackHole::Level_MAX + 1] 
 CAssistCrystal::State CSkill_LevelData::m_AssistCrystalState[CAssistCrystal::Level_MAX + 1] = {};
 CRushAttack::State CSkill_LevelData::m_RushAttackState[CRushAttack::Level_MAX + 1] = {};
 CGuard::State CSkill_LevelData::m_GuardState[CGuard::Level_MAX + 1] = {};
+CMissile::State CSkill_LevelData::m_MissileState[CMissile::Level_MAX + 1] = {};
 
 //--------------------------------------------
 //コンストラクタ
@@ -32,6 +33,8 @@ HRESULT CSkill_LevelData::Init(void)
 	AssistCrystalLoad("data/TEXT/SKILL_LEVEL/Beam.txt");
 	RushAttackLoad("data/TEXT/SKILL_LEVEL/RushAttack.txt");
 	GuardLoad("data/TEXT/SKILL_LEVEL/Sheild.txt");
+	MissileLoad("data/TEXT/SKILL_LEVEL/Rocket.txt");
+
 	return S_OK;
 }
 //--------------------------------------------
@@ -225,6 +228,72 @@ void CSkill_LevelData::GuardLoad(const char * sFileName)
 					// １単語を読み込む
 					fscanf(pFile, "%s", &sString[1]);
 					fscanf(pFile, "%d", &m_GuardState[nLevel].m_nMaxGuard);
+				}
+				if (strcmp(sString[1], &sEndStrLevel[0]) == 0)
+				{
+					nLevel++;
+					break;
+				}
+			}
+
+			if (strcmp(sString[0], "END_SCRIPT") == 0)
+			{
+				break;
+			}
+
+		}
+	}
+
+}
+void CSkill_LevelData::MissileLoad(const char * sFileName)
+{
+	char sString[6][255];	// 読み込み用の変数
+	char sStrLevel[255];
+	char sEndStrLevel[255];
+
+	int nLevel = 0;
+	// ファイル読み込み
+	FILE *pFile = fopen(sFileName, "r");
+	// NULLチェック
+	if (pFile != NULL)
+	{
+		// END_SCRIPTが呼ばれるまでループする
+		while (1)
+		{
+			// １単語を読み込む
+			fscanf(pFile, "%s", &sString[0]);
+			if (nLevel < CGuard::Level_MAX)
+			{
+				wsprintf(&sStrLevel[0], "MISSILE_LEVEL%d", nLevel + 1);
+				wsprintf(&sEndStrLevel[0], "END_MISSILE_LEVEL%d", nLevel + 1);
+			}
+			else
+			{
+				wsprintf(&sStrLevel[0], "MISSILE_LEVELMAX");
+				wsprintf(&sEndStrLevel[0], "END_MISSILE_LEVELMAX");
+			}
+			//壁の読み込み
+			while (strcmp(sString[0], &sStrLevel[0]) == 0)
+			{
+				// １単語を読み込む
+				fscanf(pFile, "%s", &sString[1]);
+				if (strcmp(sString[1], "SEARCHRANGE") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%.f", &m_MissileState[nLevel].m_SearchRange);
+				}
+				if (strcmp(sString[1], "POWER") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%d", &m_MissileState[nLevel].m_nPower);
+				}
+				if (strcmp(sString[1], "SEARCHMAX") == 0)
+				{
+					// １単語を読み込む
+					fscanf(pFile, "%s", &sString[1]);
+					fscanf(pFile, "%d", &m_MissileState[nLevel].m_nCntSearchMax);
 				}
 				if (strcmp(sString[1], &sEndStrLevel[0]) == 0)
 				{

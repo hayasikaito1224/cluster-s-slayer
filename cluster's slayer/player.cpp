@@ -764,6 +764,11 @@ void CPlayer::LevelUp(int nType)
 			m_pDamegeGuard->Uninit();
 			m_pDamegeGuard = nullptr;
 		}
+		if (m_SheildLevel >= CGuard::Level_MAX)
+		{
+			m_SheildLevel = CGuard::Level_MAX;
+		}
+
 		if (!m_pDamegeGuard)
 		{
 			//ダメージガードの生成
@@ -783,7 +788,10 @@ void CPlayer::LevelUp(int nType)
 				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this, m_BeamLevel);
 			}
 		}
-
+		if (m_BeamLevel >= CAssistCrystal::Level_MAX)
+		{
+			m_BeamLevel = CAssistCrystal::Level_MAX;
+		}
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
@@ -796,10 +804,19 @@ void CPlayer::LevelUp(int nType)
 		break;
 	case Rocket:
 		m_bCanMissile = true;
+		m_RocketLevel++;
+		if (m_RocketLevel >= CMissile::Level_MAX)
+		{
+			m_RocketLevel = CMissile::Level_MAX;
+		}
 		break;
 	case RushAttack:
 		m_bCanRushAttack = true;
 		m_RushAttackLevel++;
+		if (m_RushAttackLevel >= CRushAttack::Level_MAX)
+		{
+			m_RushAttackLevel = CRushAttack::Level_MAX;
+		}
 		break;
 	}
 }
