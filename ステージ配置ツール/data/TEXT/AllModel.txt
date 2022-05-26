@@ -56,6 +56,9 @@ OBJECTMODEL_FILENAME = data/MODEL/wood001.x			# [17]ãêñÿ
 OBJECTMODEL_FILENAME = data/MODEL/bonfire.x			# [18]ï∞âŒ
 OBJECTMODEL_FILENAME = data/MODEL/lake.x			# [19]ír
 OBJECTMODEL_FILENAME = data/MODEL/tree.x			# [19]êjóté˜
-OBJECTMODEL_FILENAME = data/MODEL/tree2.x			# [19]çLóté˜
+OBJECTMODEL_FILENAME = data/MODEL/tree2.x			# [20]çLóté˜
+OBJECTMODEL_FILENAME = data/MODEL/grass.x			# [21]ëê
+OBJECTMODEL_FILENAME = data/MODEL/flower.x			# [22]â‘
+OBJECTMODEL_FILENAME = data/MODEL/flowerblue.x		# [23]ê¬Ç¢â‘
 
 END_SCRIPT
