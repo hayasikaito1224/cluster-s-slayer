@@ -26,8 +26,18 @@ CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 	{ "data\\SE\\Fire.wav"					, XAUDIO2_NO_LOOP_REGION },		// ‰Î–‚–@
 	{ "data\\SE\\Ice.wav"					, XAUDIO2_NO_LOOP_REGION },		// •X–‚–@
 	{ "data\\SE\\Heel.wav"					, XAUDIO2_NO_LOOP_REGION },		// ‰ñ•œ
-	{ "data\\SE\\Walk01.wav"					, XAUDIO2_NO_LOOP_REGION }		// “G‚ÌˆÚ“®‰¹
+	{ "data\\SE\\Walk01.wav"					, XAUDIO2_NO_LOOP_REGION },		// “G‚ÌˆÚ“®‰¹
 
+	{ "data\\SE\\pointout.wav"					, XAUDIO2_NO_LOOP_REGION },
+
+	{ "data\\SE\\blackhole.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\dronebeam.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\missileburst.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\missilewind.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\rushattack01.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\rushattack02.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\sheild.wav"					, XAUDIO2_NO_LOOP_REGION },
+	{ "data\\SE\\statusup.wav"					, XAUDIO2_NO_LOOP_REGION },
 };
 
 CSound::CSound()
