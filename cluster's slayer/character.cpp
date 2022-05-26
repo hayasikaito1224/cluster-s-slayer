@@ -134,6 +134,28 @@ bool CCharacter::IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, con
 	}
 	return false;
 }
+void CCharacter::IsModelCollision()
+{
+	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//©•ª‚Æ‘Šè‚ÌƒxƒNƒgƒ‹
+	CScene *pSceneModel =
+	vec = m_pos - Hitpos;
+	float fLength = 0.0f;
+	//‘Šè‚Æ©•ª‚Ì‹——£‚ğ‹‚ß‚é
+	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
+	float fCollisionRadius = m_fRadius + fRadius;
+	//‘Šè‚Æ©•ª‚Ì‹——£‚ª©•ª‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³‚æ‚è¬‚³‚­‚È‚Á‚½‚ç
+	if (fLength <= fCollisionRadius)
+	{
+		float fAng = atan2(vec.x, vec.z);
+		//‰Ÿ‚µ–ß‚·
+		D3DXVECTOR3 returnpos = { sinf(fAng)*MoveSpeed,0.0f,cosf(fAng)*MoveSpeed };
+		pMyPos->x += returnpos.x;
+		pMyPos->z += returnpos.z;
+		return true;
+	}
+	return false;
+
+}
 //-----------------------------------------------
 //HP‚Ì‘Œ¸
 //---------------------------------------------

@@ -14,7 +14,7 @@ class CModel;
 class CModel_Spawner : public CScene
 {
 public:
-	CModel_Spawner(OBJTYPE nPriority = OBJTYPE_MODEL);
+	CModel_Spawner(OBJTYPE nPriority = OBJTYPE_MODELSPAWNER);
 	~CModel_Spawner();
 	HRESULT Init(void);
 	void Uninit(void);

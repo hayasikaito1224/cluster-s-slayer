@@ -100,7 +100,7 @@ CModel_Spawner *CModel_Spawner::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,const in
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
 	//インスタンス生成
-	CModel_Spawner *pSpawner = new CModel_Spawner();
+	CModel_Spawner *pSpawner = new CModel_Spawner;
 	if (pSpawner != NULL)
 	{
 		pSpawner->Init();

@@ -146,11 +146,6 @@ HRESULT CGame::Init(void)
 	{
 		m_pGametimer = CGametimer::Create({ SCREEN_WIDTH / 2,100.0f,0.0f }, { 1.0,1.0,1.0,1.0 });
 	}
-	//敵の出現設定の生成
-	if (!m_pEnemySpawnManager)
-	{
-		m_pEnemySpawnManager = CEnemySpawnManager::Create();
-	}
 	//スキルのステータスの読み込み
 	CSkill_LevelData::Create();
 	////目的表示
@@ -214,12 +209,7 @@ void CGame::Uninit(void)
 		m_pExpGauge->Uninit();
 		m_pExpGauge = nullptr;
 	}
-	if (m_pEnemySpawnManager)
-	{
-		m_pEnemySpawnManager->Uninit();
-		delete m_pEnemySpawnManager;
-		m_pEnemySpawnManager = nullptr;
-	}
+
 	CEnemy::SetMaxEnemy(0);
 }
 //--------------------------------------------
@@ -234,10 +224,7 @@ void CGame::Update(void)
 	{
 		if (!m_bNextMode)
 		{
-			if (m_pEnemySpawnManager && !CManager::GetPause())
-			{
-				m_pEnemySpawnManager->Update();
-			}
+
 			if (m_pExpGauge)
 			{
 				float fExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValue();

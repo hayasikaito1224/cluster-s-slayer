@@ -229,7 +229,7 @@ void CPlayer::Update()
 		}
 		pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 	}
-
+	
 	//キーボードの移動
 	if (!m_bMoveStop)
 	{

@@ -4,15 +4,18 @@
 //--------------------------------------------
 #include "enemy_spawn_manager.h"
 #include "enemy001.h"
+#include "manager.h"
 static const int SpawnTime = 600;
-static const float SpawnLength = 200.0f;
-static const int SpawnMax = 10;
-static const int SpawnLimit =50;
+static const float SpawnLengthMax = 1000.0f;
+static const float SpawnLengthMin = 50.0f;
+
+static const int SpawnMax = 20;
+static const int SpawnLimit = 300;
 
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
-CEnemySpawnManager::CEnemySpawnManager()
+CEnemySpawnManager::CEnemySpawnManager(OBJTYPE nPriority):CScene(nPriority)
 {
 	m_nSpawnTime = SpawnTime;
 	m_nSpawnCnt = SpawnTime;
@@ -35,7 +38,7 @@ HRESULT CEnemySpawnManager::Init(void)
 //--------------------------------------------
 void CEnemySpawnManager::Uninit(void)
 {
-
+	Release();
 }
 //--------------------------------------------
 //更新
@@ -43,25 +46,32 @@ void CEnemySpawnManager::Uninit(void)
 void CEnemySpawnManager::Update(void)
 {
 	//スポーンするまでの時間をカウント
-	m_nSpawnCnt++;
-	int nMaxEnemy = CEnemy::GetMaxEnemy();
-	if (m_nSpawnCnt >= m_nSpawnTime && nMaxEnemy <= SpawnLimit)
+	bool bPause = CManager::GetPause();
+	if (!bPause)
 	{
-
-		//最大値行くまで敵を生成
-		for (int nCnt = 0; nCnt < SpawnMax; nCnt++)
+		m_nSpawnCnt++;
+		int nMaxEnemy = CEnemy::GetMaxEnemy();
+		if (m_nSpawnCnt >= m_nSpawnTime && nMaxEnemy <= SpawnLimit)
 		{
-			static std::random_device random;	// 非決定的な乱数生成器
-			std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
-			std::uniform_real_distribution<> randAng(0.0f, D3DX_PI);
-			std::uniform_real_distribution<> randAng2(0.0f, D3DX_PI);
-			float fAng = randAng(mt) - randAng2(mt);
-			//スポーン地点を計算
-			D3DXVECTOR3 SpawnPos =
-			{ sinf(fAng)*SpawnLength ,0.0f,cosf(fAng)*SpawnLength };
-			CEnemy001::Create(SpawnPos, { 0.0f,0.0f,0.0f });
+
+			//最大値行くまで敵を生成
+			for (int nCnt = 0; nCnt < SpawnMax; nCnt++)
+			{
+				static std::random_device random;	// 非決定的な乱数生成器
+				std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
+				std::uniform_real_distribution<> randAng(0.0f, D3DX_PI);
+				std::uniform_real_distribution<> randAng2(0.0f, D3DX_PI);
+				std::uniform_real_distribution<> randLength(SpawnLengthMin, SpawnLengthMax);
+				float fAng = randAng(mt) - randAng2(mt);
+				float fLength = randLength(mt);
+				//スポーン地点を計算
+				D3DXVECTOR3 SpawnPos =
+				{ sinf(fAng)*fLength ,0.0f,cosf(fAng)*fLength };
+				CEnemy001::Create(m_pos + SpawnPos, { 0.0f,0.0f,0.0f });
+			}
+			m_nSpawnCnt = 0;
 		}
-		m_nSpawnCnt = 0;
+
 	}
 }
 
@@ -75,10 +85,11 @@ void CEnemySpawnManager::Draw()
 //----------------------------------------------
 //インスタンス生成
 //----------------------------------------------
-CEnemySpawnManager *CEnemySpawnManager::Create()
+CEnemySpawnManager *CEnemySpawnManager::Create(const D3DXVECTOR3& pos)
 {
 	CEnemySpawnManager *pEnemy = NULL;
 	pEnemy = new CEnemySpawnManager;
+	pEnemy->m_pos = pos;
 	pEnemy->Init();
 	return pEnemy;
 }

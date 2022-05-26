@@ -163,6 +163,7 @@ void CEnemy::Update()
 				m_bDamage = false;
 				m_bEffect = false;
 			}
+			//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‹ß‚©‚Á‚½‚ç
 			if (m_bNearPlayer)
 			{
 				CPlayer *pPlayer = CManager::GetGame()->GetPlayer();

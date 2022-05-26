@@ -13,12 +13,14 @@ public:
 	typedef enum
 	{
 		OBJTYPE_NONE = 0,
+		OBJTYPE_MANAGER,
 		OBJTYPE_BG,
 		OBJTYPE_FIELD,				//床
 		OBJTYPE_WALL,				//壁
 		OBJTYPE_GIMMICKWALL,				//壁
 		OBJTYPE_SKY,				//床
 		OBJTYPE_MODEL,				//モデル
+		OBJTYPE_MODELSPAWNER,				//モデル
 		OBJTYPE_BLOCK,				//モデル
 		OBJTYPE_WOOD,				//モデル
 		OBJTYPE_PLAYER,				//プレイヤー

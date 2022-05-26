@@ -8,7 +8,7 @@
 class CSound;
 
 #define MAX_KEYSET (10) //最大キーセット数
-#define MAX_DRAWRADIUS (1000.0f)
+#define MAX_DRAWRADIUS (2000.0f)
 #define MAX_COLRADIUS (400.0f)
 #define MAX_ATTACKSTART_RADIUS (150.0f)//攻撃開始範囲
 #define ENEMY_ADD_SPEED (0.2)//ゲージを増やす量

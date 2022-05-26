@@ -9,7 +9,7 @@
 #include "texture.h"
 #include "model_spawner.h"
 #include "stage_preset_data.h"
-
+#include "enemy_spawn_manager.h"
 //------------------------------------
 // コンストラクタ
 //------------------------------------
@@ -98,4 +98,5 @@ void CStage_Preset::PresetCreate(const int& nType)
 			CModel_Spawner::Create(m_pos + ModelData.pos,ModelData.rot, ModelData.nType);
 		}
 	}
+	CEnemySpawnManager::Create(m_pos);
 }

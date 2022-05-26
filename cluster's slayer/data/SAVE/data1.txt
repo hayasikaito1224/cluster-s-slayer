@@ -1,3 +1,5 @@
 ClearPercent=0
 HaveMoney=0
+Skill=2
+Skill=3
 

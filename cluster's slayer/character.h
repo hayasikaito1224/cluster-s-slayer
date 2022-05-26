@@ -27,6 +27,7 @@ public:
 	void Update();
 	void Draw();
 	bool IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, const float& fRadius, const float& MoveSpeed);//“–‚½‚è”»’è
+	void IsModelCollision();
 	void HPChange(float fNum);//‘Ì—Í‚Ì‘Œ¸
 	float GetLife() { return m_fHitPoint; }
 	void StateChange(state_type StateType);//ó‘Ô‚Ì•Ï‰»
