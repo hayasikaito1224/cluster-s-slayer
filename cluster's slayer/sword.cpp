@@ -65,6 +65,7 @@ void CSword::Update()
 	if (m_bCanHitCollision)
 	{
 		CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
+
 		//“G‚Ìî•ñ‚ðŽ‚Á‚Ä‚«‚Ä“–‚½‚è”»’è‚Ìˆ—‚ð‚·‚é
 		//“G‚Æ‚Ì“–‚½‚è”»’è
 		CScene *pScene_Enemy = CScene::GetScene(CScene::OBJTYPE_ENEMY);
@@ -73,8 +74,9 @@ void CSword::Update()
 			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
 			//Ž€–S”»’è‚ðŽæ“¾
 			bool bIsDeath = pEnemy->GetDeath();
+			bool bNear = pEnemy->GetNearPlayer();
 			//“G‚ª¶‚«‚Ä‚¢‚½‚ç
-			if (!bIsDeath)
+			if (!bIsDeath&& bNear)
 			{
 				D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
 				int nSize = pEnemy->GetParts().size();
