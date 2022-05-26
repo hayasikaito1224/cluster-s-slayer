@@ -74,6 +74,7 @@ public:
 		TrgetLock,	//ミサイル着弾地点エフェクト
 		Explosion,	//爆発ドーム
 		Thunder,	//サンダー
+		Crater,	//クレーター
 		Max,			// テクスチャの最大数
 	} Type;
 
