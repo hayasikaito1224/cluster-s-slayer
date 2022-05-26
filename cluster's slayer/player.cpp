@@ -697,11 +697,11 @@ void CPlayer::MouseCameraCtrl()
 bool CPlayer::IsNear(D3DXVECTOR3 EnemyPos, float Radius)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//©•ª‚Æ‘Šè‚ÌƒxƒNƒgƒ‹
-	vec = m_pos - EnemyPos;
+	vec = EnemyPos - m_pos;
 	float fLength = 0.0f;
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ğ‹‚ß‚é
 	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
-	float fCollisionRadius = m_fRadius + Radius;
+	float fCollisionRadius = PossibleRange + Radius;
 	//‘Šè‚Æ©•ª‚Ì‹——£‚ª©•ª‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³‚æ‚è¬‚³‚­‚È‚Á‚½‚ç
 	if (fLength <= fCollisionRadius)
 	{

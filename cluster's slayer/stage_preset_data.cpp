@@ -126,6 +126,11 @@ void CStage_Preset_Data::StagePresetDataLoad(const char *cFileName, const int& n
 					m_PresetData[nType].WallData[nWallCnt].size = size;
 					m_PresetData[nType].WallData[nWallCnt].rot = rot;
 					m_PresetData[nType].WallData[nWallCnt].block = { (float)nBlockX ,(float)nBlockY };
+					pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					nBlockX = 0;
+					nBlockY = 0;
 
 					//ï«ÇÃå¬êîÇâ¡éZ
 					nWallCnt++;
@@ -167,6 +172,11 @@ void CStage_Preset_Data::StagePresetDataLoad(const char *cFileName, const int& n
 					m_PresetData[nType].FieldData[nFieldCnt].size = size;
 					m_PresetData[nType].FieldData[nFieldCnt].rot = rot;
 					m_PresetData[nType].FieldData[nFieldCnt].block = { (float)nBlockX ,(float)nBlockY };
+					pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					nBlockX = 0;
+					nBlockY = 0;
 
 					//è∞ÇÃå¬êîÇâ¡éZ
 					nFieldCnt++;
@@ -206,6 +216,11 @@ void CStage_Preset_Data::StagePresetDataLoad(const char *cFileName, const int& n
 					m_PresetData[nType].ModelData[nModelCnt].size = size;
 					m_PresetData[nType].ModelData[nModelCnt].rot = rot;
 					m_PresetData[nType].ModelData[nModelCnt].nType = nModelType;
+					pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+					nBlockX = 0;
+					nBlockY = 0;
 
 					//ï«ÇÃå¬êîÇâ¡éZ
 					nModelCnt++;
