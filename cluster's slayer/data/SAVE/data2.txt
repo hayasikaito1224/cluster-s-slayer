@@ -13,6 +13,9 @@ Skill=4
 Skill=5
 Skill=6
 Skill=7
+<<<<<<< HEAD
 Skill=8
 >>>>>>> f4deaf9fd2f0759ec03ebcd5eaa4a7082b09f433
+=======
+>>>>>>> 9372532ce2679101a7babea46af8aebdb1f14567
 

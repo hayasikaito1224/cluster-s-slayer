@@ -33,9 +33,9 @@ CMissile::CMissile(OBJTYPE nPriority) :CScene(nPriority)
 {
 	m_bDraw = true;
 	m_fIntervalTimer = 0.0f;
-	m_SearchRange = SearchRange;
+	m_State.m_SearchRange = SearchRange;
 	m_nCntSearch = 0;
-	m_nCntSearchMax = SearchMax;
+	m_State.m_nCntSearchMax = SearchMax;
 	m_bCanSearch = true;
 	m_bCanShotMissile = false;
 
@@ -55,7 +55,7 @@ CMissile::~CMissile()
 HRESULT CMissile::Init()
 {
 	//動的確保
-	m_pEnemyPos = new D3DXVECTOR3[m_nCntSearchMax];
+	m_pEnemyPos = new D3DXVECTOR3[m_State.m_nCntSearchMax];
 	return S_OK;
 
 }
@@ -89,7 +89,7 @@ void CMissile::Update()
 					//当たり判定
 					float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
 					//サーチ回数が限界に来るまで敵をサーチする
-					if (m_nCntSearch < m_nCntSearchMax)
+					if (m_nCntSearch < m_State.m_nCntSearchMax)
 					{
 						SearchEnemy(EnemyPos, fRadius);
 					}
@@ -111,7 +111,7 @@ void CMissile::Update()
 			m_nCntSearch = 0;
 		}
 	}
-	if (m_nCntSearch >= m_nCntSearchMax)
+	if (m_nCntSearch >= m_State.m_nCntSearchMax)
 	{
 		m_bCanSearch = false;
 	}
@@ -127,7 +127,7 @@ void CMissile::Update()
 			//次の敵の位置に移す
 			m_nCntSearch++;
 		}
-		if (m_nCntSearch >= m_nCntSearchMax)
+		if (m_nCntSearch >= m_State.m_nCntSearchMax)
 		{
 			m_bUninit = true;
 		}
@@ -161,7 +161,7 @@ void CMissile::SearchEnemy(const D3DXVECTOR3 EnemyPos, const float fRadius)
 	D3DXVECTOR3 PlayerVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	PlayerVec = EnemyPos - pPlayer->GetPos();			//敵と弾のベクトル
 	float fLength = sqrtf((PlayerVec.z*PlayerVec.z) + (PlayerVec.x*PlayerVec.x));
-	if (fLength <= m_SearchRange + fRadius)
+	if (fLength <= m_State.m_SearchRange + fRadius)
 	{
 		//敵の位置を保存
 		m_pEnemyPos[m_nCntSearch] = EnemyPos;

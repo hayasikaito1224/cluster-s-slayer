@@ -61,7 +61,6 @@ HRESULT CGameMenu::Init(void)
 		switch (nCnt)
 		{
 		case CPlayer::ATKup:
-		case CPlayer::Eye:
 		case CPlayer::Heal:
 		case CPlayer::OverHeal:
 		case CPlayer::Sheild:

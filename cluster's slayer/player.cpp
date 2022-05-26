@@ -725,12 +725,18 @@ void CPlayer::LevelUp(int nType)
 		CPresetEffect::SetEffect3D(4, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{} ,{});	//大きくなるだけのやつ
 
 		break;
-	case Eye:
-		break;
 	case Heal:
 		//オートヒール設定をオンにする
 		m_bCanAutoHeel = true;
-		m_fAutoHeel += 10.0f;
+		m_HealLevel++;
+		if (m_HealLevel <= MAX_HEAL_LEVEL)
+		{
+			m_fAutoHeel += 10.0f;
+		}
+		else
+		{
+			m_HealLevel = MAX_HEAL_LEVEL;
+		}
 		break;
 	case OverHeal:
 		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP,0);
@@ -758,6 +764,11 @@ void CPlayer::LevelUp(int nType)
 			m_pDamegeGuard->Uninit();
 			m_pDamegeGuard = nullptr;
 		}
+		if (m_SheildLevel >= CGuard::Level_MAX)
+		{
+			m_SheildLevel = CGuard::Level_MAX;
+		}
+
 		if (!m_pDamegeGuard)
 		{
 			//ダメージガードの生成
@@ -777,7 +788,10 @@ void CPlayer::LevelUp(int nType)
 				m_pAssistCrystal[nCnt] = CAssistCrystal::Create({ 0.0f,100.0,0.0f }, { 0.0,D3DXToRadian(180 + (180*nCnt)),0.0 }, this, m_BeamLevel);
 			}
 		}
-
+		if (m_BeamLevel >= CAssistCrystal::Level_MAX)
+		{
+			m_BeamLevel = CAssistCrystal::Level_MAX;
+		}
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
@@ -790,10 +804,19 @@ void CPlayer::LevelUp(int nType)
 		break;
 	case Rocket:
 		m_bCanMissile = true;
+		m_RocketLevel++;
+		if (m_RocketLevel >= CMissile::Level_MAX)
+		{
+			m_RocketLevel = CMissile::Level_MAX;
+		}
 		break;
 	case RushAttack:
 		m_bCanRushAttack = true;
 		m_RushAttackLevel++;
+		if (m_RushAttackLevel >= CRushAttack::Level_MAX)
+		{
+			m_RushAttackLevel = CRushAttack::Level_MAX;
+		}
 		break;
 	}
 }

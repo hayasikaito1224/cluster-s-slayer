@@ -17,10 +17,10 @@ static const D3DXVECTOR3 SelectBottomSize = { 150.0f,250.f,0.0f };
 static const D3DXVECTOR3 SelectBottomPos = { 300.0f,300.f,0.0f };
 static const float SelectBottomPosInterval = 200.0f;//アクションスキルの乱数の最小値
 
-static const int ActionSkillMin = 5;//アクションスキルの乱数の最小値
-static const int ActionSkillMax = 9;//アクションスキルの乱数の最大値
+static const int ActionSkillMin = 4;//アクションスキルの乱数の最小値
+static const int ActionSkillMax = 8;//アクションスキルの乱数の最大値
 static const int PassiveSkillMin = 0;//パッシブスキルの乱数の最小値
-static const int PassiveSkillMax = 5;//パッシブスキルの乱数の最大値
+static const int PassiveSkillMax = 4;//パッシブスキルの乱数の最大値
 
 //--------------------------------------------
 //コンストラクタ

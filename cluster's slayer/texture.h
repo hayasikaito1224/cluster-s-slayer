@@ -36,7 +36,6 @@ public:
 		SKY,			//‹ó
 		FIRE,
 		ATKup,
-		Eye,
 		Heal,
 		OverHeal,
 		Sheild,

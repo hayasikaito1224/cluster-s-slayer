@@ -9,6 +9,8 @@ class CModel;
 class CMissile_Bullet : public CScene
 {
 public:
+
+
 	CMissile_Bullet(OBJTYPE nPriority = OBJTYPE_EFFECT);
 	~CMissile_Bullet();
 	HRESULT Init();
