@@ -54,5 +54,6 @@ OBJECTMODEL_FILENAME = data/MODEL/stone002.x			# [15]êŒ
 OBJECTMODEL_FILENAME = data/MODEL/wood.x			# [16]ñÿ
 OBJECTMODEL_FILENAME = data/MODEL/wood001.x			# [17]ãêñÿ
 OBJECTMODEL_FILENAME = data/MODEL/bonfire.x			# [18]ï∞âŒ
+OBJECTMODEL_FILENAME = data/MODEL/lake.x			# [19]ír
 
 END_SCRIPT
