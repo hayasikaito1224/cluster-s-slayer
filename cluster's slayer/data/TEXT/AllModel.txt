@@ -52,6 +52,7 @@ OBJECTMODEL_FILENAME = data/MODEL/stone000.x			# [13]チーズタルトの床
 OBJECTMODEL_FILENAME = data/MODEL/stone001.x			# [14]チーズタルトの床
 OBJECTMODEL_FILENAME = data/MODEL/stone002.x			# [15]チーズタルトの床
 OBJECTMODEL_FILENAME = data/MODEL/wood.x			# [16]チーズタルトの床
-OBJECTMODEL_FILENAME = data/MODEL/wood001.x			# [17]チーズタルトの床
+OBJECTMODEL_FILENAME = data/MODEL/wood001.x			# [17]巨木
+OBJECTMODEL_FILENAME = data/MODEL/bonfire.x			# [18]焚火
 
 END_SCRIPT

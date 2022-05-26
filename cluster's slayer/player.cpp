@@ -45,6 +45,8 @@ static const float ComboWaitTime = 10.0f;
 static const float PlayerPower = 5.0f;
 static const float MaxHP = 1000.0f;
 static const float MaxExp = 2.0f;
+static const float PossibleRange = 300.0f;
+
 static const int RushStartTime = 30;
 static const int BlackHoleShotTime= 200;
 static const int GuardMax = 20;
@@ -196,22 +198,31 @@ void CPlayer::Update()
 			int nSize = pEnemy->GetParts().size();
 			if (nSize != 0)
 			{
-				if (pEnemy->GetRushAttack())
-				{
-					//’ÇŒ‚‚·‚é
-					CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
-					//’ÇŒ‚‚µ‚È‚¢‚æ‚¤‚É‚·‚é
-					pEnemy->SetRushAttack(false);
-				}
 				//“–‚½‚è”»’è
 				float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-				if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
+
+				//“G‚É‹ß‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é
+				bool bNear = IsNear(EnemyPos, fRadius);
+				pEnemy->SetIsNear(bNear);
+				if (bNear)
 				{
-					break;
-				}
-				else
-				{
-					m_fMoveSpeed = PlayerMoveSpeed;
+
+					if (pEnemy->GetRushAttack())
+					{
+						//’ÇŒ‚‚·‚é
+						CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
+						//’ÇŒ‚‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+						pEnemy->SetRushAttack(false);
+					}
+					if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
+					{
+						break;
+					}
+					else
+					{
+						m_fMoveSpeed = PlayerMoveSpeed;
+					}
+
 				}
 			}
 
@@ -678,6 +689,25 @@ void CPlayer::MouseCameraCtrl()
 	pCamera->SetPosR(PosR);
 	pCamera->SetPosV(PosV);
 	pCamera->SetRot(Rot);
+
+}
+//-----------------------------------------------
+//“G‚É‹ß‚¢‚©‚Ì”»’è
+//-----------------------------------------------
+bool CPlayer::IsNear(D3DXVECTOR3 EnemyPos, float Radius)
+{
+	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//©•ª‚Æ‘Šè‚ÌƒxƒNƒgƒ‹
+	vec = m_pos - EnemyPos;
+	float fLength = 0.0f;
+	//‘Šè‚Æ©•ª‚Ì‹——£‚ğ‹‚ß‚é
+	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
+	float fCollisionRadius = m_fRadius + Radius;
+	//‘Šè‚Æ©•ª‚Ì‹——£‚ª©•ª‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³‚æ‚è¬‚³‚­‚È‚Á‚½‚ç
+	if (fLength <= fCollisionRadius)
+	{
+		return true;
+	}
+	return false;
 
 }
 //-----------------------------------------------

@@ -67,7 +67,8 @@ public:
 	static void SetClear(bool bClear)						{ m_bClear = bClear; }
 	static HWND GethWnd() { return m_hWnd; }
 	static int GetGameTime() { return m_nGameTime; }
-
+	static int GetKilledEnemyCount() { return m_nKilledEnemyCount; }
+	static void SetKilledEnemyCount(int nCnt) { m_nKilledEnemyCount = nCnt; }
 private:
 	static HWND m_hWnd;//このプログラムが使っているウィンドウのハンドル
 	static CRenderer		*m_pRenderer;
@@ -94,6 +95,7 @@ private:
 	static bool	m_bClear;					//クリアしたかの判定
 	static float m_fTimer;
 	static int m_nGameTime;
+	static int m_nKilledEnemyCount;
 
 };
 

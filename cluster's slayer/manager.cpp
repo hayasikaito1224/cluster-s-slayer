@@ -57,6 +57,8 @@ bool			CManager::m_bPause = false;
 bool			CManager::m_bStop = false;
 bool			CManager::m_bEnd = false;
 bool			CManager::m_bClear = true;
+int			CManager::m_nKilledEnemyCount = 0;
+
 int g_nTimer = 0;
 
 //--------------------------------------------
@@ -492,7 +494,7 @@ void CManager::SetMode(MODE mode)
 		if (m_pTitle == NULL)
 		{
 			m_bClear = false;
-
+			m_nKilledEnemyCount = 0;
 
 			m_pTitle = new CTitle;
 			m_pTitle->Init();

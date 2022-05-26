@@ -73,6 +73,7 @@ public:
 	void MagicAttack();//魔法攻撃
 	void RockOn();//ロックオン
 	void Dodge();//回避
+	bool IsNear(D3DXVECTOR3 EnemyPos,float Radius);
 	void NearEnemyFace();//近い敵の方向にプレイヤーを向かせる
 	void LevelUp(int nType);//レベルアップの処理
 	void HitDamege(int nPower);

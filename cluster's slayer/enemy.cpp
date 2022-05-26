@@ -49,6 +49,8 @@ CEnemy::CEnemy(OBJTYPE nPriority) : CCharacter(nPriority)
 	m_bCanHitRushAttack = true;
 	m_fGravity = 0.0f;
 	m_nMaxEnemy++;
+	m_bIsKill = false;
+	m_bNearPlayer = false;
 }
 
 CEnemy::~CEnemy()
@@ -116,10 +118,9 @@ void CEnemy::Update()
 	//死んでいなかったら行動する
 	if (m_fHitPoint <= 0)
 	{
-		m_IsDeath = true;
 		m_MotionType = DETH;
 	}
-	if (m_IsDeath == false)
+	if (m_MotionType != DETH)
 	{
 		AIBehavior();
 		if(m_pShadow != nullptr)
@@ -162,21 +163,52 @@ void CEnemy::Update()
 				m_bDamage = false;
 				m_bEffect = false;
 			}
-			CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
-
-			////プレイヤーに対しての当たり判定
-			if (pPlayer)
+			if (m_bNearPlayer)
 			{
-				float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
-				IsCollision(&m_pos, pPlayer->GetPos(), fRadius, 5.0f);
-			}
-			//ノックバック状態なら
-			if (m_bKnockback == true)
-			{
-				Knockback(pPlayer->GetPos());
+				CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
+
+				////プレイヤーに対しての当たり判定
+				if (pPlayer)
+				{
+					float fRadius = pPlayer->GetParts(0)->GetMaxPos().x*3.0f;
+					IsCollision(&m_pos, pPlayer->GetPos(), fRadius, 5.0f);
+				}
+				//ノックバック状態なら
+				if (m_bKnockback == true)
+				{
+					Knockback(pPlayer->GetPos());
+				}
+				CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
+
+				////敵同士の当たり判定
+				while (pScene_Enemy != NULL)
+				{
+					if (pScene_Enemy != NULL && pScene_Enemy != this)
+					{
+						CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+						bool bIsDeath = pEnemy->GetDeath();
+						bool bNear = pEnemy->GetNearPlayer();
+						if (!bIsDeath && bNear)
+						{
+							D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+							int nSize = pEnemy->GetParts().size();
+							if (nSize != 0)
+							{
+								float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+								if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f))
+								{
+									break;
+								}
+
+							}
+
+						}
+					}
+					pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
+				}
+
 			}
 
-			CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
 
 			CScene *pScene_Wall = CScene::GetScene(OBJTYPE_WALL);
 			//壁との当たり判定
@@ -190,31 +222,6 @@ void CEnemy::Update()
 
 			}
 
-			////敵同士の当たり判定
-			while (pScene_Enemy != NULL)
-			{
-				if (pScene_Enemy != NULL && pScene_Enemy != this)
-				{
-					CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
-					bool bIsDeath = pEnemy->GetDeath();
-					if (!bIsDeath)
-					{
-						D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
-						int nSize = pEnemy->GetParts().size();
-						if (nSize != 0)
-						{
-							float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-							if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed*2.0f))
-							{
-								break;
-							}
-
-						}
-
-					}
-				}
-				pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
-			}
 
 			//モーション再生
 			if (m_pMotion != NULL)
@@ -235,9 +242,9 @@ void CEnemy::Update()
 		//モーション再生
 		if (m_pMotion != NULL)
 		{
-			m_pMotion->NoLoopPlayMotion(m_pParts.size(), &m_pParts[0], m_MotionType, m_MotionLastType, m_bMotionStop);
+			m_pMotion->NoLoopPlayMotion(m_pParts.size(), &m_pParts[0], m_MotionType, m_MotionLastType);
 		}
-		if (m_bMotionStop == true)
+		if (m_pMotion->IsMotionEnd())
 		{
 			m_IsDeath = true;
 			//消える音
@@ -248,6 +255,8 @@ void CEnemy::Update()
 		//敵の行動パターン実装予定
 		if (m_IsDeath == true)
 		{
+			int nKillCnt = CManager::GetKilledEnemyCount();
+			CManager::SetKilledEnemyCount(nKillCnt + 1);
 			Uninit();
 		}
 	}
@@ -281,6 +290,7 @@ void CEnemy::Draw()
 			if (m_pParts[nCnt] != nullptr)
 			{
 				m_pParts[nCnt]->SetDraw(m_bDraw);
+				m_pShadow->SetDraw(m_bDraw);
 				m_pParts[nCnt]->Draw();
 			}
 		}

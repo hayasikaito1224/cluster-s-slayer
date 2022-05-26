@@ -29,12 +29,13 @@ public:
 	void SetCol(D3DXCOLOR col);						//テクスチャの設定
 	void BindTexture(CTexture::Type type);
 	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	void SetDraw(bool bDraw) { m_bDraw = bDraw; }
 private:
 	D3DXVECTOR3 m_LastPos;
 	CTexture::Type m_Tex;
 	float	m_fGravity;//重力
 	float	m_fGravitySpeed;//重力
-
+	bool m_bDraw;
 };
 
 

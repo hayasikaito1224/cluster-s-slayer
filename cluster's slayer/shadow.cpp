@@ -15,6 +15,7 @@
 //=============================================================================
 CShadow::CShadow(OBJTYPE nPriority) :CScene3D(nPriority)
 {
+	m_bDraw = true;
 }
 
 //=============================================================================
@@ -153,10 +154,14 @@ void CShadow::Draw(void)
 	pDevice->SetFVF(FVF_VERTEX_3D);//頂点フォーマットの設定
 
 	pDevice->SetTexture(0, m_pTexture);
-	//ポリゴンの描画
-	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-		0,
-		2);
+	if (m_bDraw)
+	{
+		//ポリゴンの描画
+		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+			0,
+			2);
+
+	}
 	//αテスト
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);

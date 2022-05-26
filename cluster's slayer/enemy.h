@@ -71,7 +71,8 @@ public:
 	void SetbKnockback(bool bKnockBack) { m_bKnockback = bKnockBack; }
 	static int GetMaxEnemy() { return m_nMaxEnemy; }
 	static void SetMaxEnemy(int nMaxEnemy) { m_nMaxEnemy = nMaxEnemy; }
-
+	void SetIsNear(bool bNear) { m_bNearPlayer = bNear; }
+	bool GetNearPlayer() { return m_bNearPlayer; }
 private:
 	static int m_nMaxEnemy;
 protected:
@@ -81,7 +82,8 @@ protected:
 	bool m_bDraw;
 	bool m_bHit;//攻撃を受けたかどうか
 	bool m_bOnAttackCollision;
-
+	bool m_bIsKill;//プレイヤーに倒されたかどうか
+	bool m_bNearPlayer;//プレイヤーに近いかのフラグ
 	int  m_nTimer;
 	float	m_fMovingRange;//敵が自動で動く距離
 	int	m_nDefense;

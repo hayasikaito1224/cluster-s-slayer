@@ -37,6 +37,7 @@
 #include "gametimer.h"
 #include "skill_leveldata.h"
 #include "savedata.h"
+#include "camera.h"
 #define BOSS_LIFE (100)		//生命力
 #define PLAYER_LIFE (100)		//生命力
 #define MAX_DELAY (30)//ディレイの最大
@@ -98,6 +99,7 @@ CGame::~CGame()
 //--------------------------------------------
 HRESULT CGame::Init(void)
 {
+	CManager::GetRenderer()->GetCamera()->Init();
 	ShowCursor(false);
 
 	//キャラクターのパーツを読み込み

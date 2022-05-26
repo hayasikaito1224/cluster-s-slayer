@@ -80,8 +80,7 @@ public:
 		bool& bStop,bool& bAttack,bool& bDelay, bool bMotionReset);							// モーションの再生
 	void MotionTest(const int nNumParts, CModel **apModel, int *pMotionType, int *pMotionTypeLast);
 	void DelayTimeMotion();
-	void NoLoopPlayMotion(const int nNumParts, CModel **apModel, int& motionType, int& motionTypeLast,
-		bool& bStop);							// モーションの再生
+	void NoLoopPlayMotion(const int nNumParts, CModel **apModel, int& motionType, int& motionTypeLast);							// モーションの再生
 	void MotionLoad(const char *sMotionFileName);							// モーションテキストを読み込む関数
 	void Drawtext();
 	std::vector<MOTION_INFO> GetMotionInfo() { return m_aMotionInfo; }
