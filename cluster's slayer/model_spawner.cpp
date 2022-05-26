@@ -16,6 +16,7 @@
 CModel_Spawner::CModel_Spawner(OBJTYPE nPriority) :CScene(nPriority)
 {
 	m_pModel = nullptr;
+	m_bDrawLimit = true;
 }
 
 //=============================================================================
@@ -71,24 +72,29 @@ void CModel_Spawner::Update(void)
 //=============================================================================
 void CModel_Spawner::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
-
-																	 //現在のマテリアルを取得
-	D3DXMATRIX mtxRotModel, mtxTransModel;//計算用マトリックス
-	D3DXMATRIX mtxParent;//親のマトリックス
-	//各パーツのワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixRotationYawPitchRoll(&mtxRotModel, m_rot.y, m_rot.x, m_rot.z);
-	////向きを反映
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRotModel);
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTransModel, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTransModel);
-	//各パーツのワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-	if (m_pModel != NULL)
+	if (m_bDrawLimit)
 	{
-		m_pModel->Draw();
+
+		LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();//デバイスのポインタ
+
+																		 //現在のマテリアルを取得
+		D3DXMATRIX mtxRotModel, mtxTransModel;//計算用マトリックス
+		D3DXMATRIX mtxParent;//親のマトリックス
+		//各パーツのワールドマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxWorld);
+		D3DXMatrixRotationYawPitchRoll(&mtxRotModel, m_rot.y, m_rot.x, m_rot.z);
+		////向きを反映
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRotModel);
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTransModel, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTransModel);
+		//各パーツのワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+		if (m_pModel != NULL)
+		{
+			m_pModel->Draw();
+		}
+
 	}
 }
 //---------------------------------------------------------------

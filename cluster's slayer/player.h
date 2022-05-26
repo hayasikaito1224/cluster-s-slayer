@@ -121,7 +121,6 @@ private:
 	float m_fAttackMoveTime;//UŒ‚ˆÚ“®‚·‚éŠÔ
 	float m_fSoundInterval;
 	float m_fStopTime;//~‚Ü‚Á‚Ä‚¢‚éŠÔ
-	float m_fMoveSpeed;//ˆÚ“®—Ê
 	float m_fPower;//UŒ‚—Í
 	float m_fPowerDiameter;//UŒ‚—Í‘‰Á”{—¦
 	float m_fAutoHeel;//ƒI[ƒgƒq[ƒ‹—Ê

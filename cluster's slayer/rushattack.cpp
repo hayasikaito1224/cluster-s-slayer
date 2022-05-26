@@ -12,9 +12,9 @@
 #include "effect.h"
 #include "skill_leveldata.h"
 static const int StartTime = 20;
-static const int EndTime = 30;
+static const int EndTime = 120;
 static const float MaxPosY = -10.0f;
-static const float MoveSpeed = 10.0f;
+static const float MoveSpeed = 20.0f;
 static const float MaxScale = 1.0f;
 static const float Power = 4.0f;
 
@@ -102,83 +102,79 @@ void CRushAttack::Update(void)
 	else
 	{
 
-		if (m_pos.y <= MaxPosY)
+		m_pos.y += MoveSpeed;
+		//剣が敵に当たった時
+		//敵との当たり判定
+		CScene *pScene_Enemy = CScene::GetScene(CScene::OBJTYPE_ENEMY);
+		while (pScene_Enemy != NULL)
 		{
-			m_pos.y += MoveSpeed;
-			//剣が敵に当たった時
-			//敵との当たり判定
-			CScene *pScene_Enemy = CScene::GetScene(CScene::OBJTYPE_ENEMY);
-			while (pScene_Enemy != NULL)
+			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+			//死亡判定を取得
+			bool bIsDeath = pEnemy->GetDeath();
+			bool bLimit = pEnemy->GetNearPlayer();
+			//敵が生きていたら
+			if (!bIsDeath&&bLimit)
 			{
-				CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
-				//死亡判定を取得
-				bool bIsDeath = pEnemy->GetDeath();
-				//敵が生きていたら
-				if (!bIsDeath)
+				D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+				int nSize = pEnemy->GetParts().size();
+				if (nSize != 0)
 				{
-					D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
-					int nSize = pEnemy->GetParts().size();
-					if (nSize != 0)
+					float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
+					bool bHitAttack = pEnemy->bHitAttack();
+					bool bHitRushAttack = pEnemy->GetCanHitRushAttack();
+					//敵に攻撃を当てたら
+					if (IsCollision(EnemyPos, fRadius) && bHitRushAttack)
 					{
-						float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-						bool bHitAttack = pEnemy->bHitAttack();
-						bool bHitRushAttack = pEnemy->GetCanHitRushAttack();
-						//敵に攻撃を当てたら
-						if (IsCollision(EnemyPos, fRadius) && bHitRushAttack)
+						pEnemy->SetCanHitRushAttack(false);
+						pEnemy->AddLifeSkill(-m_State.m_nPower);
+						pEnemy->SetGravity(12.0f);
+						//ヒットエフェクト
+						std::random_device random;	// 非決定的な乱数生成器
+						std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
+						std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
+						D3DXVECTOR3 EnemyVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+						EnemyVec = EnemyPos - m_pos;			//敵と弾のベクトル
+						D3DXVECTOR3 EnemyPosBody = {};
+						D3DXVECTOR3 EnemyPosHead = {};
+						if (pEnemy->GetParts(0) != nullptr)
 						{
-							pEnemy->SetCanHitRushAttack(false);
-							pEnemy->AddLifeSkill(-m_State.m_nPower);
-							pEnemy->SetGravity(12.0f);
-							//ヒットエフェクト
-							std::random_device random;	// 非決定的な乱数生成器
-							std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
-							std::uniform_real_distribution<> randAng(-D3DX_PI, D3DX_PI);
-							D3DXVECTOR3 EnemyVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-							EnemyVec = EnemyPos - m_pos;			//敵と弾のベクトル
-							D3DXVECTOR3 EnemyPosBody = {};
-							D3DXVECTOR3 EnemyPosHead = {};
-							if (pEnemy->GetParts(0) != nullptr)
-							{
-								EnemyPosBody = pEnemy->GetParts(0)->GetMaxPos();
-								EnemyPosHead = pEnemy->GetParts(1)->GetMaxPos();
-							}
-							float fEnemyAng = atan2(EnemyVec.x, EnemyVec.z) + D3DX_PI;
-							D3DXVECTOR3 Addmove = D3DXVECTOR3(
-								sinf(fEnemyAng)*EnemyPosBody.x,
-								EnemyPosHead.y / 2.0f,
-								cosf(fEnemyAng)*EnemyPosBody.x);
-
-							float fAng = randAng(mt);
-
-							CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,0.0f },
-							{ 1.0,1.0,1.0,0.5f }, false, 0.0f, 0.01f, true, CTexture::HitEffect, fAng, true);
-							CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 0.4f,0.2f,0.0f },
-							{ 1.0,1.0,1.0,0.7f }, false, 0.0f, 0.015f, true, CTexture::HitEffect, fAng, true);
-
-							CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
-							{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
-							CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
-							{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
-							break;
+							EnemyPosBody = pEnemy->GetParts(0)->GetMaxPos();
+							EnemyPosHead = pEnemy->GetParts(1)->GetMaxPos();
 						}
+						float fEnemyAng = atan2(EnemyVec.x, EnemyVec.z) + D3DX_PI;
+						D3DXVECTOR3 Addmove = D3DXVECTOR3(
+							sinf(fEnemyAng)*EnemyPosBody.x,
+							EnemyPosHead.y / 2.0f,
+							cosf(fEnemyAng)*EnemyPosBody.x);
 
+						float fAng = randAng(mt);
+
+						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,0.0f },
+						{ 1.0,1.0,1.0,0.5f }, false, 0.0f, 0.01f, true, CTexture::HitEffect, fAng, true);
+						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 0.4f,0.2f,0.0f },
+						{ 1.0,1.0,1.0,0.7f }, false, 0.0f, 0.015f, true, CTexture::HitEffect, fAng, true);
+
+						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
+						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
+						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.5f,1.0f,0.0f },
+						{ 1.0f,0.5f,0.0f,1.0f }, false, 0.0f, 0.03f, true, CTexture::Effect, fAng, false, true);
+						break;
 					}
 
 				}
 
-				pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 			}
 
+			pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
 		}
-		else
-		{
-			m_nEndTimer++;
-			if (m_nEndTimer >= EndTime)
-			{
-				m_nEndTimer = 0;
-				m_bIsDeath = true;
 
-			}
+
+		m_nEndTimer++;
+		if (m_nEndTimer >= EndTime)
+		{
+			m_nEndTimer = 0;
+			m_bIsDeath = true;
+
 		}
 
 	}

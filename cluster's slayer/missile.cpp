@@ -14,7 +14,7 @@
 #include "missile_bullet.h"
 
 #include "PresetSetEffect.h"
-
+#include "skill_leveldata.h"
 static const float SearchRange = 200.0f;
 static const float RandomRange = 150.0f;
 
@@ -54,6 +54,7 @@ CMissile::~CMissile()
 //=============================================================================
 HRESULT CMissile::Init()
 {
+	m_State = CSkill_LevelData::GetStateMissile(CManager::GetGame()->GetPlayer()->GetSkillLevel(CPlayer::Rocket));
 	//動的確保
 	m_pEnemyPos = new D3DXVECTOR3[m_State.m_nCntSearchMax];
 	return S_OK;
@@ -122,7 +123,7 @@ void CMissile::Update()
 		{
 			m_fIntervalTimer = 0.0f;
 			//ミサイルを発射
-			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,MissilePopPosY,m_pEnemyPos[m_nCntSearch].z}, MissileSize, MissilePower);
+			CMissile_Bullet::Create({ m_pEnemyPos[m_nCntSearch].x,MissilePopPosY,m_pEnemyPos[m_nCntSearch].z}, MissileSize, m_State.m_nPower);
 
 			//次の敵の位置に移す
 			m_nCntSearch++;

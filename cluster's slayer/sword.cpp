@@ -101,7 +101,7 @@ void CSword::Update()
 						}
 						//敵に当たった判定を渡す
 						pEnemy->SetbDamage(true);
-						pEnemy->AddLife(-m_fPower);
+						pEnemy->AddLife((int)-m_fPower);
 						//ヒットエフェクト
 						std::random_device random;	// 非決定的な乱数生成器
 						std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
@@ -121,7 +121,7 @@ void CSword::Update()
 							EnemyPosHead.y / 2.0f,
 							cosf(fEnemyAng)*EnemyPosBody.x);
 
-						float fAng = randAng(mt);
+						float fAng = (float)randAng(mt);
 
 						CEffect::Create(Addmove + EnemyPos, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,0.0f },
 						{ 1.0,1.0,1.0,0.5f }, false, 0.0f, 0.01f, true, CTexture::HitEffect, fAng, true);

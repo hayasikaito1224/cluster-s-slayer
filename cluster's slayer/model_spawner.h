@@ -25,11 +25,14 @@ public:
 	void SetRot(float fRot) {m_rot.y = fRot;}
 	void SetSRot(D3DXVECTOR3 rot) { m_rot = rot; }
 	void SetSPos(D3DXVECTOR3 pos) { m_pos = pos; }
-
+	D3DXVECTOR3 GetPos() { return m_pos; }
 	void SetBoolRot(bool bRot) { m_MoveRot = bRot; }
+	void SetDrawLimit(bool bDrawLimit) { m_bDrawLimit = bDrawLimit; }
+	bool GetDrawLimit() { return m_bDrawLimit; }
 private:
 	float m_fRot;
 	bool m_MoveRot;//回転するモデルになるかの判定
+	bool m_bDrawLimit;
 	D3DXVECTOR3				m_pos;					//モデルの位置（オフセット）
 	D3DXVECTOR3				m_rot;					//向き
 	D3DXMATRIX				m_mtxWorld;				//ワールドマトリックス

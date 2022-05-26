@@ -222,8 +222,8 @@ void CSmallScore::SetSmallScore(int nSmallScore)
 		if (m_pNumber[nCnt] != NULL)
 		{
 			//10‚Ì—İæ‚ÌŒvZ
-			int Number = pow(10.0, (m_nMaxTruss - (nCnt)));
-			int Number2 = pow(10.0, (m_nMaxTruss - (nCnt + 1)));
+			int Number = (int)pow(10.0, (m_nMaxTruss - (nCnt)));
+			int Number2 = (int)pow(10.0, (m_nMaxTruss - (nCnt + 1)));
 			if (Number2 <= 0)
 			{
 				Number2 = 1;

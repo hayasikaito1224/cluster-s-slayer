@@ -6,7 +6,8 @@
 #include "manager.h"
 #include "Renderer.h"
 #include "shadow.h"
-
+#include "model_spawner.h"
+static const float fDrawLimit = 2000.0f;
 //---------------------------------------------
 //コンストラクタ
 //---------------------------------------------
@@ -134,27 +135,47 @@ bool CCharacter::IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, con
 	}
 	return false;
 }
-void CCharacter::IsModelCollision()
+void CCharacter::IsModelCollision(const bool& bPlayer)
 {
-	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//自分と相手のベクトル
-	CScene *pSceneModel =
-	vec = m_pos - Hitpos;
-	float fLength = 0.0f;
-	//相手と自分の距離を求める
-	fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
-	float fCollisionRadius = m_fRadius + fRadius;
-	//相手と自分の距離が自分の当たり判定の大きさより小さくなったら
-	if (fLength <= fCollisionRadius)
-	{
-		float fAng = atan2(vec.x, vec.z);
-		//押し戻す
-		D3DXVECTOR3 returnpos = { sinf(fAng)*MoveSpeed,0.0f,cosf(fAng)*MoveSpeed };
-		pMyPos->x += returnpos.x;
-		pMyPos->z += returnpos.z;
-		return true;
-	}
-	return false;
+	CScene *pSceneModel = CScene::GetScene(OBJTYPE_MODELSPAWNER);
 
+	while (pSceneModel)
+	{
+		CModel_Spawner *pModel = (CModel_Spawner*)pSceneModel;
+		D3DXVECTOR3 ModelPos = pModel->GetPos();
+		D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//自分と相手のベクトル
+		vec = m_pos - ModelPos;
+		float fRadius = pModel->GetModel()->GetMaxPos().x;
+		float fLength = 0.0f;
+		//相手と自分の距離を求める
+		fLength = sqrtf((vec.z*vec.z) + (vec.x*vec.x));
+		float fCollisionRadius = m_fRadius + fRadius;
+		if (bPlayer)
+		{
+			if (fLength >= fDrawLimit)
+			{
+				pModel->SetDrawLimit(false);
+			}
+			else
+			{
+				pModel->SetDrawLimit(true);
+			}
+		}
+		//相手と自分の距離が自分の当たり判定の大きさより小さくなったら
+		if (fLength <= fCollisionRadius && pModel->GetDrawLimit())
+		{
+			float fAng = atan2(vec.x, vec.z);
+			//押し戻す
+			D3DXVECTOR3 returnpos = { 0.0f,0.0f,0.0f };
+			returnpos.x = ModelPos.x + sinf(fAng) * fCollisionRadius;
+			returnpos.z = ModelPos.z + cosf(fAng) * fCollisionRadius;
+
+			m_pos.x = returnpos.x;
+			m_pos.z = returnpos.z;
+		}
+		pSceneModel = pSceneModel->GetSceneNext(pSceneModel);
+
+	}
 }
 //-----------------------------------------------
 //HPの増減

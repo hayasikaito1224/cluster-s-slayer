@@ -10,10 +10,10 @@
 #include "skill_leveldata.h"
 static const float MoveSpeedMax = 4.0f;
 static const float MoveSpeedMin = 2.0f;
-static const float HoleSpeed = 1.5f;
+static const float HoleSpeed = 10.0f;
 static const float HoleArea = 200.0f;
 static const int DeleteTime = 200;
-static const int HoleExpansionTime = 60;
+static const int HoleExpansionTime = 150;
 
 //--------------------------------------------
 //コンストラクタ
@@ -131,9 +131,10 @@ void CBlackHole::Suction()
 			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
 			D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
 			int nSize = pEnemy->GetParts().size();
-			if (nSize != 0)
+			bool bLimit = pEnemy->GetNearPlayer();
+			if (nSize != 0 && bLimit)
 			{
-				pEnemy->HoleAlign(m_pos, m_State.m_fArea, HoleSpeed);
+				pEnemy->HoleAlign(m_pos, m_State.m_fArea * 2.0f, HoleSpeed);
 			}
 
 		}

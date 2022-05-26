@@ -145,6 +145,8 @@ void CEnemy::Update()
 
 		if (m_bDraw == true)
 		{
+			IsModelCollision(false);
+
 			CCollision *pCollision = new CCollision;
 			//É_ÉÅÅ[ÉWÇéÛÇØÇΩÇÁñ≥ìGèÛë‘Ç…Ç∑ÇÈ
 			if (m_bDamage == true)
@@ -209,7 +211,6 @@ void CEnemy::Update()
 				}
 
 			}
-
 
 			CScene *pScene_Wall = CScene::GetScene(OBJTYPE_WALL);
 			//ï«Ç∆ÇÃìñÇΩÇËîªíË
@@ -388,7 +389,7 @@ void CEnemy::HoleAlign(D3DXVECTOR3 holePos, float fHitSize, float AlignSpeed)
 //----------------------------------------------------------
 void CEnemy::AddLifeSkill(int nLife)
 {
-	int nDamege = nLife + m_nDefense;
+	int nDamege = nLife;
 	m_fHitPoint += nDamege;
 	int nDrawDamage = abs(nDamege);
 	CSmallScore::Create({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, { 10.0f,20.0f,0.0f }, { 1.0f, 0.3f, 0.3f, 0.0f }, nDrawDamage);
