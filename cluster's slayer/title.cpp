@@ -285,6 +285,18 @@ void CTitle::Update(void)
 					// ‰¹º‚ðÄ¶
 					CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
 					CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+					if (m_pPercent[nCnt])
+					{
+						m_pPercent[nCnt]->Uninit();
+						m_pPercent[nCnt] = nullptr;
+					}
+					if(!m_pPercent[nCnt])
+					{
+						m_pPercent[nCnt] = CScore::Create({ m_Polygon[PORYGON_FILE01 + nCnt]->GetPos().x,500.0f,0.0f }, { 20.0f,30.0f,0.0f });
+						m_pPercent[nCnt]->SetFitScore(0);
+
+					}
+
 				}
 
 				else

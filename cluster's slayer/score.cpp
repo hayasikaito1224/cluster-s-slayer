@@ -35,6 +35,12 @@ HRESULT CScore::Init(D3DXVECTOR3 pos, float fsize)
 
 HRESULT CScore::Init(void)
 {
+	//桁数の更新
+	SetTrussSmallScore();
+
+	//現在のスコアをポリゴンに反映
+	SetScore();
+
 	return S_OK;
 }
 
@@ -66,7 +72,10 @@ void CScore::Draw()
 {
 	for (int nCntTime = 0; nCntTime < m_nMaxTruss; nCntTime++)
 	{
-		m_apNumber[nCntTime]->Draw();
+		if (m_apNumber[nCntTime])
+		{
+			m_apNumber[nCntTime]->Draw();
+		}
 	}
 }
 

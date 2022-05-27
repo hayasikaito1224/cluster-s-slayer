@@ -24,7 +24,7 @@ class CSound;
 class CPause;
 class CXload;
 class CGameMenu;
-static int ClearTime = 1;
+static int ClearTime = 5;
 
 class CManager
 {
