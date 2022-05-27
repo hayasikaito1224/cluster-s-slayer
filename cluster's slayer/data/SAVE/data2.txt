@@ -1,4 +1,4 @@
-ClearPercent=100
+ClearPercent=40
 HaveMoney=0
 Skill=0
 Skill=1

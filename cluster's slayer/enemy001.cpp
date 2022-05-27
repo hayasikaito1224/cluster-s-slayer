@@ -92,7 +92,7 @@ HRESULT CEnemy001::Init()
 //----------------------------------
 void CEnemy001::Uninit()
 {
-	int nDiameter = CManager::GetGameTime();
+	int nDiameter = CManager::GetGameTimeMinut();
 	static std::random_device random;	// 非決定的な乱数生成器
 	std::mt19937_64 mt(random());            // メルセンヌ・ツイスタの64ビット版、引数は初期シード
 	std::uniform_real_distribution<> randEXPNum(MinEXPNum, MaxEXPNum);//経験値の数を乱数で決める

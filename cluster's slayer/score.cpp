@@ -134,6 +134,10 @@ void CScore::SetTrussSmallScore()
 	{
 		nCrateTruss = MAX_SCORE;
 	}
+	if (nCrateTruss <= 0)
+	{
+		nCrateTruss = 1;
+	}
 	CreateNumber(nCrateTruss);
 
 }

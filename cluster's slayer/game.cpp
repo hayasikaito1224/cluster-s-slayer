@@ -86,6 +86,8 @@ CGame::CGame()
 	m_pExpGauge = nullptr;
 	m_pHPGauge = nullptr;
 	m_bIsClear = false;
+	m_nGameTimeSecond = 0;
+	m_nTimer = 0;
 }
 //--------------------------------------------
 //デストラクタ
@@ -157,7 +159,6 @@ HRESULT CGame::Init(void)
 
 	m_fAlpha = 1.0f;
 	m_bNextMode = false;
-	m_nTimer = 0;
 	return S_OK;
 }
 //--------------------------------------------
@@ -223,7 +224,6 @@ void CGame::Update(void)
 	{
 		if (!m_bNextMode)
 		{
-
 			if (m_pExpGauge)
 			{
 				float fExp = m_pExpGauge->GetGaugeBer(0)->GetGaugeValue();
@@ -236,6 +236,16 @@ void CGame::Update(void)
 					m_pExpGauge->ResetGauge(0);
 					CSkillSelect::Create();
 
+				}
+
+			}
+			if (m_pHPGauge)
+			{
+				if (m_pHPGauge->GetGaugeBer(0)->GetGaugeValue() <= 0)
+				{
+					m_bNextMode = true;
+					// タイトルシーンへ行く
+					CFade::SetFade(CManager::MODE_RESULT);
 				}
 
 			}
@@ -254,6 +264,13 @@ void CGame::Update(void)
 				m_bNextMode = true;
 				// タイトルシーンへ行く
 				CFade::SetFade(CManager::MODE_RESULT);
+			}
+			m_nTimer++;
+			if (m_nTimer >= 60)
+			{
+				m_nTimer = 0;
+				m_nGameTimeSecond++;
+				CManager::SetGameTimeSecond(m_nGameTimeSecond);
 			}
 		}
 	}

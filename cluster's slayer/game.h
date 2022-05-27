@@ -79,6 +79,7 @@ private:
 	bool m_bPush;
 	bool m_bEnd;
 	int m_nCntDelay;//ディレイのカウンタ
+	int m_nGameTimeSecond;
 	float				m_fAlpha;
 	bool				m_bNextMode;//二重押し防止変数
 	bool m_bIsClear;

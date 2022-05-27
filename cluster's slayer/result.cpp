@@ -22,7 +22,7 @@ static int A_LankScore = 900000;
 static int B_LankScore = 700000;
 
 CBg *CResult::m_pBg = NULL;
-static int CntSpeed = 80;
+static int CntSpeed = 40;
 //--------------------------------------------
 //コンストラクタ
 //--------------------------------------------
@@ -56,7 +56,7 @@ HRESULT CResult::Init(void)
 	m_pBg = CBg::Create(CTexture::None, CScene::OBJTYPE_BG, false);	//背景
 	//クリアパーセントの計算
 	int nEnemyCntKill = CManager::GetKilledEnemyCount();
-	int nClearTime = CManager::GetGameTime();
+	int nClearTime = CManager::GetGameTimeSecond();
 
 	int nTotalScore = (nClearTime*ClearTimeMagnification) + (nEnemyCntKill*EnemyCntMagnification);
 
@@ -158,11 +158,11 @@ void CResult::Update(void)
 		}
 		else
 		{
-			if (!m_pSelectButton[GAME_MENU])
-			{
-				m_pSelectButton[GAME_MENU] = CResultSelectButton::Create({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 80.0f, 0.0f },
-				{ 200, 40.0f, 0.0f }, CTexture::GameBack);
-			}
+			//if (!m_pSelectButton[GAME_MENU])
+			//{
+			//	m_pSelectButton[GAME_MENU] = CResultSelectButton::Create({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 80.0f, 0.0f },
+			//	{ 200, 40.0f, 0.0f }, CTexture::GameBack);
+			//}
 			if (!m_pSelectButton[TITLE])
 			{
 				m_pSelectButton[TITLE] = CResultSelectButton::Create({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 200.0f, 0.0f },
@@ -170,35 +170,39 @@ void CResult::Update(void)
 			}
 			for (int nCnt = 0; nCnt < MAX; nCnt++)
 			{
-				bool bDecision = m_pSelectButton[nCnt]->GetDecision();
-				if (bDecision)
+				if (m_pSelectButton[nCnt])
 				{
-					switch (nCnt)
+					bool bDecision = m_pSelectButton[nCnt]->GetDecision();
+					if (bDecision)
 					{
-					case CResult::GAME_MENU:
-						// 音声を再生
-						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
-						CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+						switch (nCnt)
+						{
+						case CResult::GAME_MENU:
+							// 音声を再生
+							CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
+							CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
 
-						m_bNextMode = true;
+							m_bNextMode = true;
 
-						// メニューシーンへ行く
-						CFade::SetFade(CManager::MODE_MENU);
+							// メニューシーンへ行く
+							CFade::SetFade(CManager::MODE_MENU);
 
-						break;
-					case CResult::TITLE:
-						// 音声を再生
-						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
-						CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
+							break;
+						case CResult::TITLE:
+							// 音声を再生
+							CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENTER);
+							CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENTER, 0.6f);
 
-						m_bNextMode = true;
+							m_bNextMode = true;
 
-						// メニューシーンへ行く
-						CFade::SetFade(CManager::MODE_TITLE);
+							// メニューシーンへ行く
+							CFade::SetFade(CManager::MODE_TITLE);
 
-						break;
+							break;
 
+						}
 					}
+
 				}
 			}
 		}
@@ -221,13 +225,16 @@ void CResult::ScoreCalculating()
 	//クリアタイムの演出
 	if(!m_bTotalScorePoped[0])
 	{
-		int nClearTime = CManager::GetGameTime();
+		int nClearTime = CManager::GetGameTimeSecond();
 		int nCntSpeed = nClearTime / CntSpeed;
+		if (nCntSpeed <= 0)
+		{
+			nCntSpeed = 1;
+		}
 		int nTime = 0;
 		if (!m_pTimer)
 		{
 			m_pTimer = CGametimer::Create({ 300.0f,160.0f,0.0f }, { 1.0,1.0,1.0,1.0 }, false);
-
 		}
 		nTime = m_pTimer->GetSecond() + (m_pTimer->GetMinute() * 60);
 		if (nTime < nClearTime)
@@ -274,6 +281,10 @@ void CResult::ScoreCalculating()
 	{
 		int nEnemyCntKill = CManager::GetKilledEnemyCount();
 		int nCntSpeed = nEnemyCntKill / CntSpeed;
+		if (nCntSpeed <= 0)
+		{
+			nCntSpeed = 1;
+		}
 		if (!m_pEnemyCnt)
 		{
 			m_pEnemyCnt = CScore::Create({ 200.0f,250.0f,0.0f }, { 20.0f,30.0f,0.0f });
@@ -322,6 +333,10 @@ void CResult::ScoreCalculating()
 	{
 		int nTotalScore = m_pTotalScore[0]->GetScore()+ m_pTotalScore[1]->GetScore();
 		int nCntSpeed = nTotalScore / CntSpeed;
+		if (nCntSpeed < 0)
+		{
+			nCntSpeed = 1;
+		}
 		if (!m_pTotalScore[2])
 		{
 			m_pTotalScore[2] = CScore::Create({ 850.0f,350.0f,0.0f }, { 20.0f,30.0f,0.0f });
