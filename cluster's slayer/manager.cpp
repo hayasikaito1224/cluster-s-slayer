@@ -495,6 +495,7 @@ void CManager::SetMode(MODE mode)
 		{
 			m_bClear = false;
 			m_nKilledEnemyCount = 0;
+			m_nGameTime = 0;
 
 			m_pTitle = new CTitle;
 			m_pTitle->Init();
@@ -507,6 +508,9 @@ void CManager::SetMode(MODE mode)
 	case MODE_MENU:
 		if (m_pGameMenu == NULL)
 		{
+			m_bClear = false;
+			m_nKilledEnemyCount = 0;
+			m_nGameTime = 0;
 			m_pGameMenu = new CGameMenu;
 			m_pGameMenu->Init();
 			//m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);

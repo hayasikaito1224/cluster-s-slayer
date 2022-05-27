@@ -38,7 +38,7 @@ public:
 	static HRESULT ResetFile(string FileName);
 	static bool GetHaveSkill(int nSkillType) { return m_bHaveSkill[nSkillType]; }
 	static void FetchSetHaveSkill(int nSkillType) { m_bHaveSkill[nSkillType] = true; }
-
+	static void SetClearPercent(int nClearPercent) { m_nClearPercent = nClearPercent; }
 private:
 	static int m_nClearPercent;		// ÉNÉäÉAó¶
 	static const int m_nMaxClearPercent = 100;

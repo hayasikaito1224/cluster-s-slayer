@@ -8,7 +8,7 @@
 #include "2Dnumber.h"
 #include <math.h>
 #include "Score.h"
-
+#include "Polygon.h"
 static const int MaxTime = 20;
 static const D3DXVECTOR3 Scale = {20.0f,30.0f,0.0};
 //--------------------------
@@ -19,6 +19,11 @@ CGametimer::CGametimer(OBJTYPE nPriority) :CScene(nPriority)
 	m_nCommaCnt = 0;
 	m_nSecondCnt = 0;
 	m_nMinuteCnt = 0;
+	m_bCanCount = true;
+	memset(m_pSecond, NULL, sizeof(m_pSecond));
+	memset(m_pMinute, NULL, sizeof(m_pMinute));
+	memset(pPolygon, NULL, sizeof(pPolygon));
+
 }
 
 //--------------------------
@@ -47,6 +52,13 @@ HRESULT CGametimer::Init()
 		//ナンバーの桁数分生成
 		m_pMinute[nCnt] = C2DNumber::Create(D3DXVECTOR3((((Scale.x * 2)* nCnt) + m_pos.x) - (Scale.x*5), m_pos.y, 0.0f), Scale);
 		m_pMinute[nCnt]->SetCol(m_col);
+
+	}
+	for (int nCnt = 0; nCnt < SECONDNUMBERS_MAX; nCnt++)
+	{
+		//ナンバーの桁数分生成
+		pPolygon[nCnt] = CPolygon::Create({ m_pos.x - (Scale.x + 8.0f), m_pos.y + (-10.0f + (20.0f*nCnt)), 0.0f }, { 5.0f,5.0f,0.0f }, CTexture::None);
+		pPolygon[nCnt]->SetCol({0.0f,0.0f,0.0f,1.0});
 
 	}
 	//スコアの数値を更新し続ける
@@ -82,7 +94,10 @@ void CGametimer::Uninit()
 //----------------------------
 void CGametimer::Update()
 {
-	TimeCount();
+	if (m_bCanCount)
+	{
+		TimeCount();
+	}
 	TimeNumbers();
 	if (m_bUninit)
 	{
@@ -159,10 +174,19 @@ void CGametimer::TimeCount()
 		m_nMinuteCnt++;
 	}
 }
+void CGametimer::AddMinute(int nMinute)
+{
+	m_nSecondCnt += nMinute;
+	if (m_nSecondCnt >= 60)
+	{
+		m_nSecondCnt = 0;
+		m_nMinuteCnt++;
+	}
+}
 //---------------------------------------------------------------
 //インスタンス生成処理
 //---------------------------------------------------------------
-CGametimer *CGametimer::Create(const D3DXVECTOR3 pos, const D3DXCOLOR col)
+CGametimer *CGametimer::Create(const D3DXVECTOR3 pos, const D3DXCOLOR col, const bool& CanCount)
 {
 	//インスタンス生成
 	CGametimer *pSmallScore = new CGametimer(OBJTYPE_TIME);
@@ -170,6 +194,7 @@ CGametimer *CGametimer::Create(const D3DXVECTOR3 pos, const D3DXCOLOR col)
 	{
 		pSmallScore->m_pos = pos;
 		pSmallScore->m_col = col;
+		pSmallScore->m_bCanCount = CanCount;
 		pSmallScore->Init();
 	}
 

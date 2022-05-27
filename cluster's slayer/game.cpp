@@ -62,7 +62,6 @@ static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-static int ClearTime = 3;
 
 //--------------------------------------------
 //コンストラクタ
@@ -118,8 +117,8 @@ HRESULT CGame::Init(void)
 	//体力ゲージの生成
 	if (!m_pHPGauge)
 	{
-		float fHP = m_Player->GetLife();
-		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 400.0f,15.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 400, fHP, CGauge::R_ADD);
+		float fHP = (float)m_Player->GetLife();
+		m_pHPGauge = CGauge::Create({ 0.0f,100.0f,0.0f }, { 400.0f,15.0f,0.0f }, { 0.5,1.0,0.5,1.0 }, 400, (int)fHP, CGauge::R_ADD);
 		//m_pHPGauge->ResetGauge(0);
 	}
 	//パーティクルシステムの生成
@@ -252,11 +251,9 @@ void CGame::Update(void)
 			//クリア判定が有効ならクリア画面を表示させる
 			if (m_bIsClear)
 			{
-				CSaveData::SaveFile();
-
 				m_bNextMode = true;
 				// タイトルシーンへ行く
-				CFade::SetFade(CManager::MODE_TITLE);
+				CFade::SetFade(CManager::MODE_RESULT);
 			}
 		}
 	}

@@ -145,10 +145,10 @@ void C2DNumber::SetNumber(int nNumber)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//テクスチャ座標の更新
-	pVtx[0].tex = D3DXVECTOR2(0.1*nNumber, 0.0);
-	pVtx[1].tex = D3DXVECTOR2(0.1 + 0.1*nNumber, 0.0);
-	pVtx[2].tex = D3DXVECTOR2(0.1*nNumber, 1.0);
-	pVtx[3].tex = D3DXVECTOR2(0.1 + 0.1*nNumber, 1.0);
+	pVtx[0].tex = D3DXVECTOR2(0.1f *nNumber, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(0.1f  + 0.1f*nNumber, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.1f *nNumber, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(0.1f  + 0.1f*nNumber, 1.0f);
 
 	m_pVtxBuff->Unlock();
 
