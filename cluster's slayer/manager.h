@@ -24,7 +24,7 @@ class CSound;
 class CPause;
 class CXload;
 class CGameMenu;
-static int ClearTime = 1;
+static int ClearTime = 5;
 
 class CManager
 {
@@ -67,9 +67,13 @@ public:
 	static bool GetClear()								{ return m_bClear; }
 	static void SetClear(bool bClear)						{ m_bClear = bClear; }
 	static HWND GethWnd() { return m_hWnd; }
-	static int GetGameTime() { return m_nGameTime; }
+	static int GetGameTimeMinut() { return m_nGameTimeMinut; }
+	static int GetGameTimeSecond() { return m_nGameTimeSecond; }
 	static int GetKilledEnemyCount() { return m_nKilledEnemyCount; }
 	static void SetKilledEnemyCount(int nCnt) { m_nKilledEnemyCount = nCnt; }
+	static void SetGameTimeMinut(int nTime) { m_nGameTimeMinut = nTime; }
+	static void SetGameTimeSecond(int nTime) { m_nGameTimeSecond = nTime; }
+
 private:
 	static HWND m_hWnd;//このプログラムが使っているウィンドウのハンドル
 	static CRenderer		*m_pRenderer;
@@ -95,7 +99,9 @@ private:
 	static CXload			*m_pXload;			//Xファイルの読み込みクラス
 	static bool	m_bClear;					//クリアしたかの判定
 	static float m_fTimer;
-	static int m_nGameTime;
+	static int m_nGameTimeMinut;//分数
+	static int m_nGameTimeSecond;//秒数
+
 	static int m_nKilledEnemyCount;
 
 };

@@ -51,7 +51,8 @@ CXload			*CManager::m_pXload = NULL;
 CDirectInput	*CManager::m_pDirectInput = NULL;
 HWND	CManager::m_hWnd = 0;
 float	CManager::m_fTimer = 0.0f;
-int	CManager::m_nGameTime = 0;
+int	CManager::m_nGameTimeMinut = 0;
+int	CManager::m_nGameTimeSecond = 0;
 
 bool			CManager::m_bPause = false;
 bool			CManager::m_bStop = false;
@@ -341,13 +342,7 @@ void CManager::Update(void)
 				{
 					m_pPause = NULL;
 				}
-				//ƒQ[ƒ€ŽžŠÔ‚ð”‚¦‚é
-				m_fTimer++;
-				if (m_fTimer >= 60)
-				{
-					m_fTimer = 0;
-					m_nGameTime++;
-				}
+
 			}
 
 		}
@@ -495,7 +490,8 @@ void CManager::SetMode(MODE mode)
 		{
 			m_bClear = false;
 			m_nKilledEnemyCount = 0;
-			m_nGameTime = 0;
+			m_nGameTimeSecond = 0;
+			m_nGameTimeMinut = 0;
 
 			m_pTitle = new CTitle;
 			m_pTitle->Init();
@@ -510,7 +506,9 @@ void CManager::SetMode(MODE mode)
 		{
 			m_bClear = false;
 			m_nKilledEnemyCount = 0;
-			m_nGameTime = 0;
+			m_nGameTimeSecond = 0;
+			m_nGameTimeMinut = 0;
+
 			m_pGameMenu = new CGameMenu;
 			m_pGameMenu->Init();
 			//m_pSound->PlaySound(m_pSound->SOUND_LABEL_BGM_GAME);
