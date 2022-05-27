@@ -53,7 +53,6 @@ public:
 		SOUND_LABEL_SE_RUSHATTACK02,	// 地面から生える効果音
 		SOUND_LABEL_SE_SHEILD,			// 盾
 		SOUND_LABEL_SE_STATUSUP,		// ステータスUP、回復関連はこれ
-
 		SOUND_LABEL_SE_GET,				// スキル取得
 
 		SOUND_LABEL_MAX

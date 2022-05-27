@@ -38,7 +38,7 @@ CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 	{ "data\\SE\\rushattack02.wav"					, XAUDIO2_NO_LOOP_REGION },
 	{ "data\\SE\\sheild.wav"					, XAUDIO2_NO_LOOP_REGION },
 	{ "data\\SE\\statusup.wav"					, XAUDIO2_NO_LOOP_REGION },
-	{ "data\\SE\\skillget.wav"					, XAUDIO2_NO_LOOP_REGION }
+	{ "data\\SE\\skillget.wav"					, XAUDIO2_NO_LOOP_REGION },
 };
 
 CSound::CSound()

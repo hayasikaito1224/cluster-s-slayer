@@ -11,6 +11,8 @@
 #include "enemy.h"
 #include "effect.h"
 #include "skill_leveldata.h"
+#include "sound.h"
+
 static const int StartTime = 20;
 static const int EndTime = 120;
 static const float MaxPosY = -10.0f;
@@ -125,6 +127,12 @@ void CRushAttack::Update(void)
 					//“G‚ÉUŒ‚‚ð“–‚Ä‚½‚ç
 					if (IsCollision(EnemyPos, fRadius) && bHitRushAttack)
 					{
+						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_RUSHATTACK01);
+						CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_RUSHATTACK01, 0.6f);
+
+						CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_RUSHATTACK02);
+						CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_RUSHATTACK02, 0.6f);
+
 						pEnemy->SetCanHitRushAttack(false);
 						pEnemy->AddLifeSkill(-m_State.m_nPower);
 						pEnemy->SetGravity(12.0f);

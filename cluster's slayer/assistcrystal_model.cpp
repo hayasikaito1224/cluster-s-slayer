@@ -10,6 +10,7 @@
 #include "bullet.h"
 #include "game.h"	
 #include "player.h"
+#include "sound.h"
 
 const float MinPos = 10.0f;
 const float MaxPos = 13.0f;
@@ -147,6 +148,9 @@ void CAssistCrystal_Model::Update(void)
 		D3DXVECTOR3 Vec = Enemypos - pos;
 		float rot = atan2f(Vec.x, Vec.z);
 		CBullet::Create({ m_mtxWorld._41,m_mtxWorld._42 ,m_mtxWorld._43 }, { 0.0,rot ,0.0 },m_fMoveSpeed,m_nPower);
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_DRONEBEAM);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_DRONEBEAM, 0.2f);
 	}
 	if (m_bUninit)
 	{
