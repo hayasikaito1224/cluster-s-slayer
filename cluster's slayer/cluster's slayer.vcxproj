@@ -199,6 +199,7 @@
     <ClInclude Include="..\cluster%27s slayer\mouse.h" />
     <ClInclude Include="..\cluster%27s slayer\MouseTracking.h" />
     <ClInclude Include="..\cluster%27s slayer\Movement.h" />
+    <ClInclude Include="..\cluster%27s slayer\resultselectbotton.h" />
     <ClInclude Include="..\cluster%27s slayer\Rotate.h" />
     <ClInclude Include="..\cluster%27s slayer\skill_leveldata.h" />
     <ClInclude Include="3Dpolygon.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="..\cluster%27s slayer\missile_bullet.cpp" />
     <ClCompile Include="..\cluster%27s slayer\MouseTracking.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Movement.cpp" />
+    <ClCompile Include="..\cluster%27s slayer\resultselectbotton.cpp" />
     <ClCompile Include="..\cluster%27s slayer\Rotate.cpp" />
     <ClCompile Include="..\cluster%27s slayer\skill_leveldata.cpp" />
     <ClCompile Include="3Dpolygon.cpp" />

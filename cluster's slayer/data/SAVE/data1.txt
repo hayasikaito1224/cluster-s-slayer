@@ -1,3 +1,14 @@
-ClearPercent=0
+ClearPercent=40
 HaveMoney=0
+<<<<<<< HEAD
+=======
+Skill=0
+Skill=1
+Skill=2
+Skill=3
+Skill=4
+Skill=5
+Skill=6
+Skill=7
+>>>>>>> 9fd227b554f687bc02e632013577f5ad80a09d11
 

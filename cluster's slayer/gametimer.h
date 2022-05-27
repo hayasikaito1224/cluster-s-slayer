@@ -7,7 +7,7 @@
 #include "scene.h"
 #define SECONDNUMBERS_MAX (2)
 #define MINUTENUMBERS_MAX (2)
-
+class CPolygon;
 class C2DNumber;
 
 class CGametimer : public CScene
@@ -26,16 +26,18 @@ public:
 	void TimeCount();
 	int GetSecond() { return m_nSecondCnt; }
 	int GetMinute() { return m_nMinuteCnt; }
-
-	static CGametimer *Create(const D3DXVECTOR3 pos,const D3DXCOLOR col);
+	void AddMinute(int nMinute);
+	static CGametimer *Create(const D3DXVECTOR3 pos,const D3DXCOLOR col,const bool& CanCount = true);
 private:
 	C2DNumber *m_pSecond[SECONDNUMBERS_MAX];//•b
 	C2DNumber *m_pMinute[MINUTENUMBERS_MAX];//•ª
+	CPolygon *pPolygon[SECONDNUMBERS_MAX];
 	D3DXVECTOR3 m_pos;
 	D3DXCOLOR m_col;
 	int m_nSecondCnt;//•b”‚ğ”‚¦‚é‚â‚Â
 	int m_nMinuteCnt;//•ª”‚ğ”‚¦‚é‚â‚Â
 	int m_nCommaCnt;//‚±‚ñ‚Ü‚ğ”‚¦‚é‚â‚Â
 	bool m_bUninit;
+	bool m_bCanCount;
 };
 #endif _GAMETIMER_H_

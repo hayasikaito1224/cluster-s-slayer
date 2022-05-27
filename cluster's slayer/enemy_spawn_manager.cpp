@@ -9,8 +9,8 @@ static const int SpawnTime = 600;
 static const float SpawnLengthMax = 1000.0f;
 static const float SpawnLengthMin = 50.0f;
 
-static const int SpawnMax = 30;
-static const int SpawnLimit = 500;
+static const int SpawnMax = 20;
+static const int SpawnLimit = 350;
 
 //--------------------------------------------
 //コンストラクタ
