@@ -8,6 +8,8 @@
 #include "enemy.h"
 #include "PresetSetEffect.h"
 #include "skill_leveldata.h"
+#include "sound.h"
+
 static const float MoveSpeedMax = 4.0f;
 static const float MoveSpeedMin = 2.0f;
 static const float HoleSpeed = 10.0f;
@@ -70,6 +72,8 @@ void CBlackHole::Update(void)
 		CPresetEffect::SetEffect3D(17, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(fSize, 0.0f, fSize), false);
 		CPresetEffect::SetEffect3D(18, D3DXVECTOR3(m_pos.x, 30.0f, m_pos.z), {}, D3DXVECTOR3(fSize, 0.0f, fSize), false);
 
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_BLACKHOLE);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_BLACKHOLE, 0.6f);
 	}
 	if (m_nDeleteTimer >= m_State.m_HoleExpansionTime && m_bHoleExpansion)
 	{

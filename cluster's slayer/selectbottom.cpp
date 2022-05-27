@@ -14,6 +14,7 @@
 #include "letter.h"
 #include "skill_leveldata.h"
 #include "game.h"
+#include "sound.h"
 
 static const float IconSize = 50.0f;//アイコンの大きさ
 static const float TextSize = 15.0f;//アイコンの大きさ
@@ -307,6 +308,9 @@ void CSkillSelectBottom::SelectBottom()
 		if (!pFrame)
 		{
 			pFrame = CFrame::Create(pos, scale, { 1.0,1.0,0.0,1.0 });
+
+			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_POINTOUT);
+			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_POINTOUT, 1.0f);
 		}
 		//選択している状態で左クリックをすると決定状態にする
 		if (pMouse->GetTrigger(CMouse::MOUSE_LEFT) == true)

@@ -454,7 +454,7 @@ void CPlayer::KeyboardMove()
 		if (m_fSoundInterval >= 1.3f)
 		{
 			m_fSoundInterval = 0.0f;
-			/*CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);*/
+			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);
 		}
 	}
 }
@@ -490,7 +490,7 @@ void CPlayer::PadMove()
 		if (m_fSoundInterval >= 1.3f)
 		{
 			m_fSoundInterval = 0.0f;
-			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);
+			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_WALK);
 		}
 
 	}
@@ -501,7 +501,7 @@ void CPlayer::PadMove()
 
 		m_fSoundInterval = 1.3f;
 
-		CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
+		//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
 
 	}
 }
@@ -639,8 +639,8 @@ void CPlayer::AttackCtrl()
 			}
 
 			//CManager::GetSound()->StopSound(CSound::SOUND_LABEL_SE_WALK);
-			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
-			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
+			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SWORD_ATTACK);
+			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SWORD_ATTACK, 0.5f);
 
 		}
 
@@ -756,6 +756,9 @@ void CPlayer::LevelUp(int nType)
 		{
 			//剣に攻撃力を反映
 			m_pSword->SetPower(m_fPower);
+
+			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_STATUSUP);
+			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_STATUSUP, 0.6f);
 		}
 
 		//エフェクト
@@ -776,6 +779,10 @@ void CPlayer::LevelUp(int nType)
 		{
 			m_HealLevel = MAX_HEAL_LEVEL;
 		}
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_STATUSUP);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_STATUSUP, 0.6f);
+
 		break;
 	case OverHeal:
 		CManager::GetGame()->GetHPGauge()->SetGauge(-MaxHP,0);
@@ -787,6 +794,9 @@ void CPlayer::LevelUp(int nType)
 		CPresetEffect::SetEffect3D(8, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//回るやつ
 		CPresetEffect::SetEffect3D(9, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {},{}, {});	//散らすやつ
 		CPresetEffect::SetEffect3D(10, D3DXVECTOR3(m_pos.x, EFFECT_PLAYER_POS_Y, m_pos.z), {}, {}, {});	//大きくなるだけのやつ
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_STATUSUP);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_STATUSUP, 0.6f);
 
 		break;
 	case Sheild:
@@ -816,6 +826,9 @@ void CPlayer::LevelUp(int nType)
 			m_nNumGuard = m_pDamegeGuard->GetMaxGuard();
 		}
 
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_GET);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_GET, 0.6f);
+
 		break;
 	case Beam:
 		m_bCanAssistCrystal = true;
@@ -831,6 +844,10 @@ void CPlayer::LevelUp(int nType)
 		{
 			m_BeamLevel = CAssistCrystal::Level_MAX;
 		}
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_GET);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_GET, 0.6f);
+
 		break;
 	case BlackHole:
 		m_bCanBlackHole = true;
@@ -840,6 +857,9 @@ void CPlayer::LevelUp(int nType)
 			m_BlackHoleLevel = CBlackHole::Level_MAX;
 		}
 
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_GET);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_GET, 0.6f);
+
 		break;
 	case Rocket:
 		m_bCanMissile = true;
@@ -848,6 +868,10 @@ void CPlayer::LevelUp(int nType)
 		{
 			m_RocketLevel = CMissile::Level_MAX;
 		}
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_GET);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_GET, 0.6f);
+
 		break;
 	case RushAttack:
 		m_bCanRushAttack = true;
@@ -856,6 +880,10 @@ void CPlayer::LevelUp(int nType)
 		{
 			m_RushAttackLevel = CRushAttack::Level_MAX;
 		}
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_GET);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_GET, 0.6f);
+
 		break;
 	}
 }
@@ -899,6 +927,8 @@ void CPlayer::HitDamege(int nPower)
 					//ダメージガードの数を減らす
 					m_pDamegeGuard->SetGuardQuantity(m_nNumGuard);
 
+					CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_SHEILD);
+					CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_SHEILD, 0.6f);
 				}
 
 			}

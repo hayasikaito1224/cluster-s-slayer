@@ -15,6 +15,9 @@
 
 #include "PresetSetEffect.h"
 #include "skill_leveldata.h"
+
+#include "sound.h"
+
 static const float SearchRange = 200.0f;
 static const float RandomRange = 150.0f;
 
@@ -57,6 +60,10 @@ HRESULT CMissile::Init()
 	m_State = CSkill_LevelData::GetStateMissile(CManager::GetGame()->GetPlayer()->GetSkillLevel(CPlayer::Rocket));
 	//“®“IŠm•Û
 	m_pEnemyPos = new D3DXVECTOR3[m_State.m_nCntSearchMax];
+
+	CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_MISSILEWIND);
+	CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_MISSILEWIND, 0.2f);
+
 	return S_OK;
 
 }

@@ -11,6 +11,7 @@
 #include "game.h"
 #include "mouse.h"
 #include "PresetSetEffect.h"
+#include "sound.h"
 
 static const D3DXVECTOR3 SelectWindowSize = { 500.0f,300.f,0.0f };
 static const D3DXVECTOR3 SelectBottomSize = { 150.0f,250.f,0.0f };
@@ -129,6 +130,7 @@ void CSkillSelect::Update(void)
 					CPlayer *pPlayer = CManager::GetGame()->GetPlayer();
 					//‘I‘ð‚µ‚½ƒXƒLƒ‹‚Ì”½‰f
 					pPlayer->LevelUp(nSkillType);
+
 					m_bEnd = true;
 				}
 			}

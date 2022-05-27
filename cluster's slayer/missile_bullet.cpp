@@ -9,6 +9,8 @@
 #include "PresetSetEffect.h"
 #include "player.h"
 #include "model.h"
+#include "sound.h"
+
 static const float MoveSpeed = 12.0f;
 static const int DeleteTime = 200;
 
@@ -103,6 +105,9 @@ void CMissile_Bullet::Update(void)
 		CPresetEffect::SetEffect3D(15, m_pos, {},{},{});
 		CPresetEffect::SetEffect3D(12, m_pos, {}, D3DXVECTOR3(100.0f, 0.0f, 100.0f),true);
 		CPresetEffect::SetEffect3D(19, m_pos, {}, D3DXVECTOR3(100.0f, 0.0f, 100.0f), true);
+
+		CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_MISSILEBURST);
+		CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_MISSILEBURST, 1.0f);
 
 		Uninit();
 	}

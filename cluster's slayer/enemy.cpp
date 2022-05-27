@@ -251,7 +251,7 @@ void CEnemy::Update()
 			m_IsDeath = true;
 			//消える音
 			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENEMY_DEATH);
-			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMY_DEATH,0.5f);
+			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMY_DEATH,0.1f);
 			CManager::GetGame()->GetParticle()->PlayRandomCircle({ m_pos.x,m_pos.y + 30.0f,m_pos.z }, CParticle::HEELEFFECT, CTexture::GlitterEffect);
 		}
 		//敵の行動パターン実装予定
@@ -341,8 +341,8 @@ void CEnemy::AIMove()
 
 		if (m_fWalkSoundInterval <= 0.0f)
 		{
-			CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENEMYWALK);
-			CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMYWALK, 0.6f);
+			//CManager::GetSound()->PlaySoundA(CSound::SOUND_LABEL_SE_ENEMYWALK);
+			//CManager::GetSound()->ControllVoice(CSound::SOUND_LABEL_SE_ENEMYWALK, 0.6f);
 			m_fWalkSoundInterval = 2.3f;
 		}
 		m_pos += m_MoveSpeed;

@@ -27,8 +27,6 @@ CGameMenu::CGameMenu()
 	{
 		pButton[nCnt] = nullptr;
 	}
-
-	pTextWindow = nullptr;
 }
 //--------------------------------------------
 //デストラクタ
@@ -97,8 +95,6 @@ HRESULT CGameMenu::Init(void)
 		default:
 			break;
 		}
-
-		pTextWindow = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f - 180.0f, SCREEN_HEIGHT - (SCREEN_HEIGHT / 6.0f), 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8.0f, 0.0f), CTexture::Text);
 
 		SkillPos.x += 115.0f;
 

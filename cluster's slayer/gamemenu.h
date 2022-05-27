@@ -36,7 +36,6 @@ private:
 	bool m_bNextMode;	// 次のモードに行くための
 
 	CTitleSelectButton *pButton[MENUBUTTON_MAX];
-	CPolygon *pTextWindow;
 	int m_nSelectType;//現在選択しているボタンの種類
 	int m_nDecisionType;//現在決定しているボタンの種類
 };
