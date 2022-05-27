@@ -265,12 +265,16 @@ void CGame::Update(void)
 				// タイトルシーンへ行く
 				CFade::SetFade(CManager::MODE_RESULT);
 			}
-			m_nTimer++;
-			if (m_nTimer >= 60)
+			if (!m_bNextMode)
 			{
-				m_nTimer = 0;
-				m_nGameTimeSecond++;
-				CManager::SetGameTimeSecond(m_nGameTimeSecond);
+				m_nTimer++;
+				if (m_nTimer >= 60)
+				{
+					m_nTimer = 0;
+					m_nGameTimeSecond++;
+					CManager::SetGameTimeSecond(m_nGameTimeSecond);
+				}
+
 			}
 		}
 	}

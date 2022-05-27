@@ -14,7 +14,7 @@
 #include "titleselectbutton.h"
 #include "savedata.h"
 #include "mouse.h"
-
+#include "score.h"
 #include "PresetSetEffect.h"
 
 //--------------------------------------------
@@ -33,6 +33,7 @@ CTitle::CTitle()
 	{
 		pSkillBottom[nCnt] = nullptr;
 	}
+	memset(m_pPercent, NULL, sizeof(m_pPercent));
 }
 //--------------------------------------------
 //デストラクタ
@@ -124,6 +125,14 @@ void CTitle::Uninit(void)
 		m_TitleLogo->Uninit();
 		m_TitleLogo = nullptr;
 	}
+	for (int nCnt = 0; nCnt < max_TitlePercent; nCnt++)
+	{
+		if (m_pPercent[nCnt])
+		{
+			m_pPercent[nCnt]->Uninit();
+			m_pPercent[nCnt] = nullptr;
+		}
+	}
 	CManager::GetSound()->StopSound(CSound::SOUND_LABEL_BGM_TITLE);
 }
 //--------------------------------------------
@@ -189,7 +198,21 @@ void CTitle::Update(void)
 					ButtonCreate(nCnt);
 				}
 			}
+			//パーセントの表示
+			for (int nCnt = 0; nCnt < max_TitlePercent; nCnt++)
+			{
+				if (!m_pPercent[nCnt])
+				{
+					// データ読み込み
+					string FileName = "data\\SAVE\\data";
+					FileName += to_string(nCnt + 1);
+					FileName += ".txt";
+					CSaveData::LoadFile(FileName);
 
+					m_pPercent[nCnt] = CScore::Create({ m_Polygon[PORYGON_FILE01 + nCnt]->GetPos().x,500.0f,0.0f }, { 20.0f,30.0f,0.0f });
+					m_pPercent[nCnt]->SetFitScore(CSaveData::GetClearPercent());
+				}
+			}
 			m_nNowType++;
 		}
 
