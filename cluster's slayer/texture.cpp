@@ -229,6 +229,34 @@ void CTexture::Init(void)
 	D3DXCreateTextureFromFile(pDevice,
 		"data/TEXTURE/Cursor.png",		  //カーソル
 		&m_pTexture[Cursol]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/title_file01.png",
+		&m_pTexture[Title_File1]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/title_file02.png",
+		&m_pTexture[Title_File2]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/title_file03.png",
+		&m_pTexture[Title_File3]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/datadelete.png",
+		&m_pTexture[Title_Delete]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/databack.png",
+		&m_pTexture[Title_Back]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/backtitle.png",
+		&m_pTexture[Menu_Back]);
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data/TEXTURE/menu_gamestart.png",
+		&m_pTexture[Menu_GameStart]);
 
 	//============================================================
 	//ゲームオーバー

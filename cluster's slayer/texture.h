@@ -75,6 +75,13 @@ public:
 		Explosion,	//爆発ドーム
 		Thunder,	//サンダー
 		Crater,	//クレーター
+		Title_File1,
+		Title_File2,
+		Title_File3,
+		Title_Delete,
+		Title_Back,
+		Menu_Back,
+		Menu_GameStart,
 		Max,			// テクスチャの最大数
 	} Type;
 

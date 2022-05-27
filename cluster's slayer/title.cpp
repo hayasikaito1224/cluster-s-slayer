@@ -60,6 +60,23 @@ HRESULT CTitle::Init(void)
 		int i = nCnt - PORYGON_FILE01;
 		D3DXVECTOR3 size = D3DXVECTOR3(float(SCREEN_WIDTH / 3 - 50) / 2.0f, 250.0f, 0.0f);
 
+		CTexture::Type texture = CTexture::Text;
+
+		switch (nCnt)
+		{
+		case PORYGON_FILE01:
+			texture = CTexture::Title_File1;
+			break;
+
+		case PORYGON_FILE02:
+			texture = CTexture::Title_File2;
+			break;
+
+		case PORYGON_FILE03:
+			texture = CTexture::Title_File3;
+			break;
+		}
+
 		switch (nCnt)
 		{
 		case PORYGON_LOGO:
@@ -75,7 +92,7 @@ HRESULT CTitle::Init(void)
 		case PORYGON_FILE01:
 		case PORYGON_FILE02:
 		case PORYGON_FILE03:
-			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(float(SCREEN_WIDTH / 3) * i + size.x + 25.0f, 0.0f - size.y, 0.0f), size, CTexture::Text);
+			m_Polygon[nCnt] = CPolygon::Create(D3DXVECTOR3(float(SCREEN_WIDTH / 3) * i + size.x + 25.0f, 0.0f - size.y, 0.0f), size, texture);
 
 			break;
 
@@ -162,7 +179,7 @@ void CTitle::Update(void)
 		{
 			if (!m_Polygon[PORYGON_FILEDELETE])
 			{
-				m_Polygon[PORYGON_FILEDELETE] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH - 190.0f, SCREEN_HEIGHT - 90.0f, 0.0f), D3DXVECTOR3(160.0f, 40.0f, 0.0f), CTexture::Text);
+				m_Polygon[PORYGON_FILEDELETE] = CPolygon::Create(D3DXVECTOR3(SCREEN_WIDTH - 190.0f, SCREEN_HEIGHT - 90.0f, 0.0f), D3DXVECTOR3(160.0f, 40.0f, 0.0f), CTexture::Text, {0.5f, 0.5f, 0.5f, 1.0f});
 			}
 
 			for (int nCnt = 0; nCnt < max_TitleButton; nCnt++)
@@ -212,7 +229,7 @@ void CTitle::Update(void)
 
 					else
 					{
-						pSkillBottom[nCnt]->GetSelectButton()->BindTexture(CTexture::Heal);
+						pSkillBottom[nCnt]->GetSelectButton()->BindTexture(CTexture::Title_Back);
 						m_nDecisionType = 0;
 						m_nNowType++;
 					}
@@ -249,7 +266,7 @@ void CTitle::Update(void)
 
 				else
 				{
-					pSkillBottom[nCnt]->GetSelectButton()->BindTexture(CTexture::Text);
+					pSkillBottom[nCnt]->GetSelectButton()->BindTexture(CTexture::Title_Delete);
 					m_nNowType--;
 				}
 
@@ -287,7 +304,28 @@ void CTitle::Draw(void)
 
 void CTitle::ButtonCreate(int num)
 {
+	CTexture::Type texture = CTexture::Text;
+
+	switch (num + PORYGON_FILE01)
+	{
+	case PORYGON_FILE01:
+		texture = CTexture::Title_File1;
+		break;
+
+	case PORYGON_FILE02:
+		texture = CTexture::Title_File2;
+		break;
+
+	case PORYGON_FILE03:
+		texture = CTexture::Title_File3;
+		break;
+
+	case PORYGON_FILEDELETE:
+		texture = CTexture::Title_Delete;
+		break;
+	}
+
 	D3DXVECTOR3 size = D3DXVECTOR3(float(SCREEN_WIDTH / 3 - 50) / 2.0f, 250.0f, 0.0f);
 	pSkillBottom[num] = CTitleSelectButton::Create(
-	m_Polygon[num + PORYGON_FILE01]->GetPos(), m_Polygon[num + PORYGON_FILE01]->GetScale(), CTexture::Text);
+	m_Polygon[num + PORYGON_FILE01]->GetPos(), m_Polygon[num + PORYGON_FILE01]->GetScale(), texture);
 }

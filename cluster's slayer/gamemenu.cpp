@@ -69,7 +69,7 @@ HRESULT CGameMenu::Init(void)
 		case CPlayer::Rocket:
 		case CPlayer::RushAttack:
 
-			if (!CSaveData::GetHaveSkill(nCnt))
+			if (CSaveData::GetHaveSkill(nCnt))
 			{
 				bHaveSkill = true;
 			}
@@ -82,7 +82,7 @@ HRESULT CGameMenu::Init(void)
 			pButton[nCnt] = CTitleSelectButton::Create(
 				D3DXVECTOR3(SCREEN_WIDTH / 2.0f + 250, SCREEN_HEIGHT / 2.0f - 75.0f, 0.0f),
 				D3DXVECTOR3(SCREEN_WIDTH / 5.0f, SCREEN_HEIGHT / 5.0f, 0.0f),
-				CTexture::Text);
+				CTexture::Menu_GameStart);
 
 			break;
 
@@ -90,7 +90,7 @@ HRESULT CGameMenu::Init(void)
 			pButton[nCnt] = CTitleSelectButton::Create(
 				D3DXVECTOR3(SCREEN_WIDTH - 200.0f, SCREEN_HEIGHT - (SCREEN_HEIGHT / 8.0f), 0.0f),
 				D3DXVECTOR3(SCREEN_WIDTH / 10.0f, SCREEN_HEIGHT / 20.0f, 0.0f),
-				CTexture::Text);
+				CTexture::Menu_Back);
 
 			break;
 
