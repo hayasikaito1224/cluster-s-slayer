@@ -8,7 +8,7 @@
 class CSound;
 
 #define MAX_KEYSET (10) //最大キーセット数
-#define MAX_DRAWRADIUS (2000.0f)
+#define MAX_DRAWRADIUS (1000.0f)
 #define MAX_COLRADIUS (400.0f)
 #define MAX_ATTACKSTART_RADIUS (150.0f)//攻撃開始範囲
 #define ENEMY_ADD_SPEED (0.2)//ゲージを増やす量
@@ -110,9 +110,8 @@ protected:
 	int		m_nAttackStartCnt;//攻撃開始までのカウント
 	bool	m_bAIMove;	//敵が自動的に動く判定
 	bool m_bMove;//移動判定
-	D3DXVECTOR3 m_pos, m_rot, m_lastPos, m_Lotrot;
+	D3DXVECTOR3 m_rot, m_lastPos, m_Lotrot;
 	float m_fPlayerVecLength;
-	float m_fMoveSpeed;//移動量
 	int	 m_MotionType,	m_MotionLastType;
 	int					m_nPower;//攻撃力
 	int	m_nType;//敵の種類

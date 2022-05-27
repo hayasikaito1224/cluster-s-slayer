@@ -87,7 +87,8 @@ void CBullet::Update(void)
 		{
 			D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
 			int nSize = pEnemy->GetParts().size();
-			if (nSize != 0)
+			bool bLimit = pEnemy->GetNearPlayer();
+			if (nSize != 0 && bLimit)
 			{
 				float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
 				bool bHitAttack = pEnemy->bHitAttack();

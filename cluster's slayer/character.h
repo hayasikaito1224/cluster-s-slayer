@@ -27,7 +27,7 @@ public:
 	void Update();
 	void Draw();
 	bool IsCollision(D3DXVECTOR3 *pMyPos, const D3DXVECTOR3& Hitpos, const float& fRadius, const float& MoveSpeed);//当たり判定
-	void IsModelCollision();
+	void IsModelCollision(const bool& bPlayer);
 	void HPChange(float fNum);//体力の増減
 	float GetLife() { return m_fHitPoint; }
 	void StateChange(state_type StateType);//状態の変化
@@ -53,6 +53,7 @@ protected:
 	int m_nPartsMax;//パーツの最大数
 	float m_fHitPoint;//体力
 	float m_fRadius;//当たり判定の範囲
+	float m_fMoveSpeed;
 	bool m_IsDeath;//死亡判定
 	bool m_IsStop;//動作の停止判定
 	bool m_IsCharacterDraw;//キャラクターの描画判定

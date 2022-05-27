@@ -281,7 +281,7 @@ void CSkill_LevelData::MissileLoad(const char * sFileName)
 				{
 					// ÇPíPåÍÇì«Ç›çûÇﬁ
 					fscanf(pFile, "%s", &sString[1]);
-					fscanf(pFile, "%.f", &m_MissileState[nLevel].m_SearchRange);
+					fscanf(pFile, "%f", &m_MissileState[nLevel].m_SearchRange);
 				}
 				if (strcmp(sString[1], "POWER") == 0)
 				{

@@ -62,7 +62,7 @@ static float s_texrotx = 0.0f;
 static float s_texseax = 0.0f;
 static int s_nTime = 0;
 static bool s_bTime = false;
-static int ClearTime = 1;
+static int ClearTime = 3;
 
 //--------------------------------------------
 //コンストラクタ

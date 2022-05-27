@@ -162,112 +162,120 @@ void CPlayer::Uninit()
 //---------------------------------------------
 void CPlayer::Update()
 {
-	CInputKeyBoard *Key = CManager::GetInputKeyboard();
-
-	if (Key->GetTrigger(DIK_F1) == true)
+	if (!m_IsDeath)
 	{
-		s_bCursor = s_bCursor ? false : true;
-	}
-	if (s_bCursor)
-	{
-		//画面の中心にマウスを設置
-		RECT rec;
-		HWND hDeskWnd = GetForegroundWindow();
-		GetWindowRect(hDeskWnd, &rec); //デスクトップのハンドルからその(画面の)大きさを取得
+		CInputKeyBoard *Key = CManager::GetInputKeyboard();
 
-		SetCursorPos(rec.right/2, rec.bottom/2);
-		//マウスのカメラ操作
-		MouseCameraCtrl();
-
-	}
-
-	//剣の処理の更新
-	m_pSword->Update();
-
-	//敵が近くにいるかを算出
-	m_bNearEnemy = IsNearEnemyState();
-	EachSkillManager();
-	//敵との当たり判定
-	CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
-	while (pScene_Enemy != NULL)
-	{
-		if (pScene_Enemy != NULL)
+		if (Key->GetTrigger(DIK_F1) == true)
 		{
-			CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
-			D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
-			int nSize = pEnemy->GetParts().size();
-			if (nSize != 0)
+			s_bCursor = s_bCursor ? false : true;
+		}
+		if (s_bCursor)
+		{
+			//画面の中心にマウスを設置
+			RECT rec;
+			HWND hDeskWnd = GetForegroundWindow();
+			GetWindowRect(hDeskWnd, &rec); //デスクトップのハンドルからその(画面の)大きさを取得
+
+			SetCursorPos(rec.right / 2, rec.bottom / 2);
+			//マウスのカメラ操作
+			MouseCameraCtrl();
+
+		}
+
+		//剣の処理の更新
+		m_pSword->Update();
+
+		//敵が近くにいるかを算出
+		m_bNearEnemy = IsNearEnemyState();
+		EachSkillManager();
+		//敵との当たり判定
+		CScene *pScene_Enemy = CScene::GetScene(OBJTYPE_ENEMY);
+		while (pScene_Enemy != NULL)
+		{
+			if (pScene_Enemy != NULL)
 			{
-				//当たり判定
-				float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
-
-				//敵に近いかどうかを判定する
-				bool bNear = IsNear(EnemyPos, fRadius);
-				pEnemy->SetIsNear(bNear);
-				if (bNear)
+				CEnemy *pEnemy = (CEnemy*)pScene_Enemy;
+				D3DXVECTOR3 EnemyPos = pEnemy->GetPos();
+				int nSize = pEnemy->GetParts().size();
+				if (nSize != 0)
 				{
+					//当たり判定
+					float fRadius = pEnemy->GetParts(0)->GetMaxPos().x;
 
-					if (pEnemy->GetRushAttack())
+					//敵に近いかどうかを判定する
+					bool bNear = IsNear(EnemyPos, fRadius);
+					pEnemy->SetIsNear(bNear);
+					if (bNear)
 					{
-						//追撃する
-						CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
-						//追撃しないようにする
-						pEnemy->SetRushAttack(false);
-					}
-					if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
-					{
-						break;
-					}
-					else
-					{
-						m_fMoveSpeed = PlayerMoveSpeed;
-					}
 
+						if (pEnemy->GetRushAttack())
+						{
+							//追撃する
+							CRushAttack::Create(EnemyPos, pEnemy->GetRot(), pEnemy);
+							//追撃しないようにする
+							pEnemy->SetRushAttack(false);
+						}
+						if (IsCollision(&m_pos, EnemyPos, fRadius, m_fMoveSpeed))
+						{
+							break;
+						}
+						else
+						{
+							m_fMoveSpeed = PlayerMoveSpeed;
+						}
+
+					}
+				}
+
+			}
+			pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
+		}
+		IsModelCollision(true);
+		//キーボードの移動
+		if (!m_bMoveStop)
+		{
+			KeyboardMove();
+		}
+
+		//攻撃操作
+		AttackCtrl();
+
+		//プレイヤーの状態で処理を変える
+		switch (m_StateType)
+		{
+		case ATTACK:
+			Attack();
+			//攻撃モーションの再生が終わったら
+			if (m_pMotion->IsMotionEnd() && !m_bAttackWait)
+			{
+				//移動可能にする
+				m_bMoveStop = false;
+				//コンボ数を０にする
+				m_nComboType = COMBOWAIT;
+				//モーションを待機状態に戻す
+				m_motionType = N_NEUTRAL;
+
+				if (m_pSword)
+				{
+					//武器の当たり判定をオフにする
+					m_pSword->SetCanHit(false);
 				}
 			}
 
+			break;
 		}
-		pScene_Enemy = pScene_Enemy->GetSceneNext(pScene_Enemy);
-	}
-	
-	//キーボードの移動
-	if (!m_bMoveStop)
-	{
-		KeyboardMove();
-	}
 
-	//攻撃操作
-	AttackCtrl();
-
-	//プレイヤーの状態で処理を変える
-	switch (m_StateType)
-	{
-	case ATTACK:
-		Attack();
-		//攻撃モーションの再生が終わったら
-		if (m_pMotion->IsMotionEnd()&&!m_bAttackWait)
 		{
-			//移動可能にする
-			m_bMoveStop = false;
-			//コンボ数を０にする
-			m_nComboType = COMBOWAIT;
-			//モーションを待機状態に戻す
-			m_motionType = N_NEUTRAL;
+			int nSize = m_pParts.size();
+			//モーションの再生
+			m_pMotion->MotionTest(nSize, &m_pParts[0], &m_motionType, &m_motionLastType);
 
-			if (m_pSword)
-			{
-				//武器の当たり判定をオフにする
-				m_pSword->SetCanHit(false);
-			}
 		}
 
-		break;
 	}
-
+	else
 	{
-		int nSize = m_pParts.size();
-		//モーションの再生
-		m_pMotion->MotionTest(nSize, &m_pParts[0], &m_motionType, &m_motionLastType);
 
 	}
 }
@@ -360,12 +368,13 @@ void CPlayer::KeyboardMove()
 	//テストキー
 	if (Key->GetTrigger(DIK_R) == true)
 	{
-		m_bCanBlackHole = true;
-		m_BlackHoleLevel++;
-		if (m_BlackHoleLevel >= CBlackHole::Level_MAX)
+		m_bCanMissile = true;
+		m_RocketLevel++;
+		if (m_RocketLevel >= CMissile::Level_MAX)
 		{
-			m_BlackHoleLevel = CBlackHole::Level_MAX;
+			m_RocketLevel = CMissile::Level_MAX;
 		}
+
 	}
 	//前に進む
 	if (Key->GetPress(DIK_A) == true)

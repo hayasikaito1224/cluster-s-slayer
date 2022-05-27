@@ -49,7 +49,7 @@ EFFECTSTATE3D
 	PARTICLESIZE = 5.0						//粒サイズ
 	PARTICLETIME = 10						//粒発生間隔
 	DISTANCE = 180.0						//粒の発生距離
-	ACTIVE = 200						//稼働時間
+	ACTIVE = 150						//稼働時間
 	PARTICLEADDSIZE = 0.0						//粒サイズ変更
 	MAXSIZE = 200.0						//フィールド最大サイズ
 	SECONDCOLOR = 0 255 0 255			//パーティクルカラー
@@ -471,7 +471,7 @@ EFFECTSTATE3D
 	POS = 0.0 0.0 0.0			//出現位置
 	COLOR = 85 255 85 85			//カラー
 	CHANGECOLOR = 0 0 0 0			//カラー変動値
-	LIFE = 200						//ライフ
+	LIFE = 150						//ライフ
 	TEXTURE = -1						//テクスチャ
 	SYNTHETIC = 1						//合成
 	TEXMOVE = -0.000 0.000					//テクスチャ移動
@@ -494,7 +494,7 @@ EFFECTSTATE3D
 	POS = 0.0 0.0 0.0			//出現位置
 	COLOR = 255 255 255 255			//カラー
 	CHANGECOLOR = 0 0 0 0			//カラー変動値
-	LIFE = 200						//ライフ
+	LIFE = 150						//ライフ
 	TEXTURE = 50						//テクスチャ
 	SYNTHETIC = 1						//合成
 	TEXMOVE = 0.005 -0.003					//テクスチャ移動
