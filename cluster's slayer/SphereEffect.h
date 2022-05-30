@@ -53,9 +53,6 @@ public:
 		int nAnimCounter,
 		D3DXVECTOR2 nSplit);
 
-
-
-
 private:
 	D3DCOLORVALUE m_Color;
 	D3DCOLORVALUE m_AddColor;

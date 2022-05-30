@@ -132,6 +132,7 @@ void CSphereEffect::Update()
 		m_Color.a = 255;
 	}
 
+	//“K‰ž
 	SetSize(pos,m_fSize);
 	SetColor(m_Color);
 	SetTexUV(m_TexMove);

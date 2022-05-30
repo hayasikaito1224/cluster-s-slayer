@@ -86,15 +86,14 @@ public:
 		int m_nType;	//タイプ
 		D3DXVECTOR2 m_TexMove;	//テクスチャ移動
 		float m_TexNum;	//テクスチャ枚数
-		int m_SecondType;
+		int m_SecondType;	//2番目のタイプ
 		D3DXVECTOR2 m_TexSplit;	//分割数
 		int AnimCnt;	//アニメーションカウント
 	} EFFECT_STATE3D;
 
 
-	CPresetEffect();
-	~CPresetEffect();
-
+	CPresetEffect();	//コンストラクタ
+	~CPresetEffect();	//デストラクタ
 
 	//読み込んだエフェクトの情報を格納するやつ
 	static void SetEffectState2D(int nPattern,
@@ -161,26 +160,30 @@ public:
 		D3DXVECTOR2 m_TexSplit,
 		int AnimCnt);
 
+	//時間差で呼び出すエフェクト処理
 	typedef struct
 	{
-		int nDeley;
-		int nPresetNum;
-		int m_nOrder[MAX_ORDER_3D];
-		D3DXVECTOR3 pos[MAX_ORDER_3D];
-		D3DXVECTOR3 Endpos[MAX_ORDER_3D];
-		bool bOne[MAX_ORDER_3D];
+		int nDeley;	//発動時間
+		int nPresetNum;	//呼び出しエフェクトパターン数
+		int m_nOrder[MAX_ORDER_3D];		//呼び出しエフェクトパターン
+		D3DXVECTOR3 pos[MAX_ORDER_3D];	//座標
+		D3DXVECTOR3 Endpos[MAX_ORDER_3D];	//目標地点
+		bool bOne[MAX_ORDER_3D];	//一回呼び出したか
 	} ORDER_PRESET;
 
-
+	//エフェクトステータスの格納
 	static void SetEffect2D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos,const int& nPriorty = OBJTYPE_EFFECT);
 	static void SetEffect3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos, D3DXVECTOR3 Size, bool bPosTaget);
 
+	//時間差呼び出しエフェクトの格納
 	void SetOrderPreset(int nDeley, int nPresetNum);
+	//時間差エフェクトの呼び出し
 	static void CallOrder3D(int nPattern, D3DXVECTOR3 pos, D3DXVECTOR3 Endpos);
-	void DeleySet(int nPattern);
 
+	//
 	void CPresetEffect::SetOrder(int nOrder, int nPattern);
 
+	//時間差呼び出しエフェクトの作成
 	static CPresetEffect *CreateOrderMenu(int nDeley, int nPresetNum, int nOrder[MAX_ORDER_3D]);
 
 	static void ResetPattern() { m_nEffectPattern = 0; }

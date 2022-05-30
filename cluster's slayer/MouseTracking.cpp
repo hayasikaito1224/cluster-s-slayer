@@ -74,9 +74,6 @@ void CMouseTracking::Update()
 	pos += D3DXVECTOR3(sinf(m_fAngle) * -m_move.x, cosf(m_fAngle) * -m_move.x, 0.0f);
 
 	m_Size += m_MinSize;
-	//サイズ変更
-	CScene2D::SetPos(pos, D3DXVECTOR3(m_Size.x, m_Size.y, {}));	//選択した番号のテクスチャを貼る
-
 
 	//適応
 	CScene2D::SetPos(pos, D3DXVECTOR3(m_Size.x, m_Size.y, {}));
