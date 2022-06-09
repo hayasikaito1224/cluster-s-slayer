@@ -2,7 +2,6 @@
 // エフェクト処理 [Effect.h]
 // Author : 佐藤秀亮
 //*****************************************************************************
-
 #ifndef _EFFECT_H_
 #define _EFFECT_H_
 
@@ -21,8 +20,8 @@ public:
 
 
 protected:
-	bool m_bUninit;
-	int m_nLife;
+	bool m_bUninit;	//削除
+	int m_nLife;	//寿命
 	D3DXVECTOR2 m_Size;			//大きさ
 	D3DXVECTOR2 m_MinSize;		//大きさ変動
 

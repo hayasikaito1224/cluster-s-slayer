@@ -43,7 +43,7 @@ HRESULT CEffect2d::Init(D3DXVECTOR3 pos, D3DCOLORVALUE color, D3DCOLORVALUE Minc
 	m_bUninit = false;
 	m_nSynthenic = Synthetic;
 	SetCol(m_Color);
-	CScene2D::SetPos(pos, D3DXVECTOR3(Size.x, Size.y, {}));	//選択した番号のテクスチャを貼る
+	CScene2D::SetPos(pos, D3DXVECTOR3(Size.x, Size.y, {}));
 
 	return S_OK;
 }

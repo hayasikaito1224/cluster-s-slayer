@@ -40,7 +40,7 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	FILE *pFile;
 	pFile = fopen(aFileName, "r");
 	char aFile[256];
-
+	//=============================================================================
 	//変数定義
 #if 1
 	m_Total = 0;
@@ -95,16 +95,15 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 	int nSecondType = 0;
 	D3DXVECTOR2 TexSplit = D3DXVECTOR2(1.0f, 1.0f);
 	int nAnimCont = -1;
-
 #endif
-
+	//=============================================================================
 	if (pFile != NULL)
 	{
 		while (true)
 		{
 			fscanf(pFile, "%s", &aFile[0]); //fscanfを繰り返してファイルを読み取っていく
 
-			if (bEffectState2D == true)
+			if (bEffectState2D == true)//2D
 			{
 				if (strcmp(&aFile[0], "PATTERN") == 0)	//動きのパターン
 				{
@@ -204,7 +203,7 @@ void CLoadEffect::EffectStateLoad(const char *aFileName)
 
 			}
 
-			if (bEffectState3D == true)
+			if (bEffectState3D == true)//3D
 			{
 				if (strcmp(&aFile[0], "PATTERN") == 0)	//動きのパターン
 				{

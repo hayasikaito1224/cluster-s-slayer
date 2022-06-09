@@ -56,7 +56,6 @@ void CMovement::Uninit()
 //*****************************************************************************
 void CMovement::Update()
 {
-
 	D3DXVECTOR3 pos = GetPos();
 
 	m_move += m_Addpos;	//ˆÚ“®’l‚ÉŠµ«‚ğ‰ÁZ
@@ -67,7 +66,6 @@ void CMovement::Update()
 
 	//“K‰
 	CScene2D::SetPos(pos, D3DXVECTOR3(m_Size.x, m_Size.y, 0.0f));
-
 	CEffect2d::Update();
 }
 

@@ -21,22 +21,21 @@ public:
 
 	D3DXVECTOR3 GetSherePos() { return m_Pos; }
 
-	void SetColor(D3DCOLORVALUE Color);
-	void SetSize(D3DXVECTOR3 pos ,float Size);
-	void Rotate(float Rotate);
+	void SetColor(D3DCOLORVALUE Color);	//色変更
+	void SetSize(D3DXVECTOR3 pos ,float Size);	//サイズの変更
 
-	void SetTexUV(D3DXVECTOR2 TexUV);
-	void SetAnimTexUV(D3DXVECTOR2 TexPattern);
+	void SetTexUV(D3DXVECTOR2 TexUV);	//テクスチャ移動
+	void SetAnimTexUV(D3DXVECTOR2 TexPattern);	//テクスチャパターン
 
 protected:
 	bool m_bUninit;	//抹消フラグ
 	int m_nLife;	//寿命
 
-	D3DXVECTOR2 m_PatternSize;
-	int m_nAnimCount;
-	int m_nSetAnimCnt;
-	D3DXVECTOR2 m_nSplit;
-	D3DXVECTOR2 m_MaxSplit;
+	D3DXVECTOR2 m_PatternSize;	//パターンの個数
+	int m_nAnimCount;	//アニメーションフレーム
+	int m_nSetAnimCnt;	//最大アニメーションフレーム
+	D3DXVECTOR2 m_nSplit;	//分割数
+	D3DXVECTOR2 m_MaxSplit;	//最大分割数
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = NULL;	//頂点バッファへのポインタ
@@ -47,7 +46,7 @@ private:
 	D3DXVECTOR2 m_TexUV;	//テクスチャ座標
 	D3DXVECTOR2 m_TexMoveUV;	//テクスチャ座標の移動
 
-	D3DXVECTOR2 m_PatternUV;
+	D3DXVECTOR2 m_PatternUV;	//アニメーションパターン
 
 	float m_Rot;	//回転
 	float m_Rot2;	//回転
